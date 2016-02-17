@@ -26,6 +26,8 @@ class BaseConfiguration(Configuration):
 		'django.contrib.sessions',
 		'django.contrib.messages',
 		'django.contrib.staticfiles',
+
+		'app.rhea'
 	]
 
 	# Middleware classes
