@@ -14,6 +14,8 @@ def debug_view(request, **kwargs):
 	return HttpResponse('{ "status": 200 }', content_type = 'application/json')
 
 
+from app.rhea import views as rhea
+
 urlpatterns = [
 
 	# Login & dashboard views
@@ -63,7 +65,7 @@ urlpatterns = [
 		url(r'^curricula/', include([
 
 			# AJAX views
-			url(r'^$', debug_view, name = 'list'),
+			url(r'^$', rhea.curricula.list, name = 'list'),
 			url(r'^create/$', debug_view, name = 'create'),
 
 			# User views
@@ -106,5 +108,3 @@ urlpatterns = [
 	], namespace = 'management', app_name = 'app.rhea'))
 
 ] + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
-
-

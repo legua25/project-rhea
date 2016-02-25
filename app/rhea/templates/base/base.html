@@ -12,16 +12,29 @@
 	</head>
 	<body>
 		<nav id="navigation" class="navbar-navbar-default navbar-fixed-top">
-			<header class="navbar-header">
-				{% block navigation %}{% endblock navigation %}
-			</header>
+			<div class="container-fluid">
+				<header class="navbar-header">
+					{% block navigation %}{% endblock navigation %}
+				</header>
+			</div>
+			<nav class="navbar-secondary">
+				<div class="container">
+					<ul class="nav navbar-nav">
+						{% block secondary-nav %}{% endblock secondary-nav %}
+						<li class="pull-right active">
+							<a href="#"><i class="glyphicon glyphicon-question-sign"></i> Support</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
 		</nav>
 		<main id="content" class="container">
 			{% block content %}{% endblock content %}
 		</main>
-		<footer id="footer" class="footer footer-inverse">
+		<footer id="footer" class="footer footer-fixed footer-inverse">
 			<div class="container">
-				...
+				<span class="pull-left"><strong>Project "Rhea"</strong> | Timetable Manager</span>
+				<span class="pull-right">Copyright &copy; 2016</span>
 			</div>
 		</footer>
 	</body>

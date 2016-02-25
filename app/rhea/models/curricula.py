@@ -55,7 +55,7 @@ class Subject(Model):
 		related_query_name = 'deps',
 		verbose_name = _('dependencies')
 	)
-	program = ForeignKey('rhea.models.courses.Curriculum',
+	program = ForeignKey('rhea.Curriculum',
 	                     related_name = '_subjects',
 	                     verbose_name = _('academic program')
 	                     )

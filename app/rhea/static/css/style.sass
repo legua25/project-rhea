@@ -1,8 +1,14 @@
 @import "bootstrap/_bootstrap"
 @import "bootstrap/_lumen"
-@import "_footer"
+@import "extras"
 
-$footer-bg-color: #464E53
+$footer-inverse-bg: #464E53
+$footer-inverse-border: #3b4146
+
+#content
+	margin-top: $navbar-height + 15px
 
 #footer
-	background-color: $footer-bg-color
+	background-color: $footer-inverse-bg
+	border-color: $footer-inverse-border
+	color: white
