@@ -5,7 +5,12 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.functional import cached_property
 from django.utils.timezone import now
 from django.db.models import *
-from _relational import Model, ActiveManager
+from _base import Model, ActiveManager
+
+__all__ = [
+	'User',
+	'Role'
+]
 
 class UserManager(ActiveManager, BaseUserManager):
 
@@ -66,7 +71,7 @@ class User(Model, AbstractBaseUser):
 		blank = True,
 		verbose_name = _('secondary (backup) email address')
 	)
-	role = ForeignKey('.Role',
+	role = ForeignKey('rhea.Role',
 		related_name = 'members',
 	    null = True,
 	    default = None,

@@ -13,6 +13,16 @@ from os.path import join
 	try: from django.utils.importlib import import_module
 	except ImportError: from importlib import import_module
 
+	Also, we have an error in the "query" module due to the same. The following imports must be modified as follows:
+
+	# Add support for the new applications registry model
+	try: from django.apps.registry import apps
+	except ImportError: from django.db.models.loading import get_model
+	else: get_model = apps.get_model
+
+	try: from django.utils.datastructures import SortedDict
+	except ImportError: from collections import OrderedDict as SortedDict
+
 	Remember to post the fix as a pull request one of these days... 'cause that's what you do when you fix someone
 	else's laziness-triggered mistakes.
 
@@ -36,14 +46,6 @@ class Development(Config):
 			'PASSWORD': SecretValue(environ_name = 'REL_PASSWD', environ_prefix = 'RHEA')
 		}
 	}
-	NEO4J_DATABASES = {
-		'default': {
-			'HOST': 'localhost',
-			'PORT': 7474,
-			'ENDPOINT': SecretValue(environ_name = 'GRP_ENDPOINT', environ_prefix = 'RHEA')
-		}
-	}
-	DATABASE_ROUTERS = [ 'neo4django.utils.Neo4djangoIntegrationRouter' ]
 
 	# Static files
 	STATIC_ROOT = join(Config.BASE_DIR, 'static')
