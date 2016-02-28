@@ -1,0 +1,20 @@
+{% extends 'base/base.html' %}
+{% load static i18n permissions %}
+
+				{% block primary-nav %}
+					<header class="navbar-header" style="width: 100%; margin-left: 5px">
+						<ul class="nav navbar-nav">
+							<li class="active"><a href="{% url 'dashboard' %}">Home</a></li>
+							<li><a href="{% url 'user:view' user.user_id|upper %}">Profile</a></li>
+						</ul>
+						<ul class="nav navbar-nav pull-right">
+							<li class="dropdown">
+								<a href="#" data-toggle="dropdown"><i class="glyphicon glyphicon-cog"></i> <span class="caret"></span></a>
+								<ul class="dropdown-menu navbar-right" style="left: -110px">{% if user|has_role:'administrator' %}
+									<li><a href="#">Manage</a></li>{% endif %}
+									<li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+								</ul>
+							</li>
+						</ul>
+					</header>
+				{% endblock primary-nav %}

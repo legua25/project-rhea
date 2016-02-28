@@ -8,6 +8,7 @@ from django.conf.urls import url, include
 from django.conf import settings
 
 
+def redirect(url): return RedirectView.as_view(url = reverse_lazy(url))
 def debug_view(request, **kwargs):
 
 	from django.http import HttpResponse
@@ -19,40 +20,30 @@ from app.rhea import views as rhea
 urlpatterns = [
 
 	# Login & dashboard views
-	url(r'^$', debug_view, name = 'login'),
-	url(r'^dashboard/$', debug_view, name = 'dashboard'),
+	url(r'^$', redirect('accounts:login'), name = 'index'),
 
-	# Schedule construction & user profiles
-	url(r'^student/', include([
+	url(r'accounts/', include([
 
-		# AJAX views
-		url(r'^$', debug_view, name = 'list'),
+		url(r'^login/$', rhea.accounts.login, name = 'login'),
+		url(r'^logout/$', rhea.accounts.logout, name = 'logout')
 
-		# User views
-		url(r'(?P<enroll_id>A[\d]+)/', include([
-
-			url(r'^$', debug_view, name = 'view'),
-			url(r'^schedule/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', debug_view, name = 'create')
-
-		]))
-
-	], namespace = 'student', app_name = 'app.rhea')),
+	], namespace = 'accounts', app_name = 'rhea')),
 
 	# Instructor profiles
-	url(r'^instructor/', include([
+	url(r'^users/', include([
 
 		# AJAX views
 		url(r'^$', debug_view, name = 'list'),
 
 		# User views
-		url(r'(?P<payroll_id>L[\d]+)/', include([
+		url(r'(?P<user_id>[AaLl][\d]+)/', include([
 
 			url(r'^$', debug_view, name = 'view'),
 			url(r'^edit/$', debug_view, name = 'edit')
 
 		]))
 
-	], namespace = 'instructor', app_name = 'app.rhea')),
+	], namespace = 'user', app_name = 'app.rhea')),
 
 	# Management, reports & settings
 	url(r'^manage/', include([
@@ -65,7 +56,7 @@ urlpatterns = [
 		url(r'^curricula/', include([
 
 			# AJAX views
-			url(r'^$', rhea.curricula.list, name = 'list'),
+			url(r'^$', debug_view, name = 'list'),
 			url(r'^create/$', debug_view, name = 'create'),
 
 			# User views
@@ -84,26 +75,16 @@ urlpatterns = [
 		], namespace = 'subject', app_name = 'app.rhea')),
 
 		# Instructors & students
-		url(r'^instructor/', include([
+		url(r'^users/', include([
 
 			# AJAX views
 			url(r'^$', debug_view, name = 'list'),
 			url(r'^create/$', debug_view, name = 'create'),
 
 			# User views
-			url(r'^(?P<payroll_id>L[\d]+)/$', debug_view, name = 'manage')
+			url(r'^(?P<user_id>[AaLl][\d]+)/$', debug_view, name = 'manage')
 
-		], namespace = 'instructor', app_name = 'app.rhea')),
-		url(r'^student/', include([
-
-			# AJAX views
-			url(r'^$', debug_view, name = 'list'),
-			url(r'^create/$', debug_view, name = 'create'),
-
-			# User views
-			url(r'^(?P<enroll_id>A[\d]+)/$', debug_view, name = 'manage')
-
-		], namespace = 'student', app_name = 'app.rhea'))
+		], namespace = 'user', app_name = 'app.rhea'))
 
 	], namespace = 'management', app_name = 'app.rhea'))
 

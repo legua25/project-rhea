@@ -23,7 +23,6 @@ def ajax_required(view):
 	wrap.__name__ = view.__name__
 
 	return wrap
-
 def role_required(role, login_url = None, raise_exception = False):
 
 	def has_role(user):
@@ -32,7 +31,6 @@ def role_required(role, login_url = None, raise_exception = False):
 		else: roles = role
 
 		for r in roles:
-
 			if not user.belongs_to(name = r):
 
 				if raise_exception: raise PermissionDenied()
@@ -41,3 +39,19 @@ def role_required(role, login_url = None, raise_exception = False):
 		return True
 
 	return user_passes_test(has_role, login_url = login_url)
+def permission_required(perm, login_url = None, raise_exception = False):
+
+	def has_permission(user):
+
+		if not isinstance(perm, (tuple, list)): perms = ( perm, )
+		else: perms = perm
+
+		for p in perms:
+			if not user.has_permission(codename = p):
+
+				if raise_exception: raise PermissionDenied()
+				return False
+
+		return True
+
+	return user_passes_test(has_permission, login_url = login_url)

@@ -22,7 +22,7 @@ class Curriculum(Model):
 	)
 
 	@cached_property
-	def subjects(self): return self._subjects.select_related('code', 'name')
+	def subjects(self): return self._subjects.select_related('code', 'name', 'id')
 
 	objects = CurriculumManager()
 
@@ -56,9 +56,9 @@ class Subject(Model):
 		verbose_name = _('dependencies')
 	)
 	program = ForeignKey('rhea.Curriculum',
-	                     related_name = '_subjects',
-	                     verbose_name = _('academic program')
-	                     )
+		related_name = '_subjects',
+		verbose_name = _('academic program')
+	)
 
 	objects = SubjectManager()
 

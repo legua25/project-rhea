@@ -1,0 +1,27 @@
+{% extends 'base/base.html' %}
+{% load static i18n widget_tweaks %}
+
+{% block title %}Login | Project "Rhea"{% endblock title %}
+{% block navigation %}{% endblock navigation %}
+
+			{% block content %}
+				<section class="background background-{{ background }}"></section>
+				<section class="overlay"></section>
+				<section class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+					<div id="login" class="panel panel-default">
+						<form action="{% url 'accounts:login' %}" method="post">
+							<section class="panel-body">{% if form.non_field_errors %}
+								<ul class="list-unstyled">{% for error in form.non_field_errors %}
+									<li><div class="alert alert-warning">{{ error }}</div></li>{% endfor %}
+								</ul>{% endif %}
+								{% csrf_token %}
+								<div class="form-group">{{ form.user_id | add_class:'form-control' }}</div>
+								<div class="form-group">{{ form.password | add_class:'form-control' }}</div>
+							</section>
+							<footer class="panel-footer">
+								<div class="text-center"><button type="submit" class="btn btn-primary">Log in</button></div>
+							</footer>
+						</form>
+					</div>
+				</section>
+			{% endblock content %}

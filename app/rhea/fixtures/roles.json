@@ -1,0 +1,35 @@
+[
+	{
+		"model": "rhea.role",
+		"pk": 1,
+		"fields": {
+			"active": true,
+			"name": "administrator",
+			"description": "Administrative staff for the site, manages students, instructors and else",
+			"parent": null,
+			"_permissions": []
+		}
+	},
+	{
+		"model": "rhea.role",
+		"pk": 2,
+		"fields": {
+			"active": true,
+			"name": "Instructor",
+			"description": "Provides courses to students and feedback on courses and assignments",
+			"parent": null,
+			"_permissions": []
+		}
+	},
+	{
+		"model": "rhea.role",
+		"pk": 3,
+		"fields": {
+			"active": true,
+			"name": "Student",
+			"description": "Basic user; undertakes courses and designs own schedules",
+			"parent": null,
+			"_permissions": []
+		}
+	}
+]

@@ -5,6 +5,32 @@
 $footer-inverse-bg: #464E53
 $footer-inverse-border: #3b4146
 
+@mixin fullscreen()
+	position: fixed
+	top: 0
+	bottom: 0
+	left: 0
+	right: 0
+
+// Background & overlays
+.overlay
+	+fullscreen
+	background: rgba(0, 0, 0, 0.25)
+
+.background
+	+fullscreen
+	opacity: 0.8
+
+@for $i from 1 to 3
+	.background-#{$i}
+		background: url('../images/background-0#{$i}.jpg') no-repeat fixed
+		background-size: cover
+
+ul.nav.navbar-nav li.active a
+	color: #158CBA
+	font-weight: bold
+
+
 #content
 	margin-top: $navbar-height + 15px
 

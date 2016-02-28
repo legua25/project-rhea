@@ -9,6 +9,7 @@ from _base import Model, ActiveManager
 
 __all__ = [
 	'User',
+	'AnonymousUser',
 	'Role'
 ]
 
@@ -80,7 +81,7 @@ class User(Model, AbstractBaseUser):
 
 	objects = UserManager()
 
-	USERNAME_FIELD = 'enroll_id'
+	USERNAME_FIELD = 'user_id'
 	REQUIRED_FIELDS = [ 'full_name' ]
 
 	@property
@@ -98,14 +99,44 @@ class User(Model, AbstractBaseUser):
 			return _belongs(role.parent, target)
 
 		return _belongs(self.role, Role.objects.get(active = True, **kwargs))
+	def has_permission(self, **kwargs):
 
-	def __str__(self): return 'User (id: %s, full-name: %s)' % (self.user_id, self.full_name)
-	def __repr__(self): return self.__str__()
+		if self.role is not None:
+
+			permissions = self.role.permissions
+			perm = Permission.objects.get(**kwargs)
+
+			return perm in permissions
+
+		return False
+
+
+	def __str__(self): return 'User (id: %s, full-name: %s)' % (self.user_id, unicode(self.full_name))
+	def __repr__(self): return 'User (id: %s)' % self.user_id
 
 	class Meta(object):
 		verbose_name = _('user')
 		verbose_name_plural = _('users')
 		app_label = 'rhea'
+class AnonymousUser(object):
+
+	user_id = ''
+	date_registered = None
+	full_name = 'Anonymous'
+	email_primary = ''
+	email_secondary = ''
+	role = None
+
+	@property
+	def is_active(self): return False
+
+	def is_authenticated(self): return False
+	def get_full_name(self): return self.full_name
+	def get_short_name(self): return self.full_name
+	def belongs_to(self, **kwargs): return False
+
+	def __str__(self): return 'AnonymousUser'
+	def __repr__(self): return self.__str__()
 
 
 class RoleManager(ActiveManager): pass
