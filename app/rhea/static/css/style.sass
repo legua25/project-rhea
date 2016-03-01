@@ -13,13 +13,13 @@ $footer-inverse-border: #3b4146
 	right: 0
 
 // Background & overlays
-.overlay
-	+fullscreen
-	background: rgba(0, 0, 0, 0.25)
-
 .background
 	+fullscreen
 	opacity: 0.8
+
+	& + .overlay
+		+fullscreen
+		background: rgba(0, 0, 0, 0.25)
 
 @for $i from 1 to 3
 	.background-#{$i}
@@ -31,6 +31,7 @@ ul.nav.navbar-nav li.active a
 	font-weight: bold
 
 
+// Template-wide styling
 #content
 	margin-top: $navbar-height + 15px
 
@@ -38,3 +39,17 @@ ul.nav.navbar-nav li.active a
 	background-color: $footer-inverse-bg
 	border-color: $footer-inverse-border
 	color: white
+
+
+// Individual pages
+// User profile
+#user-briefing
+	header *
+		color: white !important
+
+	img#avatar
+		margin-bottom: 15px
+
+#user-schedule
+	section
+		background: #E1E1E1

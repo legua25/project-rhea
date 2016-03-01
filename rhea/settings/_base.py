@@ -28,6 +28,7 @@ class BaseConfiguration(Configuration):
 		'django.contrib.messages',
 		'django.contrib.staticfiles',
 		'widget_tweaks',
+		'imagekit',
 		'app.rhea'
 	]
 
@@ -74,3 +75,5 @@ class BaseConfiguration(Configuration):
 
 	# Static files
 	STATIC_URL = '/static/'
+	MEDIA_URL = '/media/'
+	MEDIA_ROOT = join(BASE_DIR, 'media')

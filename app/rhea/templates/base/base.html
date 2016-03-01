@@ -7,17 +7,14 @@
 		<title>{% block title %}{% endblock title %}</title>
 		<link rel="stylesheet" href="{% static 'css/style.css' %}" />
 
-		<script src="{% static 'js/jquery.min.js' %}" async></script>
-		<script src="{% static 'js/bootstrap.min.js' %}" async></script>{% block scripts %}{% endblock scripts %}
+		<script src="{% static 'js/jquery.min.js' %}" defer></script>
+		<script src="{% static 'js/bootstrap.min.js' %}" defer></script>{% block scripts %}{% endblock scripts %}
 	</head>
 	<body>
 		{% block navigation %}<nav id="navigation" class="navbar navbar-default navbar-fixed-top">
-			<div class="container-fluid">{% block primary-nav %}{% endblock primary-nav %}
-			</div>{% block secondary-nav %}{% endblock secondary-nav %}
+			<div class="container-fluid">{% block primary-nav %}{% endblock primary-nav %}</div>{% block secondary-nav %}{% endblock secondary-nav %}
 		</nav>{% endblock navigation %}
-		<main id="content" class="container">
-			{% block content %}{% endblock content %}
-		</main>
+		<main id="content" class="container">{% block content %}{% endblock content %}</main>
 		<footer id="footer" class="footer footer-fixed footer-inverse">
 			<div class="container">
 				<span class="pull-left"><strong>Project "Rhea"</strong> | Timetable Manager</span>

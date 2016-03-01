@@ -16,14 +16,16 @@ import random
 
 class LoginView(View):
 
+	@method_decorator(csrf_protect)
 	def get(self, request):
-
-		# Get redirect URL
-		redirect_url = request.GET.get('next', reverse_lazy('dashboard'))
 
 		# Check if user has been authenticated before - if so, redirect him/her to the main site
 		if request.user is not None and request.user.is_authenticated():
-			return redirect(redirect_url)
+
+			# Redirect to specified URL
+			return redirect(request.GET.get('next', reverse_lazy('user:view', kwargs = {
+				'user_id': request.user.user_id
+			})))
 
 		# Create the login form and render the template
 		background = random.randint(1, 2)
@@ -32,12 +34,13 @@ class LoginView(View):
 	@method_decorator(csrf_protect)
 	def post(self, request):
 
-		# Get redirect URL
-		redirect_url = request.GET.get('next', reverse_lazy('dashboard'))
-
 		# Check if user has been authenticated before - if so, redirect him/her to the main site
 		if request.user is not None and request.user.is_authenticated():
-			return redirect(redirect_url)
+
+			# Redirect to specified URL
+			return redirect(request.GET.get('next', reverse_lazy('user:view', kwargs = {
+				'user_id': request.user.user_id
+			})))
 
 		form = LoginForm(request.POST)
 		if form.is_valid():
@@ -46,7 +49,9 @@ class LoginView(View):
 			login_to_site(request, user)
 			update_last_login(None, user = user)
 
-			return redirect(redirect_url)
+			return redirect(request.GET.get('next', reverse_lazy('user:view', kwargs = {
+				'user_id': user.user_id
+			})))
 
 		# Resend the user to the login form to retry
 		background = random.randint(1, 2)
@@ -60,6 +65,7 @@ login = LoginView.as_view()
 class LogoutView(View):
 
 	@method_decorator(login_required)
+	@method_decorator(csrf_protect)
 	def get(self, request):
 
 		# Proceed to log out the user

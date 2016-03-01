@@ -1,0 +1,62 @@
+{% extends 'base/navigation.html' %}
+{% load static i18n widget_tweaks %}
+
+{% block title %}{% if account %}{{ account.user_id | upper }}{% else %}An error has occurred!{% endif %} | Project "Rhea"{% endblock title %}
+
+		{% block content %}{% if account %}
+			<section class="col-xs-12">
+				<div id="user-briefing" class="panel panel-primary">
+					<header class="panel-heading">
+						<h4>
+							<i class="glyphicon glyphicon-user"></i> {% if account.id == user.id %}Your details{% else %}{{ account.get_short_name }}'s details{% endif %}{% if account.id == user.id %}
+							<span class="pull-right">
+								<a href="{% url 'user:edit' user.user_id %}" title="Edit preferences&hellip;"><i class="glyphicon glyphicon-pencil"></i></a>
+							</span>{% endif %}
+						</h4>
+					</header>
+					<section class="panel-body">
+						<div class="col-sm-2 hidden-xs text-center" style="padding-top: 20px">
+							<img id="avatar" src="{{ user.picture.url }}" alt="{{ user.user_id }}'s Picture" />
+						</div>
+						<div class="col-sm-8 col-sm-offset-1 col-xs-12">
+							<h4>Summary</h4>
+							<br />
+							<dl class="dl dl-horizontal">
+								<dt>Full Name</dt> <dd>{{ account.full_name }}</dd>
+								<dt>Short Name</dt> <dd>{% firstof account.short_name 'None specified' %}</dd>
+								<dt>Primary Email Address</dt> <dd>{{ account.email_primary }}</dd>
+								<dt>Alternate Email Address</dt> <dd>{% firstof account.email_secondary 'None specified' %}</dd>
+								<dt>Academic Program</dt> <dd></dd>
+							</dl>
+						</div>
+					</section>
+				</div>
+				<div id="user-schedule" class="panel panel-default">
+					<header class="panel-heading"><h4><i class="glyphicon glyphicon-calendar"></i> Schedule</h4></header>
+					<section class="panel-body">
+						<div class="col-md-10 col-md-offset-1">
+							&hellip;
+						</div>
+					</section>
+				</div>
+			</section>
+			<section class="col-xs-12"></section>
+		{% else %}
+			<section class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+				<div id="user-briefing" class="panel panel-warning">
+					<header class="panel-heading"><h4><i class="glyphicon glyphicon-warning-sign"></i> An error has occurred!</h4></header>
+					<section class="panel-body">
+						<p class="text-center">
+							The user with ID <strong>{{ user_id }}</strong> was not found. If you believe this to be an error, please contact an administrator regarding this issue.
+						</p>
+						<br />
+						<p class="text-center">
+							<button type="button" class="btn btn-primary" onclick="history.back()">
+								<i class="glyphicon glyphicon-circle-arrow-left"></i> Take me back
+							</button>
+						</p>
+					</section>
+				</div>
+			</section>
+		{% endif %}{% endblock content %}
+

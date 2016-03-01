@@ -2,16 +2,22 @@
 from __future__ import unicode_literals
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permission
 from django.utils.translation import ugettext_lazy as _
+from imagekit.models.fields import ProcessedImageField
 from django.utils.functional import cached_property
 from django.utils.timezone import now
+from imagekit.processors import *
 from django.db.models import *
 from _base import Model, ActiveManager
 
 __all__ = [
 	'User',
 	'AnonymousUser',
-	'Role'
+	'Role',
+	'Preferences'
 ]
+
+def user_picture__upload_to(instance, filename):
+	return 'users/%s/picture.png' % instance.user_id
 
 class UserManager(ActiveManager, BaseUserManager):
 
@@ -21,6 +27,7 @@ class UserManager(ActiveManager, BaseUserManager):
 		if user_id is None: raise ValueError('User ID cannot be null')
 		if full_name is None: raise ValueError('Full name cannot be null')
 
+		# Create the user account
 		email = UserManager.normalize_email(email_address)
 		user = self.model(
 			user_id = user_id,
@@ -32,6 +39,9 @@ class UserManager(ActiveManager, BaseUserManager):
 
 		user.set_password(password)
 		user.save()
+
+		# Create the user preferences store - populated by defaults
+		Preferences.objects.create(user = user)
 
 		return user
 
@@ -59,6 +69,12 @@ class User(Model, AbstractBaseUser):
 		blank = False,
 		verbose_name = _('full name')
 	)
+	short_name = CharField(
+		max_length = 128,
+		null = True,
+		blank = True,
+		verbose_name = _('short name')
+	)
 	email_primary = EmailField(
 		max_length = 255,
 		null = False,
@@ -72,12 +88,26 @@ class User(Model, AbstractBaseUser):
 		blank = True,
 		verbose_name = _('secondary (backup) email address')
 	)
+	picture = ProcessedImageField(
+		processors = [ SmartResize(128, 128) ],
+		format = 'PNG',
+		autoconvert = True,
+		upload_to = user_picture__upload_to,
+		default = 'images/avatar.png',
+		verbose_name = _('picture')
+	)
 	role = ForeignKey('rhea.Role',
 		related_name = 'members',
 	    null = True,
 	    default = None,
 		verbose_name = _('user role')
 	)
+	preferences = OneToOneField('rhea.Preferences',
+	    related_name = '+',
+	    null = True,
+	    default = None,
+	    verbose_name = _('site preferences')
+    )
 
 	objects = UserManager()
 
@@ -88,7 +118,7 @@ class User(Model, AbstractBaseUser):
 	def is_active(self): return self.active
 
 	def get_full_name(self): return self.full_name
-	def get_short_name(self): return self.full_name
+	def get_short_name(self): return self.short_name or self.full_name
 	def belongs_to(self, **kwargs):
 
 		def _belongs(role, target):
@@ -110,7 +140,6 @@ class User(Model, AbstractBaseUser):
 
 		return False
 
-
 	def __str__(self): return 'User (id: %s, full-name: %s)' % (self.user_id, unicode(self.full_name))
 	def __repr__(self): return 'User (id: %s)' % self.user_id
 
@@ -126,6 +155,7 @@ class AnonymousUser(object):
 	email_primary = ''
 	email_secondary = ''
 	role = None
+	preferences = None
 
 	@property
 	def is_active(self): return False
@@ -137,6 +167,18 @@ class AnonymousUser(object):
 
 	def __str__(self): return 'AnonymousUser'
 	def __repr__(self): return self.__str__()
+
+class PreferencesManager(ActiveManager): pass
+class Preferences(Model):
+
+	# TODO: Add editable preferences here
+
+	objects = PreferencesManager()
+
+	class Meta(object):
+		verbose_name = _('user preferences')
+		verbose_name_plural = _('user preferences')
+		app_label = 'rhea'
 
 
 class RoleManager(ActiveManager): pass
