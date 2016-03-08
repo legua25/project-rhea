@@ -8,10 +8,10 @@
 					</button>
 					<div id="navigation-menu" class="navbar-collapse collapse">
 						<ul class="nav navbar-nav">
-							<li class="active"><a href="{% url 'user:view' user.user_id %}">Home</a></li>
+							<li{% if site == 'user:view' or site == 'user:edit' %} class="active"{% endif %}><a href="{% url 'user:view' user.user_id %}">Home</a></li>
 						</ul>
 						<ul class="nav navbar-nav navbar-right" style="margin-right: 5px">{% if user|has_role:'administrator' %}
-							<li><a href="#">Manage</a></li>{% endif %}
+							<li{% if site == 'management:main' %} class="active"{% endif %}><a href="{% url 'management:main' %}">Manage</a></li>{% endif %}
 							<li><a href="{% url 'accounts:logout' %}">Logout</a></li>
 						</ul>
 					</div>

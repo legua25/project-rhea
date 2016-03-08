@@ -6,7 +6,7 @@ register = Library()
 
 @register.filter
 def has_role(user, role_name):
-	return user.belongs_to(name = role_name)
+	return user.belongs_to(codename = role_name)
 
 @register.filter
 def has_permission(user, permission_name):

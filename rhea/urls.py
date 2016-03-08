@@ -45,4 +45,15 @@ urlpatterns = [
 
 	], namespace = 'user', app_name = 'app.rhea')),
 
+	url(r'^manage/', include([
+
+		url(r'^$', rhea.manage.main, name ='main'),
+		url(r'^programs/', include ([
+
+			url(r'^$', debug_view, name = 'list')
+
+		], namespace = 'program'))
+
+	], namespace = 'management', app_name = 'rhea'))
+
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

@@ -6,13 +6,13 @@ from django.db.models import *
 from _base import Model, ActiveManager
 
 __all__ = [
-	'Curriculum',
+	'AcademicProgram',
 	'Subject',
 	'Dependency'
 ]
 
-class CurriculumManager(ActiveManager): pass
-class Curriculum(Model):
+class AcademicProgramManager(ActiveManager): pass
+class AcademicProgram(Model):
 
 	name = CharField(
 		max_length = 128,
@@ -24,7 +24,7 @@ class Curriculum(Model):
 	@cached_property
 	def subjects(self): return self._subjects.select_related('code', 'name', 'id')
 
-	objects = CurriculumManager()
+	objects = AcademicProgramManager()
 
 	class Meta(object):
 		verbose_name = _('academic program')
@@ -55,10 +55,10 @@ class Subject(Model):
 		related_query_name = 'deps',
 		verbose_name = _('dependencies')
 	)
-	program = ForeignKey('rhea.Curriculum',
-		related_name = '_subjects',
-		verbose_name = _('academic program')
-	)
+	program = ForeignKey('rhea.AcademicProgram',
+        related_name = '_subjects',
+        verbose_name = _('academic program')
+    )
 
 	objects = SubjectManager()
 
@@ -84,7 +84,6 @@ class Subject(Model):
 		verbose_name = _('subject')
 		verbose_name_plural = _('subjects')
 		app_label = 'rhea'
-
 
 class DependencyManager(ActiveManager): pass
 class Dependency(Model):

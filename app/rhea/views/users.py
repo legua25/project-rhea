@@ -7,11 +7,9 @@ from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth import get_user_model
 from app.rhea.decorators import ajax_required
-from app.rhea.models import Curriculum
 from django.views.generic import View
 from django.http import JsonResponse
 from time import mktime as timestamp
-import random
 
 User = get_user_model()
 
@@ -55,7 +53,9 @@ class UserView(View):
 				}, status = 404)
 			return ajax(request, account, user_id)
 
-		background = random.randint(1, 2)
+		# TODO: Add the user's current schedule (or none if there isn't one)
+		site = 'user:view'
+
 		return render_to_response('rhea/users/view.html', context = RequestContext(request, locals()))
 
 view = UserView.as_view()

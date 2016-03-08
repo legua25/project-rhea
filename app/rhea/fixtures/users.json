@@ -1,0 +1,19 @@
+[
+	{
+		"model":"rhea.user",
+		"pk":1,
+		"fields":{
+			"password":"pbkdf2_sha256$24000$bp5tKLOlefQS$QXWPE4c2rAQJ1s1yM5CZMVqBt8iFTE7nd4ALD7YxN4A=",
+			"last_login":"2016-03-01T05:27:09.985Z",
+			"active":true,
+			"user_id":"A01201420",
+			"date_registered":"2016-03-01T02:33:41.750Z",
+			"full_name":"Luis Eduardo Guti\u00e9rrez Alvarez",
+			"short_name":null,
+			"email_primary":"A01201420@itesm.mx",
+			"email_secondary":null,
+			"picture":"images/avatar.png",
+			"role":1
+		}
+	}
+]

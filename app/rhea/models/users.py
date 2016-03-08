@@ -12,8 +12,7 @@ from _base import Model, ActiveManager
 __all__ = [
 	'User',
 	'AnonymousUser',
-	'Role',
-	'Preferences'
+	'Role'
 ]
 
 def user_picture__upload_to(instance, filename):
@@ -102,12 +101,6 @@ class User(Model, AbstractBaseUser):
 	    default = None,
 		verbose_name = _('user role')
 	)
-	preferences = OneToOneField('rhea.Preferences',
-	    related_name = '+',
-	    null = True,
-	    default = None,
-	    verbose_name = _('site preferences')
-    )
 
 	objects = UserManager()
 
@@ -168,22 +161,17 @@ class AnonymousUser(object):
 	def __str__(self): return 'AnonymousUser'
 	def __repr__(self): return self.__str__()
 
-class PreferencesManager(ActiveManager): pass
-class Preferences(Model):
-
-	# TODO: Add editable preferences here
-
-	objects = PreferencesManager()
-
-	class Meta(object):
-		verbose_name = _('user preferences')
-		verbose_name_plural = _('user preferences')
-		app_label = 'rhea'
-
 
 class RoleManager(ActiveManager): pass
 class Role(Model):
 
+	codename = CharField(
+		max_length = 64,
+		null = False,
+		blank = False,
+		unique = True,
+		verbose_name = _('role code name')
+	)
 	name = CharField(
 		max_length = 64,
 		null = False,

@@ -4,7 +4,8 @@
 		"pk": 1,
 		"fields": {
 			"active": true,
-			"name": "administrator",
+			"codename": "administrator",
+			"name": "Site administrator",
 			"description": "Administrative staff for the site, manages students, instructors and else",
 			"parent": null,
 			"_permissions": []
@@ -15,6 +16,7 @@
 		"pk": 2,
 		"fields": {
 			"active": true,
+			"codename": "instructor",
 			"name": "Instructor",
 			"description": "Provides courses to students and feedback on courses and assignments",
 			"parent": null,
@@ -26,6 +28,7 @@
 		"pk": 3,
 		"fields": {
 			"active": true,
+			"codename": "student",
 			"name": "Student",
 			"description": "Basic user; undertakes courses and designs own schedules",
 			"parent": null,

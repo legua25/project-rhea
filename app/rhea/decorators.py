@@ -31,7 +31,7 @@ def role_required(role, login_url = None, raise_exception = False):
 		else: roles = role
 
 		for r in roles:
-			if not user.belongs_to(name = r):
+			if not user.belongs_to(codename = r):
 
 				if raise_exception: raise PermissionDenied()
 				return False
