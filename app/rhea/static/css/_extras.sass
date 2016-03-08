@@ -1,4 +1,5 @@
 
+// Footer
 .footer
 	position: absolute
 	bottom: 0
@@ -21,6 +22,8 @@
 	background-color: $navbar-inverse-bg
 	border-color: $navbar-inverse-border
 
+
+// Secondary navbar
 .navbar-secondary
 	width: 100%
 	background-color: $breadcrumb-bg
@@ -33,6 +36,19 @@
 		li > a
 			line-height: $line-height-computed / 2
 
+
+// Panel extensions
+.panel-inverse
+	.panel-heading
+		background: #272727
+		*
+			color: white !important
+
+.panel-primary, .panel-info
+	.panel-heading *
+		color: white !important
+
+// Phased definition lists
 dl.dl-phased
 	dd
 		margin-left: 42px

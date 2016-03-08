@@ -59,7 +59,6 @@ class LoginView(View):
 			context = RequestContext(request, locals()),
 			status = 401
 		)
-
 login = LoginView.as_view()
 
 class LogoutView(View):
@@ -71,5 +70,4 @@ class LogoutView(View):
 		# Proceed to log out the user
 		logout_from_site(request)
 		return redirect(reverse_lazy('accounts:login'))
-
 logout = LogoutView.as_view()

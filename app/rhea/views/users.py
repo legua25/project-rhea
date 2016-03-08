@@ -57,5 +57,4 @@ class UserView(View):
 		site = 'user:view'
 
 		return render_to_response('rhea/users/view.html', context = RequestContext(request, locals()))
-
 view = UserView.as_view()

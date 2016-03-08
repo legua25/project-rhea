@@ -1,0 +1,42 @@
+{% extends 'base/navigation.html' %}
+
+{% block title %}Manage Academic Programs | Project "Rhea"{% endblock title %}
+
+		{% block content %}
+			<section class="row">
+				<div class="col-md-4 col-md-push-8">
+					<div class="panel panel-primary">
+						<header class="panel-heading"><h4>Quick Actions</h4></header>
+						<section class="panel-body">
+							<ul id="quick-actions" class="list-group">
+								<li class="list-group-item">
+									<button type="button" class="btn btn-default btn-block">
+										<i class="pull-left glyphicon glyphicon-plus-sign"></i> Add new academic program
+									</button>
+								</li>
+								<li class="list-group-item">
+									<button type="button" class="btn btn-default btn-block">
+										<i class="pull-left glyphicon glyphicon-plus-sign"></i> Add new subject
+									</button>
+								</li>
+								<li class="list-group-item">
+									<button type="button" class="btn btn-default btn-block">
+										<i class="pull-left glyphicon glyphicon-download-alt"></i> Backup academic programs
+									</button>
+								</li>
+							</ul>
+						</section>
+					</div>
+				</div>
+				<div class="col-md-8 col-md-pull-4">
+					<div class="panel panel-inverse">
+						<header class="panel-heading"><h4>Academic Programs</h4></header>
+						<section class="panel-body"></section>
+					</div>
+					<div class="panel panel-inverse">
+						<header class="panel-heading"><h4>Subjects</h4></header>
+						<section class="panel-body"></section>
+					</div>
+				</div>
+			</section>
+		{% endblock content %}
