@@ -7,9 +7,14 @@
 		<title>{% block title %}{% endblock title %}</title>
 		<link rel="stylesheet" href="{% static 'css/style.css' %}" />
 
-		<script src="{% static 'js/jquery.min.js' %}" defer></script>
-		<script src="{% static 'js/bootstrap.min.js' %}" defer></script>
-		<script src="{% static 'js/angular.min.js' %}" defer></script>{% block scripts %}{% endblock scripts %}
+		<script src="{% static 'js/system.min.js' %}"></script>
+		<script>
+			// Configure System.js
+			System.config({ 'baseURL': '{% get_static_prefix %}js/' });
+			System.import('jquery.min.js');
+			System.import('angular.min.js');
+			System.import('bootstrap.min.js');{% block js %}{% endblock js %}
+		</script>
 	</head>
 	<body>
 		{% block navigation %}<nav id="navigation" class="navbar navbar-default navbar-fixed-top">

@@ -1,9 +1,11 @@
 {% extends 'base/navigation.html' %}
 
 {% block title %}Manage Academic Programs | Project "Rhea"{% endblock title %}
+		{% block js %}
+			System.import('manage/programs.js');{% endblock js %}
 
 		{% block content %}
-			<section class="row">
+			<section class="row" ng-app="rhea">
 				<div class="col-md-4 col-md-push-8">
 					<div class="panel panel-primary">
 						<header class="panel-heading"><h4>Quick Actions</h4></header>
@@ -28,10 +30,12 @@
 						</section>
 					</div>
 				</div>
-				<div class="col-md-8 col-md-pull-4">
+				<div class="col-md-8 col-md-pull-4" ng-controller="RheaController as rhea">
 					<div class="panel panel-inverse">
 						<header class="panel-heading"><h4>Academic Programs</h4></header>
-						<section class="panel-body"></section>
+						<section class="panel-body">
+							{% verbatim %}{{ rhea.programs }}{% endverbatim %}
+						</section>
 					</div>
 					<div class="panel panel-inverse">
 						<header class="panel-heading"><h4>Subjects</h4></header>
