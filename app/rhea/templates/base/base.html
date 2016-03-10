@@ -7,13 +7,18 @@
 		<title>{% block title %}{% endblock title %}</title>
 		<link rel="stylesheet" href="{% static 'css/style.css' %}" />
 
-		<script src="{% static 'js/system.min.js' %}"></script>
+		<script src="{% static 'js/vendor/jquery.js' %}"></script>
+		<script src="{% static 'js/vendor/angular.js' %}"></script>
+		<script src="{% static 'js/vendor/system.js' %}"></script>
 		<script>
 			// Configure System.js
-			System.config({ 'baseURL': '{% get_static_prefix %}js/' });
-			System.import('jquery.min.js');
-			System.import('angular.min.js');
-			System.import('bootstrap.min.js');{% block js %}{% endblock js %}
+			System.config({
+				'defaultJSExtensions': true,
+				'map': {
+					'vendor': '{% get_static_prefix %}js/vendor',
+					'rhea': '{% get_static_prefix %}js/rhea'
+				}
+			});{% block js %}{% endblock js %}
 		</script>
 	</head>
 	<body>

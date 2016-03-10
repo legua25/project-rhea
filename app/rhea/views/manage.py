@@ -63,7 +63,9 @@ class ProgramListView(View):
 						'count': query.count(),
 						'entries': [ {
 							'id': p.id,
+							'acronym': p.acronym,
 							'name': p.name,
+							'description': p.description,
 							'subjects': [ { 'id': s.id, 'code': s.code, 'name': s.name } for s in p.subjects ]
 						} for p in programs ]
 					}

@@ -14,19 +14,33 @@ __all__ = [
 class AcademicProgramManager(ActiveManager): pass
 class AcademicProgram(Model):
 
+	acronym = CharField(
+		max_length = 8,
+		null = False,
+		blank = False,
+		unique = True,
+		verbose_name = _('program acronym')
+	)
 	name = CharField(
 		max_length = 128,
 		null = False,
 		blank = False,
 		verbose_name = _('program name')
 	)
+	description = CharField(
+		max_length = 512,
+		null = False,
+		default = '',
+		verbose_name = _('program description')
+	)
 
 	@cached_property
-	def subjects(self): return self._subjects.select_related('code', 'name', 'id')
+	def subjects(self): return self._subjects.all()
 
 	objects = AcademicProgramManager()
 
 	class Meta(object):
+		db_table = 'rhea_programs'
 		verbose_name = _('academic program')
 		verbose_name_plural = _('academic programs')
 		app_label = 'rhea'
