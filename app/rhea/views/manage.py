@@ -9,6 +9,7 @@ from app.rhea.models import AcademicProgram, Subject
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth import get_user_model
+from app.rhea.forms import ProgramForm
 from django.views.generic import View
 from django.http import JsonResponse
 
@@ -74,5 +75,17 @@ class ProgramListView(View):
 
 		site = 'management:main'
 		return render_to_response('rhea/management/curricula/list.html', context = RequestContext(request, locals()))
-
 program_list = ProgramListView.as_view()
+
+class ProgramCreateView(View):
+
+	@method_decorator(login_required)
+	@method_decorator(role_required('administrator'))
+	@method_decorator(csrf_protect)
+	def get(self, request):
+
+		program = ProgramForm()
+
+		site = 'management:main'
+		return render_to_response('rhea/management/curricula/create.html', context = RequestContext(request, locals()))
+program_create = ProgramCreateView.as_view()

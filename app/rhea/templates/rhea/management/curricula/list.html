@@ -2,7 +2,7 @@
 
 {% block title %}Manage Academic Programs | Project "Rhea"{% endblock title %}
 		{% block js %}
-			System.import('rhea/manage/programs.js');{% endblock js %}
+			System.import('rhea/manage/program_list.js');{% endblock js %}
 
 		{% block content %}
 			<section class="row">
@@ -12,9 +12,9 @@
 						<section class="panel-body">
 							<ul id="quick-actions" class="list-group">
 								<li class="list-group-item">
-									<button type="button" class="btn btn-default btn-block">
+									<a href="{% url 'management:curricula:create' %}" class="btn btn-default btn-block">
 										<i class="pull-left glyphicon glyphicon-plus-sign"></i> Add new academic program
-									</button>
+									</a>
 								</li>
 								<li class="list-group-item">
 									<button type="button" class="btn btn-default btn-block">
@@ -36,20 +36,20 @@
 						<section class="panel-body">
 							<table class="table table-striped table-hover">
 								<thead>
-									<tr><th>#</th> <th>Acronym</th> <th>Program Name</th> <th>Description</th> <th>Actions</th></tr>
+									<tr><th>#</th> <th>Acronym</th> <th>Program Name</th> <th style="min-width: 250px; max-width: 250px">Description</th> <th>Actions</th></tr>
 								</thead>
 								<tbody>
 									<tr ng-repeat="e in rheactrl.programs.entries">{% verbatim %}
-										<th>{{ $index + 1 }}</th>
-										<th>{{ e.acronym }}</th>
-										<th>{{ e.name }}</th>
-										<th>{{ e.description || 'No description available' }}</th>
-										<th>
+										<td>{{ $index + 1 }}</td>
+										<td>{{ e.acronym }}</td>
+										<td>{{ e.name }}</td>
+										<td>{{ e.description || 'No description available' }}</td>
+										<td>{% endverbatim %}
 											<span class="btn-group">
 												<a href="" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i></a>
 												<a href="" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-remove"></i></a>
 											</span>
-										</th>{% endverbatim %}
+										</td>
 									</tr>
 								</tbody>
 							</table>

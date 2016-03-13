@@ -1,5 +1,16 @@
+@charset "UTF-8"
+[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate)
+	display: none !important
+ng\:form
+	display: block
+.ng-animate-shim
+	visibility: hidden
+.ng-anchor
+	position: absolute
+
 @import "bootstrap/_bootstrap"
 @import "bootstrap/_lumen"
+@import "select2"
 @import "extras"
 
 $footer-inverse-bg: #464E53
@@ -52,3 +63,11 @@ ul.nav.navbar-nav li.active a
 		background: #E1E1E1
 
 // Management
+kbd.subject-tag
+	width: 100%
+	display: inline-block
+	text-align: center
+	text-transform: uppercase
+	font-weight: bold
+	font-family: inherit
+	background-color: $panel-primary-heading-bg

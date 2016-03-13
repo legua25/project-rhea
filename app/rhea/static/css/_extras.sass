@@ -44,7 +44,16 @@
 		*
 			color: white !important
 
-.panel-primary, .panel-info
+.panel-nav
+	padding: 10px $panel-body-padding
+	max-height: 48px
+	@include clearfix
+
+.panel-inverse .panel-nav
+	background-color: #505050
+	border-color: #343434
+
+.panel-primary, .panel-info, .panel-success, .panel-warning, .panel-danger
 	.panel-heading *
 		color: white !important
 
@@ -52,3 +61,9 @@
 dl.dl-phased
 	dd
 		margin-left: 42px
+
+// Invers buttons
+.btn-inverse
+	background-color: #353535
+	border-color: #272727
+	color: white

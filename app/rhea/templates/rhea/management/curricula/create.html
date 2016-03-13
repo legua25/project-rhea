@@ -1,0 +1,101 @@
+{% extends 'base/navigation.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Manage Academic Programs | Project "Rhea"{% endblock title %}
+		{% block js %}
+			System.import('rhea/manage/program_create.js');{% endblock js %}
+
+		{% block content %}
+			<form method="post">
+				{% csrf_token %}
+				<section class="row">
+					<div class="col-xs-12">
+						<div class="panel panel-primary">
+							<header class="panel-heading">
+								<h4><i class="glyphicon glyphicon-briefcase"></i> Create new Academic Program</h4>
+							</header>
+							<section class="panel-body">
+								<div class="col-md-10 col-md-offset-1">
+									<ul class="list-group">
+										<li class="list-group-item">
+											<div class="input-group ng-cloak">
+												<span class="input-group-addon" ng-if="!data.name || data.name === undefined">
+													<i class="glyphicon glyphicon-asterisk"></i>
+												</span>
+												<span class="input-group-addon" style="color: #FF9312" ng-if="data.name && data.name.length <= 4">
+													<i class="glyphicon glyphicon-warning-sign"></i>
+												</span>
+												<span class="input-group-addon" style="color: #4D9A22" ng-if="data.name && data.name.length > 4">
+													<i class="glyphicon glyphicon-ok"></i>
+												</span>
+												{% render_field program.name class='form-control' ng-model='data.name' %}
+											</div>
+										</li>
+										<li class="list-group-item">
+											<div class="input-group ng cloak">
+												<span class="input-group-addon" ng-if="!data.acronym || data.acronym === undefined">
+													<i class="glyphicon glyphicon-asterisk"></i>
+												</span>
+												<span class="input-group-addon" style="color: #FF9312" ng-if="data.acronym && data.acronym.length <= 1">
+													<i class="glyphicon glyphicon-warning-sign"></i>
+												</span>
+												<span class="input-group-addon" style="color: #4D9A22" ng-if="data.acronym && data.acronym.length > 1">
+													<i class="glyphicon glyphicon-ok"></i>
+												</span>
+												{% render_field program.acronym class='form-control' ng-model='data.acronym' %}
+											</div>
+										</li>
+										<li class="list-group-item">
+											{% render_field program.description class='form-control' rows='3' %}
+										</li>
+									</ul>
+								</div>
+							</section>
+						</div>
+					</div>
+				</section>
+				<section class="row">
+					<div class="col-xs-12">
+						<div class="panel panel-inverse" ng-controller="Rhea as rheactrl">
+							<header class="panel-heading">
+								<span class="pull-right">
+									<button type="button" class="btn btn-primary" title="Add new subject&hellip;"><i class="glyphicon glyphicon-plus-sign"></i></button>
+								</span>
+								<h4>Subjects in Program</h4>
+							</header>
+							<nav class="panel-nav">
+								<div class="col-md-10 col-md-offset-1">
+									<span class="input-group input-group-sm">
+										<input type="search" class="form-control input-sm" placeholder="Search&hellip;" />
+										<span class="input-group-btn">
+											<button type="button" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-plus-sign"></i> Add to program</button>
+										</span>
+										{# TODO: This should be a search bar, so we must create a directive to conceal this mumbo-jumbp #}
+										{# TODO: Remember to add an exporting mechanism and data source to this directive #}
+									</span>
+								</div>
+							</nav>
+							<section class="panel-body">
+								<div class="col-md-10 col-md-offset-1">
+									<ul class="list-group">
+										<li class="list-group-item">
+											<div class="container-fluid">
+												<span class="col-xs-3 form-control-static"><kbd class="subject-tag">TI2011</kbd></span>
+												<span class="col-xs-8 form-control-static"><strong>Evaluación y Administración de Proyectos</strong></span>
+												<span class="pull-right form-control-static">
+													<a class="close" style="color: #333333">&times;</a>
+												</span>
+												<hr class="col-xs-12" style="margin-left: -15px; margin-top: 5px" />
+												<div class="col-xs-12">
+													{# TODO: We must add here a list of all dependencies to this subject #}
+												</div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</section>
+						</div>
+					</div>
+				</section>
+			</form>
+		{% endblock content %}

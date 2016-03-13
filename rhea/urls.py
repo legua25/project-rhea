@@ -50,7 +50,8 @@ urlpatterns = [
 		url(r'^$', rhea.manage.main, name ='main'),
 		url(r'^programs/', include ([
 
-			url(r'^$', rhea.manage.program_list, name = 'list')
+			url(r'^$', rhea.manage.program_list, name = 'list'),
+			url(r'^create/$', rhea.manage.program_create, name = 'create')
 
 		], namespace = 'curricula'))
 
