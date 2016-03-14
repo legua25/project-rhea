@@ -29,6 +29,7 @@ class BaseConfiguration(Configuration):
 		'django.contrib.staticfiles',
 		'widget_tweaks',
 		'imagekit',
+		'django_select2',
 		'app.rhea'
 	]
 

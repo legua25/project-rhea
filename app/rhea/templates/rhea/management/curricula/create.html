@@ -6,8 +6,12 @@
 			System.import('rhea/manage/program_create.js');{% endblock js %}
 
 		{% block content %}
-			<form method="post">
+			<form action="{% url 'management:curricula:create' %}" method="post" ng-controller="Rhea as rheactrl">
 				{% csrf_token %}
+				<input name="deps-TOTAL_FORMS" type="hidden" value="{% verbatim %}{{ rheactrl.$count }}{% endverbatim %}" />
+				<input name="deps-INITIAL_FORMS" type="hidden" value="0" />
+				<input name="deps-MIN_NUM_FORMS" type="hidden" value="0" />
+				<input name="deps-MAX_NUM_FORMS" type="hidden" value="1000" />
 				<section class="row">
 					<div class="col-xs-12">
 						<div class="panel panel-primary">
@@ -15,34 +19,34 @@
 								<h4><i class="glyphicon glyphicon-briefcase"></i> Create new Academic Program</h4>
 							</header>
 							<section class="panel-body">
-								<div class="col-md-10 col-md-offset-1">
+								<div class="col-md-10 col-md-offset-1 ng-cloak">
 									<ul class="list-group">
 										<li class="list-group-item">
-											<div class="input-group ng-cloak">
+											<div class="input-group{% if program.name.errors %} has-error{% endif %}"{% if program.name.errors %} ng-class="{ true: 'has-error' }[data.name === undefined]"{% endif %}>
 												<span class="input-group-addon" ng-if="!data.name || data.name === undefined">
 													<i class="glyphicon glyphicon-asterisk"></i>
 												</span>
 												<span class="input-group-addon" style="color: #FF9312" ng-if="data.name && data.name.length <= 4">
-													<i class="glyphicon glyphicon-warning-sign"></i>
+													<i class="glyphicon glyphicon-alert"></i>
 												</span>
 												<span class="input-group-addon" style="color: #4D9A22" ng-if="data.name && data.name.length > 4">
 													<i class="glyphicon glyphicon-ok"></i>
 												</span>
-												{% render_field program.name class='form-control' ng-model='data.name' %}
+												{% render_field program.name class='form-control' ng-model='data.name' ng-initial='' %}
 											</div>
 										</li>
 										<li class="list-group-item">
-											<div class="input-group ng cloak">
+											<div class="input-group{% if program.acronym.errors %} has-error{% endif %}"{% if program.acronym.errors %} ng-class="{ true: 'has-error' }[data.name === undefined]"{% endif %}>
 												<span class="input-group-addon" ng-if="!data.acronym || data.acronym === undefined">
 													<i class="glyphicon glyphicon-asterisk"></i>
 												</span>
 												<span class="input-group-addon" style="color: #FF9312" ng-if="data.acronym && data.acronym.length <= 1">
-													<i class="glyphicon glyphicon-warning-sign"></i>
+													<i class="glyphicon glyphicon-alert"></i>
 												</span>
 												<span class="input-group-addon" style="color: #4D9A22" ng-if="data.acronym && data.acronym.length > 1">
 													<i class="glyphicon glyphicon-ok"></i>
 												</span>
-												{% render_field program.acronym class='form-control' ng-model='data.acronym' %}
+												{% render_field program.acronym class='form-control' ng-model='data.acronym' ng-initial='' %}
 											</div>
 										</li>
 										<li class="list-group-item">
@@ -56,45 +60,69 @@
 				</section>
 				<section class="row">
 					<div class="col-xs-12">
-						<div class="panel panel-inverse" ng-controller="Rhea as rheactrl">
+						<div class="panel panel-inverse">
 							<header class="panel-heading">
 								<span class="pull-right">
-									<button type="button" class="btn btn-primary" title="Add new subject&hellip;"><i class="glyphicon glyphicon-plus-sign"></i></button>
+									<button type="button" class="btn btn-primary" title="Add new subject&hellip;"><i class="glyphicon glyphicon-plus-sign"></i> Create subject</button>
 								</span>
 								<h4>Subjects in Program</h4>
 							</header>
 							<nav class="panel-nav">
 								<div class="col-md-10 col-md-offset-1">
-									<span class="input-group input-group-sm">
-										<input type="search" class="form-control input-sm" placeholder="Search&hellip;" />
-										<span class="input-group-btn">
-											<button type="button" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-plus-sign"></i> Add to program</button>
-										</span>
-										{# TODO: This should be a search bar, so we must create a directive to conceal this mumbo-jumbp #}
-										{# TODO: Remember to add an exporting mechanism and data source to this directive #}
-									</span>
+									<search timeout="750" query="search_subjects" size="sm">{% verbatim %}
+										<div class="container-fluid">
+											<span class="col-xs-3"><kbd class="subject-tag">{{ entry.code }}</kbd></span>
+											<span class="col-xs-8"><strong>{{ entry.name }}</strong></span>
+										</div>{% endverbatim %}
+									</search>
 								</div>
 							</nav>
-							<section class="panel-body">
-								<div class="col-md-10 col-md-offset-1">
+							<section class="panel-body ng-cloak">
+								<div class="col-md-10 col-md-offset-1" ng-if="rheactrl.subjects.length > 0">
 									<ul class="list-group">
-										<li class="list-group-item">
-											<div class="container-fluid">
-												<span class="col-xs-3 form-control-static"><kbd class="subject-tag">TI2011</kbd></span>
-												<span class="col-xs-8 form-control-static"><strong>Evaluación y Administración de Proyectos</strong></span>
+										<li class="list-group-item" ng-repeat="subject in rheactrl.subjects">
+											<div class="container-fluid">{% verbatim %}
+												<span class="col-xs-3 form-control-static"><kbd class="subject-tag">{{ subject.code | uppercase }}</kbd></span>
+												<span class="col-xs-8 form-control-static"><strong>{{ subject.name }}</strong></span>
 												<span class="pull-right form-control-static">
-													<a class="close" style="color: #333333">&times;</a>
-												</span>
+													<a class="close" style="color: #333333" ng-click="rheactrl.remove($index)">&times;</a>
+												</span>{% endverbatim %}
 												<hr class="col-xs-12" style="margin-left: -15px; margin-top: 5px" />
-												<div class="col-xs-12">
-													{# TODO: We must add here a list of all dependencies to this subject #}
+												<div class="col-xs-12" style="padding: 0">
+													<ul class="list-unstyled">
+														<li class="col-xs-6 col-md-4 form-group" ng-repeat="entry in subject.requirements">
+															{% render_field dependencies.empty_form.dependency id='' name='deps-{{ $index }}-dependency' value='{{ subject.id }}' %}
+															<span class="input-group">
+																{% render_field dependencies.empty_form.dependent id='' name='deps-{{ $index }}-dependent' class='form-control' ng-model='entry.requirement' %}
+																<span class="input-group-addon">
+																	<a type="button" class="close" style="color: #333333" ng-click="rheactrl.remove_requirement(subject, $index)">&times;</a>
+																</span>
+															</span>
+														</li>
+														<li class="col-xs-12" style="margin-bottom: 10px">
+															<span class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+																<a class="btn btn-block btn-shadow" ng-click="rheactrl.add_requirement(subject)"><i class="glyphicon glyphicon-plus-sign"></i> Add requirement</a>
+															</span>
+														</li>
+													</ul>
 												</div>
 											</div>
 										</li>
 									</ul>
 								</div>
+								<div class="col-md-10 col-md-offset-1" ng-if="rheactrl.subjects.length === 0">
+									<p class="text-center">
+										<i class="glyphicon glyphicon-education" style="font-size: 64pt"></i><br /><br />
+										There are no subjects in this academic program yet.
+									</p>
+								</div>
 							</section>
 						</div>
+					</div>
+				</section>
+				<section class="row" style="margin-bottom: 74px">
+					<div class="col-sm-4 col-sm-offset-4 text-center">
+						<button type="submit" class="btn btn-success" style="width: 128px"><i class="glyphicon glyphicon-send pull-left"></i> Submit</button>
 					</div>
 				</section>
 			</form>

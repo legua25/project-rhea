@@ -2,15 +2,18 @@
 from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 from app.rhea.models import AcademicProgram, Subject, Dependency
+from django.core.urlresolvers import reverse
 from django.core.validators import *
 from django.forms import *
 
 __all__ = [
 	'ProgramForm',
-	'SubjectForm'
+	'SubjectForm',
+	'DependencyForm',
+	'DependencyFormSet'
 ]
 
-class ProgramForm(Form):
+class ProgramForm(ModelForm):
 
 	acronym = CharField(
 		max_length = 8,
@@ -34,32 +37,11 @@ class ProgramForm(Form):
 		widget = Textarea(attrs = { 'style': 'resize: none', 'placeholder': _('Brief description of the program') })
 	)
 
-	_instance = None
+	class Meta(object):
 
-	def clean(self):
-
-		data = self.cleaned_data
-
-		# Gather the program instance data
-		acronym = data['acronym'].upper()
-		name = data['name']
-		description = data['description']
-
-		# Create the instance
-		self._instance = AcademicProgram(
-			acronym = acronym,
-			name = name,
-			description = description
-		)
-	def save(self, using = None):
-
-		if self._instance is not None:
-			self._instance.save(using = using)
-
-		return self._instance
-
-
-class SubjectForm(Form):
+		model = AcademicProgram
+		fields = [ 'acronym', 'name', 'description' ]
+class SubjectForm(ModelForm):
 
 	code = SlugField(
 		max_length = 8,
@@ -75,3 +57,38 @@ class SubjectForm(Form):
 		required = True,
 		widget = TextInput(attrs = { 'placeholder': 'Subject Name' })
 	)
+
+	class Meta(object):
+
+		model = Subject
+		fields = [ 'code', 'name' ]
+
+class DependencyForm(ModelForm):
+
+	dependency = ModelChoiceField(
+		queryset = Subject.objects.active(),
+		required = True,
+		widget = HiddenInput()
+	)
+	dependent = ModelChoiceField(
+		queryset = Subject.objects.active(),
+		empty_label = None,
+		required = False
+	)
+
+	def clean(self):
+
+		data = self.cleaned_data
+		dependency = data['dependency']
+		dependent = data['dependent']
+
+		if dependent is not None:
+			if dependency.id == dependent.id:
+				raise ValidationError('Dependency cannot refer to itself')
+
+	class Meta(object):
+
+		model = Dependency
+		fields = [ 'dependency', 'dependent' ]
+
+DependencyFormSet = formset_factory(DependencyForm, extra = 0)

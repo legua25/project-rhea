@@ -53,6 +53,7 @@ class Subject(Model):
 		max_length = 8,
 		allow_unicode = False,
 		db_index = True,
+		unique = True,
 		verbose_name = _('subject code')
 	)
 	name = CharField(
@@ -93,6 +94,8 @@ class Subject(Model):
 			# We fall through without coincidences - this is a fail
 			else: return False
 	def dependency_of(self, dependent): return dependent.depends_on(self)
+
+	def __str__(self): return ('(%s) %s' % (self.code, self.name)).encode('utf-8')
 
 	class Meta(object):
 		verbose_name = _('subject')
