@@ -19,6 +19,24 @@ module.exports = function search() {
 		search.$$handle = element.find('.dropdown');
 		search.$$target = element.find('ul.dropdown-menu');
 		search.$$template = $transclude;
+
+		const input = element.find('input[type=search]');
+		input.blur(function () {
+
+			setTimeout(function () {
+
+				search.$$handle.removeClass('open');
+				search.$$target.empty();
+				search.$results.splice(0, search.$results.length);
+			}, 150);
+		});
+		input.focus(function () {
+
+			if (search.$results.length > 0)
+				search.$$handle.addClass('open');
+			else if (search.$query.length > 1)
+				search.resolve(search.$query);
+		});
 	};
 	function controller($scope, $compile) {
 
@@ -33,7 +51,13 @@ module.exports = function search() {
 		this.resolve = function resolve() {
 
 			const query = this.$query;
-			if (query.length !== 0) {
+
+			// Clear the result list
+			this.$$target.empty();
+			this.$$handle.removeClass('open');
+			this.$results.splice(0, this.$results.length);
+
+			if (query.length > 1) {
 
 				// If there's a search underway, we must wait
 				if ($lock === true) setTimeout(resolve.bind(this), timeout);
@@ -42,10 +66,6 @@ module.exports = function search() {
 					// Mark the search as in-progress and resolve
 					$lock = true;
 					setTimeout(function process() {
-
-						// Clear the result list
-						this.$$target.empty();
-						this.$results.splice(0, this.$results.length);
 
 						// Request the new content from the query function
 						$scope.query()(query, timeout, max_results).then(function (data) {
@@ -64,7 +84,7 @@ module.exports = function search() {
 
 									this.$$template(scope, function (element) {
 
-										const item = $compile($(`<li><a href="#" ng-click="search.select(${i})"></a></li>`))($scope);
+										const item = $compile($(`<li><a ng-click="search.select(${i})" style="cursor: pointer"></a></li>`))($scope);
 										item.find('a').append(element);
 
 										this.$$target.prepend(item);
@@ -84,9 +104,10 @@ module.exports = function search() {
 		this.select = function select(index) {
 
 			const entry = this.$results[index];
-			$scope.$emit('entry-selected', {
+			$scope.$emit('result', {
 				'index': index,
-				'entry': entry
+				'entry': entry,
+				'name': $scope.name
 			});
 
 			this.$$handle.removeClass('open');
@@ -102,7 +123,8 @@ module.exports = function search() {
 			'timeout': '@',
 			'query': '&',
 			'maxResults': '@',
-			'size': '@'
+			'size': '@',
+			'name': '@'
 		},
 		'controllerAs': 'search',
 		'template': template,

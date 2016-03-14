@@ -2,30 +2,22 @@
 from __future__ import unicode_literals
 from django.shortcuts import render_to_response, redirect, RequestContext
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from app.rhea.forms import ProgramForm, SubjectForm, DependencyFormSet
-from app.rhea.decorators import ajax_required, role_required
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.contrib.auth.decorators import login_required
+from app.rhea.forms import ProgramForm, DependencyFormSet
 from django.views.decorators.csrf import csrf_protect
-from app.rhea.models import AcademicProgram, Subject
 from django.utils.decorators import method_decorator
-from django.core.urlresolvers import reverse_lazy
-from django.contrib.auth import get_user_model
+from app.rhea.decorators import role_required
+from django.http import HttpResponseNotFound
+from app.rhea.models import AcademicProgram
 from django.views.generic import View
 from django.http import JsonResponse
-from django.db.models import Q
 
-User = get_user_model()
-
-class ManagementView(View):
-
-	@method_decorator(login_required)
-	@method_decorator(role_required('administrator'))
-	def get(self, request):
-
-		# TODO: This is the lamest settings panel in history - add something here!
-		site = 'management:main'
-		return render_to_response('rhea/management/index.html', context = RequestContext(request, locals()))
-main = ManagementView.as_view()
+__all__ = [
+	'program_list',
+	'program_create',
+	'program_edit'
+]
 
 
 class ProgramListView(View):
@@ -41,7 +33,7 @@ class ProgramListView(View):
 
 				page = request.GET.get('page', 1)
 				size = request.GET.get('size', 10)
-				query = AcademicProgram.objects.active().order_by('-name')
+				query = AcademicProgram.objects.active().order_by('name')
 
 				# Paginate the data - we will fetch it by parts using AJAX
 				paginator = Paginator(query, size)
@@ -65,6 +57,7 @@ class ProgramListView(View):
 						'count': query.count(),
 						'entries': [ {
 							'id': p.id,
+							'url': reverse('management:curricula:edit', kwargs = { 'id': p.id }),
 							'acronym': p.acronym,
 							'name': p.name,
 							'description': p.description,
@@ -85,7 +78,6 @@ class ProgramCreateView(View):
 	def get(self, request):
 
 		program = ProgramForm()
-		dependencies = DependencyFormSet(prefix = 'deps')
 
 		site = 'management:main'
 		return render_to_response('rhea/management/curricula/create.html', context = RequestContext(request, locals()))
@@ -95,63 +87,60 @@ class ProgramCreateView(View):
 	def post(self, request):
 
 		program = ProgramForm(request.POST)
-		dependencies = DependencyFormSet(request.POST, prefix = 'deps')
 
-		if program.is_valid() and dependencies.is_valid():
-			pass
+		# Validate the forms - both of them
+		if program.is_valid():
 
-		print program
+			# Save the program and return the user to the "same" page, except we're now editing the program, not creating it
+			program.save()
+			instance = program.instance
+
+			return redirect(reverse_lazy('management:curricula:edit', kwargs = { 'id': instance.id }))
+
 		site = 'management:main'
 		return render_to_response('rhea/management/curricula/create.html', context = RequestContext(request, locals()))
 program_create = ProgramCreateView.as_view()
 
-class SubjectListView(View):
+class ProgramEditView(View):
 
 	@method_decorator(login_required)
 	@method_decorator(role_required('administrator'))
-	def get(self, request):
+	def get(self, request, id = 0):
 
-		if request.is_ajax():
+		try: instance = AcademicProgram.objects.get(id = id)
+		except AcademicProgram.DoesNotExist: return HttpResponseNotFound()
+		else:
 
-			@csrf_protect
-			def ajax(request, page, size, term):
-
-				query = Subject.objects.active()
-				if term is not False:
-					query = query.filter(Q(name__icontains = term) | Q(code__icontains = term))
-
-				query = query.order_by('-name', '-code')
-
-				# Paginate the data - we will fetch it by parts using AJAX
-				paginator = Paginator(query, size)
-
-				try: subjects = paginator.page(page)
-				except EmptyPage: subjects = paginator.page(paginator.num_pages)
-				except PageNotAnInteger: subjects = paginator.page(1)
-
-				# Serialize the response and send it through
-				return JsonResponse({
-					'version': '0.1.0',
-					'status': 200,
-					'subjects': {
-						'meta': {
-							'current': page,
-							'prev': subjects.previous_page_number() if subjects.has_previous() else False,
-							'next': subjects.next_page_number() if subjects.has_next() else False,
-							'size': size,
-							'total': paginator.num_pages
-						},
-						'count': query.count(),
-						'entries': [ {
-							'id': s.id,
-							'code': s.code,
-							'name': s.name
-						} for s in subjects ]
-					}
-				})
-			return ajax(request, request.GET.get('page', 1), request.GET.get('size', 10), request.GET.get('q', False))
-
-		# TODO: Add the actual view here
+			program = ProgramForm(instance = instance)
+			dependencies = DependencyFormSet(queryset = instance.subjects, prefix = 'deps')
 
 		site = 'management:main'
-subject_list = SubjectListView.as_view()
+		return render_to_response('rhea/management/curricula/edit.html', context = RequestContext(request, locals()))
+	@method_decorator(login_required)
+	@method_decorator(role_required('administrator'))
+	@method_decorator(csrf_protect)
+	def post(self, request, id = 0):
+
+		try: instance = AcademicProgram.objects.get(id = id)
+		except AcademicProgram.DoesNotExist: return HttpResponseNotFound()
+		else:
+
+			program = ProgramForm(request.POST, instance = instance)
+			dependencies = DependencyFormSet(request.POST, queryset = instance.subjects, prefix = 'deps')
+
+		# Validate the forms - both of them
+		if program.is_valid() and dependencies.is_valid():
+
+			# For each subform, perform data corrections and knit everything together
+			_program = program.instance
+			for form in dependencies:
+
+				pass
+			1/0
+
+			# Once saved, we return to the main list
+			return redirect(reverse_lazy('management:curricula:list'))
+
+		site = 'management:main'
+		return render_to_response('rhea/management/curricula/edit.html', context = RequestContext(request, locals()))
+program_edit = ProgramEditView.as_view()

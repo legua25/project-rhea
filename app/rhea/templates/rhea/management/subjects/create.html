@@ -1,0 +1,105 @@
+{% extends 'base/navigation.html' %}
+{% load widget_tweaks %}
+
+{% block title %}{% if instance %}Edit Subject "{{ instance.code }}"{% else %}Create new Subject{% endif %} | Project "Rhea"{% endblock title %}
+		{% block js %}
+			System.import('rhea/manage/subject_create.js');{% endblock js %}
+
+		{% block content %}
+			<form action="{% if instance %}{% url 'management:subjects:edit' id=instance.id %}{% else %}{% url 'management:subjects:create' %}{% endif %}" method="post" ng-controller="Rhea as rheactrl" ng-init="rheactrl.preload('{{ deps | safe | escapejs }}')">
+				{% csrf_token %}
+				<section class="row">
+					<div class="col-xs-12">
+						<div class="panel panel-primary">
+							<header class="panel-heading">
+								<h4><i class="glyphicon glyphicon-blackboard"></i> Create new Subject</h4>
+							</header>
+							<section class="panel-body">
+								<div class="col-md-10 col-md-offset-1 ng-cloak">
+									<ul class="list-group">
+										<li class="list-group-item">
+											<div class="input-group{% if subject.name.errors %} has-error{% endif %}"{% if subject.name.errors %} ng-class="{ true: 'has-error' }[data.name === undefined]"{% endif %}>
+												<span class="input-group-addon" ng-if="!data.name || data.name === undefined">
+													<i class="glyphicon glyphicon-asterisk"></i>
+												</span>
+												<span class="input-group-addon" style="color: #FF9312" ng-if="data.name && data.name.length <= 4">
+													<i class="glyphicon glyphicon-alert"></i>
+												</span>
+												<span class="input-group-addon" style="color: #4D9A22" ng-if="data.name && data.name.length > 4">
+													<i class="glyphicon glyphicon-ok"></i>
+												</span>
+												{% render_field subject.name class='form-control' ng-model='data.name' ng-initial='' %}
+											</div>
+										</li>
+										<li class="list-group-item">
+											<div class="input-group{% if subject.code.errors %} has-error{% endif %}"{% if subject.code.errors %} ng-class="{ true: 'has-error' }[data.code === undefined]"{% endif %}>
+												<span class="input-group-addon" ng-if="!data.code || data.code === undefined">
+													<i class="glyphicon glyphicon-asterisk"></i>
+												</span>
+												<span class="input-group-addon" style="color: #FF9312" ng-if="data.code && data.code.length <= 4">
+													<i class="glyphicon glyphicon-alert"></i>
+												</span>
+												<span class="input-group-addon" style="color: #4D9A22" ng-if="data.code && data.code.length > 4">
+													<i class="glyphicon glyphicon-ok"></i>
+												</span>
+												{% render_field subject.code class='form-control' ng-model='data.code' ng-initial='' %}
+											</div>
+										</li>
+									</ul>
+								</div>
+							</section>
+						</div>
+					</div>
+				</section>
+				{% verbatim %}<input name="deps-TOTAL_FORMS" type="hidden" value="{{ rheactrl.$count }}" />{% endverbatim %}
+				<input name="deps-INITIAL_FORMS" type="hidden" value="0" />
+				<input name="deps-MIN_NUM_FORMS" type="hidden" value="0" />
+				<input name="deps-MAX_NUM_FORMS" type="hidden" value="1000" />
+				<section class="row">
+					<div class="col-xs-12">
+						<div class="panel panel-inverse">
+							<header class="panel-heading"><h4>Requirements</h4></header>
+							<nav class="panel-nav">
+								<div class="col-md-10 col-md-offset-1">
+									<search timeout="750" query="search_subjects" size="sm" name="subjects">{% verbatim %}
+										<div class="container-fluid">
+											<span class="col-xs-3"><kbd class="subject-tag">{{ entry.code }}</kbd></span>
+											<span class="col-xs-8"><strong>{{ entry.name }}</strong></span>
+										</div>{% endverbatim %}
+									</search>
+								</div>
+							</nav>
+							<section class="panel-body ng-cloak">
+								<div class="col-md-10 col-md-offset-1" ng-if="rheactrl.requirements.length > 0">
+									<ul class="list-group">{% with dependencies.empty_form.program as program %}
+										<li class="list-group-item" ng-repeat="req in rheactrl.requirements">{% verbatim %}
+											<div class="container-fluid">
+												<span class="pull-right form-control-static">
+													<a ng-click="rheactrl.remove($index)" class="close" style="color: #333333; cursor: pointer">&times;</a>
+												</span>
+												<span class="col-xs-3 form-control-static"><kbd class="subject-tag">{{ req.code }}</kbd></span>
+												<span class="col-xs-4 form-control-static">{{ req.name }}</span>
+												<span class="col-xs-4">{% endverbatim %}
+													{% render_field program id='' name='deps-{{ $index }}-program' class='form-control' ng-model='req.program' ng-value='req.program' %}
+												</span>
+											</div>
+										</li>
+									{% endwith %}</ul>
+								</div>
+								<div class="col-md-10 col-md-offset-1" ng-if="rheactrl.requirements.length === 0">
+									<p class="text-center">
+										<i class="glyphicon glyphicon-education" style="font-size: 64pt"></i><br /><br />
+										There are no requirements for this subject yet.
+									</p>
+								</div>
+							</section>
+						</div>
+					</div>
+				</section>
+				<section class="row" style="margin-bottom: 74px">
+					<div class="col-sm-4 col-sm-offset-4 text-center">
+						<button type="submit" class="btn btn-success" style="width: 128px"><i class="glyphicon glyphicon-send pull-left"></i> Submit</button>
+					</div>
+				</section>
+			</form>
+		{% endblock content %}

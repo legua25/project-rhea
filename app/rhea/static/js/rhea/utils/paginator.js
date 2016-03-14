@@ -16,7 +16,8 @@ module.exports = class Paginator {
 			'has_previous': { 'configurable': false, get() { return !!this.$prev; } },
 			'has_next': { 'configurable': false, get() { return !!this.$next; } },
 			'page': { 'configurable': false, get() { return this.$page } },
-			'entries': { 'configurable': false, get() { return this.$data; } }
+			'entries': { 'configurable': false, get() { return this.$data; } },
+			'length': { 'configurable': false, get() { return this.$data.length; } }
 		});
 	}
 

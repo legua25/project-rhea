@@ -35,9 +35,11 @@ class AcademicProgram(Model):
 	)
 
 	@cached_property
-	def subjects(self): return self._subjects.all()
+	def subjects(self): return Subject.objects.active(id__in = self.subject_graph.values_list('id', flat = True))
 
 	objects = AcademicProgramManager()
+
+	def __str__(self): return ('(%s) %s' % (self.acronym, self.name)).encode('utf-8')
 
 	class Meta(object):
 		db_table = 'rhea_programs'
@@ -62,18 +64,6 @@ class Subject(Model):
 		blank = False,
 		verbose_name = _('subject name')
 	)
-	dependencies = ManyToManyField('self',
-		through = 'rhea.Dependency',
-		through_fields = [ 'dependency', 'dependent' ],
-		symmetrical = False,
-		related_name = 'dependents',
-		related_query_name = 'deps',
-		verbose_name = _('dependencies')
-	)
-	program = ForeignKey('rhea.AcademicProgram',
-        related_name = '_subjects',
-        verbose_name = _('academic program')
-    )
 
 	objects = SubjectManager()
 
@@ -82,8 +72,8 @@ class Subject(Model):
 		# A simple assertion to check we're getting the right type here
 		assert isinstance(dependency, Subject)
 
-		# Linear dependency is the simplest - if it is a direct dependency and programs are the same, it's a match
-		if dependency in self.dependencies and self.program_id == dependency.program_id: return True
+		# Linear dependency is the simplest - if it is a direct dependency, it's a match
+		if dependency in self.dependencies: return True
 		else:
 
 			# Indirect dependency is a little bit harder...
@@ -106,13 +96,19 @@ class DependencyManager(ActiveManager): pass
 class Dependency(Model):
 
 	dependency = ForeignKey('rhea.Subject',
-		related_name = '_dependents',
+		related_name = 'dependents',
 		verbose_name = _('dependency')
 	)
 	dependent = ForeignKey('rhea.Subject',
-		related_name = '_dependencies',
+		related_name = 'dependencies',
 		verbose_name = _('dependent')
 	)
+	program = ForeignKey('rhea.AcademicProgram',
+        related_name = 'subject_graph',
+        related_query_name = 'graph',
+        null = True,
+        verbose_name = _('academic program')
+    )
 
 	objects = DependencyManager()
 

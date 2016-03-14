@@ -31,6 +31,23 @@ Promise.all(requirements).then(function (modules) {
 				return response.data['programs'];
 			});
 		});
+		this.subjects = new Paginator(function (page, size) {
+
+			// Django (per our security settings) requires all views to be identified as AJAX and given the CSRF token
+			const request = $http.get(`/manage/subjects/`, {
+				'params': { 'page': (page || 1), 'size': (size || 10) },
+				'headers': {
+					'X-CSRFToken': $cookies.get('csrftoken'),
+					'X-Requested-With': 'XMLHttpRequest'
+				}
+			});
+
+			return request.then(function (response) {
+
+				// Extract the response payload for the paginator to handle
+				return response.data['subjects'];
+			});
+		});
 	});
 
 	$(document).ready(function () {

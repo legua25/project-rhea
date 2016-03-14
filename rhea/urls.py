@@ -51,12 +51,15 @@ urlpatterns = [
 		url(r'^programs/', include ([
 
 			url(r'^$', rhea.manage.program_list, name = 'list'),
-			url(r'^create/$', rhea.manage.program_create, name = 'create')
+			url(r'^create/$', rhea.manage.program_create, name = 'create'),
+			url(r'^(?P<id>[\d]+)/$', rhea.manage.program_edit, name = 'edit')
 
 		], namespace = 'curricula')),
 		url(r'^subjects/', include([
 
-			url(r'^$', rhea.manage.subject_list, name = 'list')
+			url(r'^$', rhea.manage.subject_list, name = 'list'),
+			url(r'^create/$', rhea.manage.subject_create, name = 'create'),
+			url(r'^(?P<id>[\d]+)/$', rhea.manage.subject_edit, name = 'edit')
 
 		], namespace = 'subjects'))
 

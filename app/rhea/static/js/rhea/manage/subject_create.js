@@ -34,7 +34,7 @@ Promise.all(requirements).then(function (modules) {
 	// Controllers
 	rhea.controller('Rhea', function RheaController($scope, $http, $cookies) {
 
-		// Search function (required by <search> directive)
+		// Search function
 		$scope.search_subjects = function search_subjects(query, timeout, max_results) {
 
 			const request = $http.get(`/manage/subjects/`, {
@@ -52,69 +52,27 @@ Promise.all(requirements).then(function (modules) {
 				return data['subjects']['entries'];
 			}).catch(function () { return []; });
 		};
-		$scope.search_dependencies = function search_dependencies(subject) {
-			return function $search_dependencies(query, timeout, max_results) {
-
-				const request = $http.get(`/manage/subjects/`, {
-					'params': { 'q': query, 'size': max_results },
-					'headers': {
-						'X-CSRFToken': $cookies.get('csrftoken'),
-						'X-Requested-With': 'XMLHttpRequest'
-					},
-					'timeout': timeout
-				});
-
-				return request.then(function (response) {
-
-					const data = response.data;
-					return data['subjects']['entries'].map(function (entry) {
-
-						entry.subject = subject;
-						return entry;
-					});
-				}).catch(function () { return []; });
-			};
-		};
-
-		// Event callbacks
-		this.subjects = [];
+		// Search result listener
 		$scope.$on('result', function (e, data) {
 
 			const entry = data.entry;
-			const name = data.name;
 
-			switch (name) {
-				case 'dependencies':
-
-					const subject = entry.subject;
-					if (subject.requirements.find(function (e) { return (e.code === entry.code && e.code !== subject.code); }) === undefined)
-						subject.requirements.push(entry);
-
-					break;
-				case 'subjects':
-
-					if (this.subjects.find(function (e) { return (e.code === entry.code); }) === undefined) {
-
-						entry.requirements = [];
-						this.subjects.push(entry);
-
-						this.$count++;
-					}
-
-					break;
-			}
+			// We only filter for ourselves to prevent creating recursive dependencies
+			// This is so because a subject may be a dependency for another in different programs
+			if (this.requirements.find(function (e) { return (e.code === $scope.data.code); }) === undefined)
+				this.requirements.push(entry);
 		}.bind(this));
 
 		// Properties
-		this.$count = 0;
+		this.requirements = [];
+		Object.defineProperty(this, '$count', {
+			'configurable': false,
+			get() { return this.requirements.length; }
+		});
 
 		// Methods
-		this.remove = function remove(index) {
-
-			this.subjects.splice(index, 1);
-			this.$count--;
-		};
-		this.remove_requirement = function remove_requirement(entry, index) { entry.requirements.splice(index, 1); };
+		this.preload = function preload(data) { this.requirements = JSON.parse(data); };
+		this.remove = function remove(index) { this.requirements.splice(index, 1); };
 	});
 
 

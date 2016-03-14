@@ -14,6 +14,7 @@ __all__ = [
 ]
 
 class ProgramForm(ModelForm):
+	""" Allows a single academic program to be created or edited """
 
 	acronym = CharField(
 		max_length = 8,
@@ -41,7 +42,9 @@ class ProgramForm(ModelForm):
 
 		model = AcademicProgram
 		fields = [ 'acronym', 'name', 'description' ]
+
 class SubjectForm(ModelForm):
+	""" Allows a single subject to be created """
 
 	code = SlugField(
 		max_length = 8,
@@ -57,38 +60,26 @@ class SubjectForm(ModelForm):
 		required = True,
 		widget = TextInput(attrs = { 'placeholder': 'Subject Name' })
 	)
-
 	class Meta(object):
 
 		model = Subject
 		fields = [ 'code', 'name' ]
-
 class DependencyForm(ModelForm):
+	""" Allows the dependencies of an existing subject to be edited """
 
-	dependency = ModelChoiceField(
+	dependencies = ModelMultipleChoiceField(
 		queryset = Subject.objects.active(),
-		required = True,
-		widget = HiddenInput()
+		required = False,
+		widget = CheckboxSelectMultiple()
 	)
-	dependent = ModelChoiceField(
-		queryset = Subject.objects.active(),
-		empty_label = None,
-		required = False
+	program = ModelChoiceField(
+		queryset = AcademicProgram.objects.active(),
+		required = True
 	)
-
-	def clean(self):
-
-		data = self.cleaned_data
-		dependency = data['dependency']
-		dependent = data['dependent']
-
-		if dependent is not None:
-			if dependency.id == dependent.id:
-				raise ValidationError('Dependency cannot refer to itself')
 
 	class Meta(object):
 
-		model = Dependency
-		fields = [ 'dependency', 'dependent' ]
+		model = Subject
+		fields = [ 'dependencies' ]
 
-DependencyFormSet = formset_factory(DependencyForm, extra = 0)
+DependencyFormSet = modelformset_factory(Subject, form = DependencyForm, extra = 0)
