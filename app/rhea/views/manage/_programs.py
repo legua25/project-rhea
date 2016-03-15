@@ -112,7 +112,6 @@ class ProgramEditView(View):
 		else:
 
 			program = ProgramForm(instance = instance)
-			dependencies = DependencyFormSet(queryset = instance.subjects, prefix = 'deps')
 
 		site = 'management:main'
 		return render_to_response('rhea/management/curricula/edit.html', context = RequestContext(request, locals()))
@@ -126,19 +125,12 @@ class ProgramEditView(View):
 		else:
 
 			program = ProgramForm(request.POST, instance = instance)
-			dependencies = DependencyFormSet(request.POST, queryset = instance.subjects, prefix = 'deps')
 
 		# Validate the forms - both of them
-		if program.is_valid() and dependencies.is_valid():
+		if program.is_valid():
 
-			# For each subform, perform data corrections and knit everything together
-			_program = program.instance
-			for form in dependencies:
-
-				pass
-			1/0
-
-			# Once saved, we return to the main list
+			# Save the program changes
+			program.save()
 			return redirect(reverse_lazy('management:curricula:list'))
 
 		site = 'management:main'

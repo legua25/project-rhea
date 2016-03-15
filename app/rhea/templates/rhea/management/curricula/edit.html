@@ -12,7 +12,7 @@
 					<div class="col-xs-12">
 						<div class="panel panel-primary">
 							<header class="panel-heading">
-								<h4><i class="glyphicon glyphicon-briefcase"></i> Create new Academic Program</h4>
+								<h4><i class="glyphicon glyphicon-briefcase"></i> Edit Academic Program "{{ instance.acronym }}"</h4>
 							</header>
 							<section class="panel-body">
 								<div class="col-md-10 col-md-offset-1 ng-cloak">
@@ -49,80 +49,6 @@
 											{% render_field program.description class='form-control' rows='3' %}
 										</li>
 									</ul>
-								</div>
-							</section>
-						</div>
-					</div>
-				</section>
-				{% verbatim %}<input name="deps-TOTAL_FORMS" type="hidden" value="{{ rheactrl.$count }}" />{% endverbatim %}
-				<input name="deps-INITIAL_FORMS" type="hidden" value="0" />
-				<input name="deps-MIN_NUM_FORMS" type="hidden" value="0" />
-				<input name="deps-MAX_NUM_FORMS" type="hidden" value="1000" />
-				<section class="row">
-					<div class="col-xs-12">
-						<div class="panel panel-inverse">
-							<header class="panel-heading">
-								<span class="pull-right">
-									<button type="button" class="btn btn-primary" title="Add new subject&hellip;"><i class="glyphicon glyphicon-plus-sign"></i> Create subject</button>
-								</span>
-								<h4>Subjects in Program</h4>
-							</header>
-							<nav class="panel-nav">
-								<div class="col-md-10 col-md-offset-1">
-									<search timeout="750" query="search_subjects" size="sm" name="subjects">{% verbatim %}
-										<div class="container-fluid">
-											<span class="col-xs-3"><kbd class="subject-tag">{{ entry.code }}</kbd></span>
-											<span class="col-xs-8"><strong>{{ entry.name }}</strong></span>
-										</div>{% endverbatim %}
-									</search>
-								</div>
-							</nav>
-							<section class="panel-body ng-cloak">
-								<div class="col-md-10 col-md-offset-1" ng-if="rheactrl.subjects.length > 0">
-									<ul class="list-group">
-										<li class="list-group-item" ng-repeat="subject in rheactrl.subjects">
-											<div class="container-fluid">{% verbatim %}
-												<a data-toggle="collapse" data-target="#{{ subject.code }}" style="cursor: pointer">
-													<span class="col-xs-3 form-control-static"><kbd class="subject-tag">{{ subject.code | uppercase }}</kbd></span>
-													<span class="col-xs-8 form-control-static"><strong>{{ subject.name }}</strong></span>
-												</a>
-												<span class="pull-right form-control-static">
-													<a class="close" style="color: #333333" ng-click="rheactrl.remove($index)">&times;</a>
-												</span>
-												<div class="col-xs-12 collapse fade in" style="padding: 0" id="{{ subject.code }}">{% endverbatim %}
-													<hr class="col-xs-12" style="margin-left: -15px; margin-top: 5px" />{% with dependencies.empty_form as form %}
-													{% render_field form.id id='' name='deps-{{ $index }}-id' value='{{ subject.id }}' ng-initial='' %}
-													<search timeout="750" query="search_dependencies(subject)" name="dependencies" placeholder="Add requirements&hellip;">{% verbatim %}
-														<div class="container-fluid">
-															<span class="col-xs-3"><kbd class="subject-tag">{{ entry.code }}</kbd></span>
-															<span class="col-xs-8"><strong>{{ entry.name }}</strong></span>
-															<i class="glyphicon glyphicon-plus pull-right"></i>
-														</div>{% endverbatim %}
-													</search>
-													<ul class="list-group" style="margin-top: 25px">
-														<li class="list-group-item col-xs-6 col-md-4 form-group" ng-repeat="entry in subject.requirements">{% verbatim %}
-															<input name="deps-{{ $parent.$index }}-dependencies" type="hidden" value="{{ entry.id }}" />
-															<p class="container-fluid" style="padding: 0; margin-bottom: 15px">
-																<span class="col-xs-12" style="margin-bottom: 10px"><kbd class="subject-tag">{{ entry.code }}</kbd></span>
-																<span class="col-xs-12 text-justify">{{ entry.name }}</span>
-															</p>
-															<span class="col-xs-12">
-																<a class="btn btn-block btn-inverse" ng-click="rheactrl.remove_requirement(subject, $index)">
-																	<i class="glyphicon glyphicon- pull-left"></i> Remove
-																</a>
-															</span>
-														</li>{% endverbatim %}
-													</ul>{% endwith %}
-												</div>
-											</div>
-										</li>
-									</ul>
-								</div>
-								<div class="col-md-10 col-md-offset-1" ng-if="rheactrl.subjects.length === 0">
-									<p class="text-center">
-										<i class="glyphicon glyphicon-education" style="font-size: 64pt"></i><br /><br />
-										There are no subjects in this academic program yet.
-									</p>
 								</div>
 							</section>
 						</div>

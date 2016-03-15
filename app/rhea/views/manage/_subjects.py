@@ -10,6 +10,7 @@ from app.rhea.forms import SubjectForm, DependencyFormSet
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 from django.contrib.auth import get_user_model
+from django.db.transaction import atomic
 from app.rhea.models import Dependency
 from django.views.generic import View
 from app.rhea.models import Subject
@@ -81,7 +82,7 @@ class SubjectCreateView(View):
 	def get(self, request):
 
 		subject = SubjectForm()
-		dependencies = DependencyFormSet(queryset = Subject.objects.active(), prefix = 'deps')
+		dependencies = DependencyFormSet(prefix = 'deps')
 
 		site = 'management:main'
 		return render_to_response('rhea/management/subjects/create.html', context = RequestContext(request, locals()))
@@ -91,27 +92,22 @@ class SubjectCreateView(View):
 	def post(self, request):
 
 		subject = SubjectForm(request.POST)
-		dependencies = DependencyFormSet(request.POST, queryset = Subject.objects.active(), prefix = 'deps')
+		dependencies = DependencyFormSet(request.POST, prefix = 'deps')
 
-		if subject.is_valid() and dependencies.is_valid():
+		if subject.is_valid():
 
 			# Save the subject first to generate the ID
 			subject.save()
-			subj = subject.instance
+			instance = subject.instance
 
-			# For each dependency, iterate to set the real value, then go on saving
-			for dependency in dependencies:
+			# For each dependency, add the subject and save the instances
+			if dependencies.is_valid():
 
-				dependency.save()
-				dep = dependency.instance
+				with atomic():
+					for dependency in dependencies:
+						dependency.save(subject = instance)
 
-				Dependency.objects.create(
-					dependency = dep,
-					dependent = subj,
-					program = dependency.cleaned_data['program']
-				)
-
-			return redirect(reverse_lazy('management:curricula:list'))
+				return redirect(reverse_lazy('management:curricula:list'))
 
 		site = 'management:main'
 		return render_to_response('rhea/management/subjects/create.html', context = RequestContext(request, locals()))
@@ -127,52 +123,74 @@ class SubjectEditView(View):
 		except Subject.DoesNotExist: return HttpResponseNotFound()
 		else:
 
-			# Get dependencies list
-			dependency_list = Subject.objects.active(id__in = instance.dependencies.all().values_list('id', flat = True))
+			# Get the dependency objects first
+			dependencies = Dependency.objects.active(dependent__id = id).select_related('program', 'dependency')
 
-			# Create forms
+			# If the request is AJAX, se must get the dependency graph and send it back
+			if request.is_ajax():
+
+				@ajax_required
+				def ajax(request, dependencies):
+
+					return JsonResponse({
+						'version': '0.1.0',
+						'status': 200,
+						'subject': { 'id': id, 'code': instance.code, 'name': instance.name },
+						'graph': [
+							{
+								'id': dep.dependency_id,
+								'code': dep.dependency.code,
+								'name': dep.dependency.name,
+								'program': dep.program_id
+							} for dep in dependencies
+						]
+					})
+				return ajax(request, dependencies)
+
+			# Instantiate the forms
 			subject = SubjectForm(instance = instance)
-			dependencies = DependencyFormSet(queryset = dependency_list, prefix = 'deps')
-
-			# Create the rastered list
-			deps = Dependency.objects.all().select_related('program')
-			deps = json.dumps([ {
-				'id': dep.id,
-				'code': dep.code,
-				'name': dep.name,
-				'program': deps.get(dependency = dep, dependent = instance).program_id
-			} for dep in dependency_list ])
+			dependencies = DependencyFormSet(prefix = 'deps', initial = [
+				{ 'subject': instance, 'dependency': dep.dependency, 'program': dep.program } for dep in dependencies
+			])
 
 			site = 'management:main'
-			return render_to_response('rhea/management/subjects/create.html', context = RequestContext(request, locals()))
+			return render_to_response('rhea/management/subjects/edit.html', context = RequestContext(request, locals()))
 	@method_decorator(login_required)
 	@method_decorator(role_required('administrator'))
 	@method_decorator(csrf_protect)
 	def post(self, request, id = 0):
 
-		subject = SubjectForm(request.POST)
-		dependencies = DependencyFormSet(request.POST, queryset = Subject.objects.active(), prefix = 'deps')
+		try: instance = Subject.objects.get(id = id)
+		except Subject.DoesNotExist: return HttpResponseNotFound()
+		else:
 
-		if subject.is_valid() and dependencies.is_valid():
+			# Get the dependency objects first
+			dependencies = Dependency.objects.active(dependent__id = id).select_related('program', 'dependency')
 
-			# Save the subject first to generate the ID
-			subject.save()
-			subj = subject.instance
+			# Instantiate the forms
+			subject = SubjectForm(request.POST, instance = instance)
+			dependencies = DependencyFormSet(request.POST, prefix = 'deps', initial = [
+				{ 'subject': instance, 'dependency': dep.dependency, 'program': dep.program } for dep in dependencies
+			])
 
-			# For each dependency, iterate to set the real value, then go on saving
-			for dependency in dependencies:
+			# Validate the subject first, then proceed with the dependencies
+			if subject.is_valid():
 
-				dependency.save()
-				dep = dependency.instance
+				subject.save()
+				instance = subject.instance
 
-				Dependency.objects.create(
-					dependency = dep,
-					dependent = subj,
-					program = dependency.cleaned_data['program']
-				)
+				# Clear all dependencies first
+				Dependency.objects.active(dependent__id = id).delete()
 
-			return redirect(reverse_lazy('management:curricula:list'))
+				# For each dependency, add the subject and save the instances
+				if dependencies.is_valid():
 
-		site = 'management:main'
-		return render_to_response('rhea/management/subjects/create.html', context = RequestContext(request, locals()))
+					with atomic():
+						for dependency in dependencies:
+							dependency.save(subject = instance)
+
+					return redirect(reverse_lazy('management:curricula:list'))
+
+			site = 'management:main'
+			return render_to_response('rhea/management/subjects/edit.html', context = RequestContext(request, locals()))
 subject_edit = SubjectEditView.as_view()

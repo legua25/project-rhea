@@ -1,18 +1,18 @@
 {% extends 'base/navigation.html' %}
 {% load widget_tweaks %}
 
-{% block title %}Create new Subject | Project "Rhea"{% endblock title %}
+{% block title %}Edit Subject "{{ instance.code }}" | Project "Rhea"{% endblock title %}
 		{% block js %}
 			System.import('rhea/manage/subject_create.js');{% endblock js %}
 
 		{% block content %}
-			<form action="{% url 'management:subjects:create' %}" method="post" ng-controller="Rhea as rheactrl">
+			<form action="{% url 'management:subjects:edit' id=instance.id %}" method="post" ng-controller="Rhea as rheactrl" ng-init="rheactrl.$load({{ id }})">
 				{% csrf_token %}
 				<section class="row">
 					<div class="col-xs-12">
 						<div class="panel panel-primary">
 							<header class="panel-heading">
-								<h4><i class="glyphicon glyphicon-blackboard"></i> Create new Subject</h4>
+								<h4><i class="glyphicon glyphicon-blackboard"></i> Edit Subject "{{ instance.code }}"</h4>
 							</header>
 							<section class="panel-body">
 								<div class="col-md-10 col-md-offset-1 ng-cloak">
@@ -32,7 +32,7 @@
 											</div>
 										</li>
 										<li class="list-group-item">
-											<div class="input-group"{% if subject.code.errors %} ng-class="{ true: 'has-error' }[data.code === undefined]"{% endif %}>
+											<div class="input-group{% if subject.code.errors %} has-error{% endif %}"{% if subject.code.errors %} ng-class="{ true: 'has-error' }[data.code === undefined]"{% endif %}>
 												<span class="input-group-addon" ng-if="!data.code || data.code === undefined">
 													<i class="glyphicon glyphicon-asterisk"></i>
 												</span>
@@ -73,6 +73,7 @@
 								<div class="col-md-10 col-md-offset-1" ng-if="rheactrl.requirements.length > 0">
 									<ul class="list-group">{% with dependencies.empty_form as dependency %}
 										<li class="list-group-item" ng-repeat="req in rheactrl.requirements">
+											{% render_field dependency.subject id='' name='deps-{{ rheactrl.$id }}-subject' ng-value=id %}
 											{% render_field dependency.dependency id='' name='deps-{{ $index }}-dependency' ng-value='req.id' %}{% verbatim %}
 											<div class="container-fluid">
 												<span class="pull-right form-control-static">
@@ -80,8 +81,10 @@
 												</span>
 												<span class="col-xs-3 form-control-static"><kbd class="subject-tag">{{ req.code }}</kbd></span>
 												<span class="col-xs-4 form-control-static">{{ req.name }}</span>
-												<span class="col-xs-4">{% endverbatim %}
-													{% render_field dependency.program id='' name='deps-{{ $index }}-program' class='form-control' ng-model='req.program' ng-value='req.program' %}
+												<span class="col-xs-4">
+													<select class="form-control" name="deps-{{ $index }}-program" ng-model="req.program">{% endverbatim %}{% for option, value in dependency.fields.program.choices %}
+														<option value="{{ option }}" ng-selected="{{ option }} == req.program">{{ value }}</option>{% endfor %}
+													</select>
 												</span>
 											</div>
 										</li>

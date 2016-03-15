@@ -64,6 +64,13 @@ class Subject(Model):
 		blank = False,
 		verbose_name = _('subject name')
 	)
+	dependencies = ManyToManyField('self',
+	    related_name = 'dependents',
+		through = 'rhea.Dependency',
+	    through_fields = [ 'dependent', 'dependency' ],
+		symmetrical = False,
+		verbose_name = _('dependencies')
+	)
 
 	objects = SubjectManager()
 
@@ -73,7 +80,7 @@ class Subject(Model):
 		assert isinstance(dependency, Subject)
 
 		# Linear dependency is the simplest - if it is a direct dependency, it's a match
-		if dependency in self.dependencies: return True
+		if dependency.id in self.dependencies.all().values_list('id', flat = True): return True
 		else:
 
 			# Indirect dependency is a little bit harder...
@@ -96,11 +103,11 @@ class DependencyManager(ActiveManager): pass
 class Dependency(Model):
 
 	dependency = ForeignKey('rhea.Subject',
-		related_name = 'dependents',
+		related_name = '+',
 		verbose_name = _('dependency')
 	)
 	dependent = ForeignKey('rhea.Subject',
-		related_name = 'dependencies',
+		related_name = '+',
 		verbose_name = _('dependent')
 	)
 	program = ForeignKey('rhea.AcademicProgram',

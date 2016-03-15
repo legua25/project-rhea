@@ -71,7 +71,23 @@ Promise.all(requirements).then(function (modules) {
 		});
 
 		// Methods
-		this.preload = function preload(data) { this.requirements = JSON.parse(data); };
+		this.$load = function $load(id) {
+
+			this.$id = id;
+			const request = $http.get(`/manage/subjects/${id}/`, {
+				'headers': {
+					'X-CSRFToken': $cookies.get('csrftoken'),
+					'X-Requested-With': 'XMLHttpRequest'
+				},
+				'timeout': 750
+			});
+
+			request.then(function (response) {
+
+				const data = response.data;
+				this.requirements = data['graph'];
+			}.bind(this));
+		};
 		this.remove = function remove(index) { this.requirements.splice(index, 1); };
 	});
 

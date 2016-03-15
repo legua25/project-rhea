@@ -56,7 +56,6 @@ class SubjectForm(ModelForm):
 	)
 	name = CharField(
 		max_length = 256,
-		min_length = 8,
 		required = True,
 		widget = TextInput(attrs = { 'placeholder': 'Subject Name' })
 	)
@@ -64,22 +63,66 @@ class SubjectForm(ModelForm):
 
 		model = Subject
 		fields = [ 'code', 'name' ]
-class DependencyForm(ModelForm):
+class DependencyForm(Form):
 	""" Allows the dependencies of an existing subject to be edited """
 
-	dependencies = ModelMultipleChoiceField(
+	subject = ModelChoiceField(
 		queryset = Subject.objects.active(),
+		empty_label = None,
 		required = False,
-		widget = CheckboxSelectMultiple()
+		widget = HiddenInput()
+	)
+	dependency = ModelChoiceField(
+		queryset = Subject.objects.active(),
+		empty_label = None,
+		required = False,
+		widget = HiddenInput()
 	)
 	program = ModelChoiceField(
 		queryset = AcademicProgram.objects.active(),
+		empty_label = None,
 		required = True
 	)
 
-	class Meta(object):
+	instance = {}
 
-		model = Subject
-		fields = [ 'dependencies' ]
+	def clean(self):
 
-DependencyFormSet = modelformset_factory(Subject, form = DependencyForm, extra = 0)
+		data = self.cleaned_data
+
+		subject = data['subject']
+		dependency = data['dependency']
+		program = data['program']
+
+		if subject is not None:
+			if dependency.id == subject.id: raise ValidationError('Dependencies cannot be recursive')
+
+		self.instance['subject'] = subject
+		self.instance['dependency'] = dependency
+		self.instance['program'] = program
+	def save(self, subject = None):
+
+		if self.instance['subject'] is None:
+
+			if subject is None: raise ValueError('Cannot save form because there is no dependent subject')
+			self.instance['subject'] = subject
+
+		subject = self.instance['subject']
+		dependency = self.instance['dependency']
+		program = self.instance['program']
+
+		# Save the individual instances, then save the dependency
+		subject.save()
+		dependency.save()
+
+		# Check if the dependency exists - if so, skip it
+		dependency_exists = Dependency.objects.filter(dependent_id = subject, dependency_id = dependency, program_id = program).exists()
+		if not dependency_exists:
+			return Dependency.objects.create(
+				dependent = self.instance['subject'],
+				dependency = self.instance['dependency'],
+				program = self.instance['program']
+			)
+
+
+DependencyFormSet = formset_factory(DependencyForm, extra = 0)
