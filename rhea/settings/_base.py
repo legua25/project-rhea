@@ -18,6 +18,7 @@ class BaseConfiguration(Configuration):
 	    { 'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator' },
         { 'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator' }
 	]
+	AUTH_USER_MODEL = 'rhea.User'
 
 	# Installed applications
 	INSTALLED_APPS = [
