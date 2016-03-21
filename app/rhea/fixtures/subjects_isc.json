@@ -1,0 +1,602 @@
+[
+	{
+		"model":"rhea.subject",
+		"pk":1,
+		"fields":{
+			"active":true,
+			"code":"F1001",
+			"name":"Introducci\u00f3n a la f\u00edsica",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":2,
+		"fields":{
+			"active":true,
+			"code":"H1001",
+			"name":"Ingl\u00e9s remedial I",
+			"hours":5
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":3,
+		"fields":{
+			"active":true,
+			"code":"H1002",
+			"name":"Ingl\u00e9s remedial II",
+			"hours":5
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":4,
+		"fields":{
+			"active":true,
+			"code":"H1003",
+			"name":"Ingl\u00e9s remedial III",
+			"hours":5
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":5,
+		"fields":{
+			"active":true,
+			"code":"H1004",
+			"name":"Ingl\u00e9s remedial IV",
+			"hours":5
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":6,
+		"fields":{
+			"active":true,
+			"code":"H1005",
+			"name":"Ingl\u00e9s remedial V",
+			"hours":5
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":7,
+		"fields":{
+			"active":true,
+			"code":"H1015",
+			"name":"Fundamentos de la escritura",
+			"hours":5
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":8,
+		"fields":{
+			"active":true,
+			"code":"MA1001",
+			"name":"Introducci\u00f3n a las matem\u00e1ticas",
+			"hours":6
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":9,
+		"fields":{
+			"active":true,
+			"code":"TC1001",
+			"name":"Introducci\u00f3n a la computaci\u00f3n",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":10,
+		"fields":{
+			"active":true,
+			"code":"DS1003",
+			"name":"Ciencias naturales y desarrollo sustentable",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":11,
+		"fields":{
+			"active":true,
+			"code":"F1002",
+			"name":"F\u00edsica I",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":12,
+		"fields":{
+			"active":true,
+			"code":"H1016",
+			"name":"Lengua extranjera",
+			"hours":5
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":13,
+		"fields":{
+			"active":true,
+			"code":"MA1015",
+			"name":"Matem\u00e1ticas I",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":14,
+		"fields":{
+			"active":true,
+			"code":"TC1003",
+			"name":"Matem\u00e1ticas discretas",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":15,
+		"fields":{
+			"active":true,
+			"code":"TC1014",
+			"name":"Fundamentos de programaci\u00f3n",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":16,
+		"fields":{
+			"active":true,
+			"code":"TC1023",
+			"name":"Introducci\u00f3n a la ingenier\u00eda en sistemas computacionales",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":17,
+		"fields":{
+			"active":true,
+			"code":"AD1005",
+			"name":"Administraci\u00f3n e innovaci\u00f3n en modelos de negocios",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":18,
+		"fields":{
+			"active":true,
+			"code":"H1040",
+			"name":"An\u00e1lisis y expresi\u00f3n verbal",
+			"hours":5
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":19,
+		"fields":{
+			"active":true,
+			"code":"MA1017",
+			"name":"Matem\u00e1ticas II",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":20,
+		"fields":{
+			"active":true,
+			"code":"TC1015",
+			"name":"Fundamentos de dise\u00f1o interactivo",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":21,
+		"fields":{
+			"active":true,
+			"code":"TC1016",
+			"name":"Organizaci\u00f3n computacional",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":22,
+		"fields":{
+			"active":true,
+			"code":"TC2016",
+			"name":"Programaci\u00f3n orientada a objetos",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":23,
+		"fields":{
+			"active":true,
+			"code":"F1005",
+			"name":"Electricidad y magnetismo",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":24,
+		"fields":{
+			"active":true,
+			"code":"H1018",
+			"name":"\u00c9tica, persona y sociedad",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":25,
+		"fields":{
+			"active":true,
+			"code":"MA1006",
+			"name":"Probabilidad y estad\u00edstica",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":26,
+		"fields":{
+			"active":true,
+			"code":"MA2009",
+			"name":"Matem\u00e1ticas III",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":27,
+		"fields":{
+			"active":true,
+			"code":"TC1018",
+			"name":"Estructura de datos",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":28,
+		"fields":{
+			"active":true,
+			"code":"TC1019",
+			"name":"Fundamentos de ingenier\u00eda de software",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":29,
+		"fields":{
+			"active":true,
+			"code":"H2001",
+			"name":"Expresi\u00f3n verbal en el \u00e1mbito profesional",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":30,
+		"fields":{
+			"active":true,
+			"code":"TC1020",
+			"name":"Bases de datos",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":31,
+		"fields":{
+			"active":true,
+			"code":"TC1021",
+			"name":"Proyecto de desarrollo de videojuegos",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":32,
+		"fields":{
+			"active":true,
+			"code":"TC2017",
+			"name":"An\u00e1lisis y dise\u00f1o de algoritmos",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":33,
+		"fields":{
+			"active":true,
+			"code":"TC2018",
+			"name":"Fundamentos de redes",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":34,
+		"fields":{
+			"active":true,
+			"code":"TC2019",
+			"name":"M\u00e9todos num\u00e9ricos en ingenier\u00eda",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":35,
+		"fields":{
+			"active":true,
+			"code":"HS2000",
+			"name":"Humanidades y bellas artes",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":36,
+		"fields":{
+			"active":true,
+			"code":"MA1019",
+			"name":"\u00c1lgebra lineal",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":37,
+		"fields":{
+			"active":true,
+			"code":"TC2004",
+			"name":"An\u00e1lisis y modelaci\u00f3n de sistemas de software",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":38,
+		"fields":{
+			"active":true,
+			"code":"TC2008",
+			"name":"Sistemas operativos",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":39,
+		"fields":{
+			"active":true,
+			"code":"TC2020",
+			"name":"Matem\u00e1ticas computacionales",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":40,
+		"fields":{
+			"active":true,
+			"code":"TC2022",
+			"name":"Interconexi\u00f3n de redes",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":41,
+		"fields":{
+			"active":true,
+			"code":"EM1005",
+			"name":"Emprendimiento",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":42,
+		"fields":{
+			"active":true,
+			"code":"TC2024",
+			"name":"Proyectos de desarrollo para dispositivos m\u00f3viles",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":43,
+		"fields":{
+			"active":true,
+			"code":"TC2025",
+			"name":"Programaci\u00f3n avanzada",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":44,
+		"fields":{
+			"active":true,
+			"code":"TC3041",
+			"name":"Bases de datos avanzadas",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":45,
+		"fields":{
+			"active":true,
+			"code":"TC3045",
+			"name":"Calidad y pruebas de software",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":46,
+		"fields":{
+			"active":true,
+			"code":"TI2011",
+			"name":"Evaluaci\u00f3n y administraci\u00f3n de proyectos",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":47,
+		"fields":{
+			"active":true,
+			"code":"HS2005",
+			"name":"Ciudadan\u00eda",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":48,
+		"fields":{
+			"active":true,
+			"code":"TC2006",
+			"name":"Lenguajes de programaci\u00f3n",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":49,
+		"fields":{
+			"active":true,
+			"code":"TC2026",
+			"name":"Desarrollo de aplicaciones web",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":50,
+		"fields":{
+			"active":true,
+			"code":"TC2027",
+			"name":"Seguridad inform\u00e1tica",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":51,
+		"fields":{
+			"active":true,
+			"code":"TC3002",
+			"name":"Administraci\u00f3n de proyectos de ingenier\u00eda de software",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":52,
+		"fields":{
+			"active":true,
+			"code":"TC2007",
+			"name":"M\u00e9todos cuantitativos y simulaci\u00f3n",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":53,
+		"fields":{
+			"active":true,
+			"code":"TC3022",
+			"name":"Gr\u00e1ficas computacionales",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":54,
+		"fields":{
+			"active":true,
+			"code":"TC3048",
+			"name":"Dise\u00f1o de compiladores",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":55,
+		"fields":{
+			"active":true,
+			"code":"TC3049",
+			"name":"Dise\u00f1o y arquitectura de software",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":56,
+		"fields":{
+			"active":true,
+			"code":"TC3052",
+			"name":"Laboratorio de desarrollo de aplicaciones Web",
+			"hours":3
+		}
+	},
+	{
+	"model":"rhea.subject",
+		"pk":57,
+		"fields":{
+			"active":true,
+			"code":"HS2006",
+			"name":"\u00c9tica aplicada",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":58,
+		"fields":{
+			"active":true,
+			"code":"TC2011",
+			"name":"Sistemas inteligentes",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":59,
+		"fields":{
+			"active":true,
+			"code":"TC3054",
+			"name":"Proyecto integrador para el desarrollo de soluciones empresariales",
+			"hours":3
+		}
+	},
+	{
+		"model":"rhea.subject",
+		"pk":60,
+		"fields":{
+			"active":true,
+			"code":"TI3035",
+			"name":"Introducci\u00f3n a la vida profesional",
+			"hours":2
+		}
+	}
+]

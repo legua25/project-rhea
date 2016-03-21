@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
+from operator import add as __add__
 from django.db.models import *
 from _base import (
 	ActiveManager,
@@ -67,13 +68,13 @@ class RequirementManager(ActiveManager):
 	def dependencies_for(self, program, subject):
 
 		# We must convert the requirement to a list of subject IDs so the subject may convert them back
-		query = self.select_related('dependent', 'dependency').active(dependent_id = subject, program_id = program)
-		return query.values('dependency_id', flat = True)
+		query = self.select_related('dependent', 'dependency').filter(dependent_id = subject, program_id = program, active = True)
+		return query.values_list('dependency_id', flat = True)
 	def dependents_for(self, program, subject):
 
 		# We must convert the requirement to a list of subject IDs so the subject may convert them back
-		query = self.select_related('dependent', 'dependency').active(dependency_id = subject, program_id = program)
-		return query.values('dependent_id', flat = True)
+		query = self.select_related('dependent', 'dependency').filter(dependency_id = subject, program_id = program, active = True)
+		return query.values_list('dependent_id', flat = True)
 	def ancestors_for(self, program, subject):
 
 		# Ancestry traversal is a recursive operation - from each dependency to the leaves
@@ -95,10 +96,32 @@ class RequirementManager(ActiveManager):
 			traverse_ancestry(self, ancestors, dependency, program)
 
 		return ancestors
+	def descendants_for(self, program, subject):
+
+		# Ancestry traversal is a recursive operation - from each dependency to the leaves
+		def traverse_descentants(query, output, current, group):
+
+			# Add the current element to the ancestors set
+			output.add(current)
+
+			# For each dependency to this one, recursively add them to the ancestors set
+			_dependents = query.dependents_for(program, current)
+			for _dep in _dependents:
+				traverse_descentants(query, output, _dep, group)
+
+		# The ancestors set is initially empty - it must skip the current element, as we're only querying for the ancestors, not the current elemnt
+		descendants = set()
+		dependencies = self.dependents_for(program, subject)
+
+		for dependency in dependencies:
+			traverse_descentants(self, descendants, dependency, program)
+
+		return descendants
 class Requirement(Model):
 
 	dependency = ForeignKey('rhea.Subject',
 		related_name = '+',
+		null = True,
 	    verbose_name = _('dependency'),
 	    help_text = """
 	        A pointer to a subject that is required by the dependent - this stands for the backwards
@@ -107,6 +130,7 @@ class Requirement(Model):
 	)
 	dependent = ForeignKey('rhea.Subject',
 		related_name = '+',
+		null = True,
 	    verbose_name = _('dependent'),
 	    help_text = """
 	        A pointer to a subject that requires the dependency - this stands for the forward side of
@@ -174,14 +198,34 @@ class Specialty(Model):
 		verbose_name_plural = _('specialty subjects')
 		app_label = 'rhea'
 
+
 class SubjectManager(ActiveManager):
 
 	def by_instructor(self, instructor):
 		return self.active(id__in = Specialty.objects.by_confidence(instructor.id))
-	def candidates_for(self, program, *subjects):
+	def ancestors(self, subjects, program):
+		return set(reduce(__add__, [ list(subject.ancestors(program).values_list('id', flat = True)) for subject in subjects ]))
+	def descendants(self, subjects, program):
+		return set(reduce(__add__, [ list(subject.descendants(program).values_list('id', flat = True)) for subject in subjects ]))
+	def candidates_for(self, program, subjects):
 
-		# TODO: This is maybe the most important query of them all - we must make it so it can be relied upon
-		pass
+		# Determine what subject have we coursed already (including the current ones) and the list of what's missing
+		coursed = (list(self.ancestors(subjects, program)) + [ s.id for s in subjects ])
+		pending = list(self.descendants(subjects, program))
+		candidates = []
+
+		# For each subject in pending...
+		for subject in pending:
+
+			# Get dependencies for the current subject
+			dependencies = Requirement.objects.dependencies_for(program.id, subject)
+
+			# If it has no dependencies, it's a candidate
+			if dependencies.count() == 0: candidates.append(subject)
+			# If all dependencies are included in the coursed set, it's also a candidate
+			elif all(dependency in coursed for dependency in dependencies): candidates.append(subject)
+
+		return candidates
 class Subject(Model):
 
 	code = CharField(
@@ -229,10 +273,15 @@ class Subject(Model):
 		# Requirements operate on IDs, so we must convert the result to subject instances
 		subjects = Requirement.objects.dependents_for(program.id, self.id)
 		return Subject.objects.active(id__in = subjects)
-	def ancestry(self, program):
+	def ancestors(self, program):
 
 		# Requirements operate on IDs, so we must convert the result to subject instances
 		subjects = Requirement.objects.ancestors_for(program.id, self.id)
+		return Subject.objects.active(id__in = subjects)
+	def descendants(self, program):
+
+		# Requirements operate on IDs, so we must convert the result to subject instances
+		subjects = Requirement.objects.descendants_for(program.id, self.id)
 		return Subject.objects.active(id__in = subjects)
 
 	class Meta(object):
