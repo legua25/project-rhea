@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from imagekit.models.fields import ProcessedImageField
 from django.utils.functional import cached_property
 from django.core.validators import RegexValidator
+from _programs import Subject, Requirement
 from pilkit.processors import SmartCrop
 from django.utils.timezone import now
 from django.db.models import *
@@ -154,10 +155,20 @@ class Student(User):
             on demand by the schedule generator.
         """
 	)
-	course_schedule = OneToOneField('rhea.Schedule',
-		related_name = 'student',
-		verbose_name = _('current course schedule'),
-	    help_text = """
+	semester = PositiveSmallIntegerField(
+		default = 0,
+		verbose_name = _('current semester'),
+		help_text = """
+			The current semester for this student. This serves to exclude all possible candidates
+			which exceed the current semester by two units as to keep the least deviation possible
+			in the study plan's progress.
+		"""
+	)
+	course_schedule = OneToOneField('rhea.ScheduleFile',
+        related_name = 'student',
+		null = True,
+        verbose_name = _('current course schedule'),
+        help_text = """
             This schedule is the current academic period's schedule for the instructor. This
             specifies the courses the student should take and when should these be taken.
             Since it is tied to the current academic period, this schedule has an expiry date.
@@ -167,12 +178,16 @@ class Student(User):
 	@cached_property
 	def candidate_subjects(self):
 
-		candidates = []
-
 		# List the current subjects and the program
+		query = self.subjects.all().values_list('dependent_id', flat = True)
+		subjects = Subject.objects.active(id__in = query)
 
+		return Subject.objects.candidates_for(self.program, self.semester, subjects)
 
-		return candidates
+	def set_at_semester(self, semester):
+
+		self.subjects = Requirement.objects.filter(semester = semester, program = self.program)
+		self.semester = semester
 
 	class Meta(object):
 
@@ -195,22 +210,24 @@ class Instructor(User):
             hint on which subjects to consider first.
         """
 	)
-	work_schedule = OneToOneField('rhea.Schedule',
+	work_schedule = OneToOneField('rhea.ScheduleFile',
 		related_name = 'user',
+		null = True,
 		verbose_name = _('work schedule'),
-	    help_text = """
-            This schedule serves as a "probability matrix" which gets merged with the course's
-            in order to determine possible slots in which the course could be fitted into.
-        """
+		help_text = """
+			This schedule serves as a "probability matrix" which gets merged with the course's
+			in order to determine possible slots in which the course could be fitted into.
+		"""
 	)
-	course_schedule = OneToOneField('rhea.Schedule',
+	course_schedule = OneToOneField('rhea.ScheduleFile',
 		related_name = 'instructor',
+		null = True,
 		verbose_name = _('current course schedule'),
-	    help_text = """
-            This schedule is the current academic period's schedule for the instructor. This
-            specifies the courses the instructor should provide and when should these be given.
-            Since it is tied to the current academic period, this schedule has an expiry date.
-        """
+		help_text = """
+			This schedule is the current academic period's schedule for the instructor. This
+			specifies the courses the instructor should provide and when should these be given.
+			Since it is tied to the current academic period, this schedule has an expiry date.
+		"""
 	)
 
 	class Meta(object):

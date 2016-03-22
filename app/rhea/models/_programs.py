@@ -62,6 +62,103 @@ class AcademicProgram(Model):
 		verbose_name_plural = _('academic programs')
 		app_label = 'rhea'
 
+class SubjectManager(ActiveManager):
+
+	def by_instructor(self, instructor):
+		return self.active(id__in = Specialty.objects.by_confidence(instructor.id))
+	def ancestors(self, subjects, program):
+
+		query = reduce(__add__, [ list(subject.ancestors(program).values_list('id', flat = True)) for subject in subjects ])
+		return self.active(id__in = query)
+	def descendants(self, subjects, program):
+
+		query = reduce(__add__, [ list(subject.descendants(program).values_list('id', flat = True)) for subject in subjects ])
+		return self.active(id__in = query)
+	def candidates_for(self, program, semester, subjects):
+
+		# Determine what subject have we coursed already (including the current ones) and the list of what's missing
+		coursed = (list(self.ancestors(subjects, program)) + [ s.id for s in subjects ])
+		pending = list(self.descendants(subjects, program))
+		candidates = []
+
+		# For each subject in pending...
+		for subject in pending:
+
+			# Get dependencies for the current subject
+			dependencies = Requirement.objects.dependencies_for(program.id, subject)
+
+			# If it has no dependencies, it's a candidate
+			if dependencies.count() == 0: candidates.append(subject)
+			# If all dependencies are included in the coursed set, it's also a candidate
+			elif all(dependency in coursed for dependency in dependencies): candidates.append(subject)
+
+		query = (Q(dependent_id__in = candidates) | (Q(semester__range = [ 1, semester + 2 ]) & ~Q(dependent_id__in = candidates + coursed)))
+		query = Requirement.objects.active(query).values_list('dependent_id', flat = True)
+		return Subject.objects.active(id__in = query)
+class Subject(Model):
+
+	code = CharField(
+		max_length = 16,
+		null = False,
+		blank = False,
+		unique = True,
+		verbose_name = _('subject code'),
+		help_text = """
+			A subject code provided by the institution to uniquely identify a subject. This is used
+			primarily to query for dependencies or followup candidates, if any. As per the project's
+			scope, we are not considering "variants" nor equivalencies in this design.
+		"""
+	)
+	name = CharField(
+		max_length = 256,
+		null = False,
+		blank = False,
+		verbose_name = _('subject name'),
+		help_text = """
+			This is the user-friendly version of this subject, used only by the program's profile to
+			showcase the composing subjects and their dependencies.
+		"""
+	)
+	hours = PositiveSmallIntegerField(
+		default = 1,
+		verbose_name = _('hours per week'),
+		help_text = """
+			This is a measurement of the expected time, in hours per week, a course for this subject
+			should use. The provided value is divided by 1.5 (since our blocks are assumed to be of
+			1.5 hours length). This is used to determine the most probable arrangement for the course
+			by the generator.
+		"""
+	)
+
+	objects = SubjectManager()
+
+	def dependencies(self, program):
+
+		# Requirements operate on IDs, so we must convert the result to subject instances
+		subjects = Requirement.objects.dependencies_for(program.id, self.id)
+		return Subject.objects.active(id__in = subjects)
+	def dependents(self, program):
+
+		# Requirements operate on IDs, so we must convert the result to subject instances
+		subjects = Requirement.objects.dependents_for(program.id, self.id)
+		return Subject.objects.active(id__in = subjects)
+	def ancestors(self, program):
+
+		# Requirements operate on IDs, so we must convert the result to subject instances
+		subjects = Requirement.objects.ancestors_for(program.id, self.id)
+		return Subject.objects.active(id__in = subjects)
+	def descendants(self, program):
+
+		# Requirements operate on IDs, so we must convert the result to subject instances
+		subjects = Requirement.objects.descendants_for(program.id, self.id)
+		return Subject.objects.active(id__in = subjects)
+
+	class Meta(object):
+
+		verbose_name = _('subject')
+		verbose_name_plural = _('subjects')
+		app_label = 'rhea'
+
 
 class RequirementManager(ActiveManager):
 
@@ -142,7 +239,18 @@ class Requirement(Model):
 		related_name = 'requirements',
 		verbose_name = _('academic program'),
 		help_text = """
-
+			The academic program this requirement belongs to. Requirements act as graph edges for the
+			study plan's graph - they connect subjects with subjects through a "is required" relationship.
+			Keeping the relationship separate from the subjects allows recycling subjects for different
+			academic programs.
+		"""
+	)
+	semester = PositiveSmallIntegerField(
+		verbose_name = _('minimum semester'),
+		help_text = """
+			The minimum semester in which this course should be taken. Courses that deviate from the
+			current semester for a specific student by more than 1 unit upwards are note eligible as
+			candidates for next semester topics.
 		"""
 	)
 
@@ -196,96 +304,4 @@ class Specialty(Model):
 
 		verbose_name = _('specialty subject')
 		verbose_name_plural = _('specialty subjects')
-		app_label = 'rhea'
-
-
-class SubjectManager(ActiveManager):
-
-	def by_instructor(self, instructor):
-		return self.active(id__in = Specialty.objects.by_confidence(instructor.id))
-	def ancestors(self, subjects, program):
-		return set(reduce(__add__, [ list(subject.ancestors(program).values_list('id', flat = True)) for subject in subjects ]))
-	def descendants(self, subjects, program):
-		return set(reduce(__add__, [ list(subject.descendants(program).values_list('id', flat = True)) for subject in subjects ]))
-	def candidates_for(self, program, subjects):
-
-		# Determine what subject have we coursed already (including the current ones) and the list of what's missing
-		coursed = (list(self.ancestors(subjects, program)) + [ s.id for s in subjects ])
-		pending = list(self.descendants(subjects, program))
-		candidates = []
-
-		# For each subject in pending...
-		for subject in pending:
-
-			# Get dependencies for the current subject
-			dependencies = Requirement.objects.dependencies_for(program.id, subject)
-
-			# If it has no dependencies, it's a candidate
-			if dependencies.count() == 0: candidates.append(subject)
-			# If all dependencies are included in the coursed set, it's also a candidate
-			elif all(dependency in coursed for dependency in dependencies): candidates.append(subject)
-
-		return candidates
-class Subject(Model):
-
-	code = CharField(
-		max_length = 16,
-		null = False,
-		blank = False,
-		unique = True,
-		verbose_name = _('subject code'),
-		help_text = """
-			A subject code provided by the institution to uniquely identify a subject. This is used
-			primarily to query for dependencies or followup candidates, if any. As per the project's
-			scope, we are not considering "variants" nor equivalencies in this design.
-		"""
-	)
-	name = CharField(
-		max_length = 256,
-		null = False,
-		blank = False,
-		verbose_name = _('subject name'),
-		help_text = """
-			This is the user-friendly version of this subject, used only by the program's profile to
-			showcase the composing subjects and their dependencies.
-		"""
-	)
-	hours = PositiveSmallIntegerField(
-		default = 1,
-		verbose_name = _('hours per week'),
-		help_text = """
-			This is a measurement of the expected time, in hours per week, a course for this subject
-			should use. The provided value is divided by 1.5 (since our blocks are assumed to be of
-			1.5 hours length). This is used to determine the most probable arrangement for the course
-			by the generator.
-		"""
-	)
-
-	objects = SubjectManager()
-
-	def dependencies(self, program):
-
-		# Requirements operate on IDs, so we must convert the result to subject instances
-		subjects = Requirement.objects.dependencies_for(program.id, self.id)
-		return Subject.objects.active(id__in = subjects)
-	def dependents(self, program):
-
-		# Requirements operate on IDs, so we must convert the result to subject instances
-		subjects = Requirement.objects.dependents_for(program.id, self.id)
-		return Subject.objects.active(id__in = subjects)
-	def ancestors(self, program):
-
-		# Requirements operate on IDs, so we must convert the result to subject instances
-		subjects = Requirement.objects.ancestors_for(program.id, self.id)
-		return Subject.objects.active(id__in = subjects)
-	def descendants(self, program):
-
-		# Requirements operate on IDs, so we must convert the result to subject instances
-		subjects = Requirement.objects.descendants_for(program.id, self.id)
-		return Subject.objects.active(id__in = subjects)
-
-	class Meta(object):
-
-		verbose_name = _('subject')
-		verbose_name_plural = _('subjects')
 		app_label = 'rhea'

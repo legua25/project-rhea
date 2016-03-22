@@ -9,6 +9,7 @@ from _base import (
 
 __all__ = [
 	'Course',
+	'ScheduleFile',
 	'Schedule'
 ]
 
@@ -40,6 +41,46 @@ class Course(Model):
 			The subject of the lecture series. This is not connected to specific requirements since
 			the subject may be present for more than one academic program and thus would create a
 			humongous amount of data duplication which is avoidable.
+		"""
+	)
+	day = PositiveSmallIntegerField(
+		choices = [
+			(0, _('Monday')),
+			(1, _('Tuesday')),
+			(2, _('Wednesday')),
+			(3, _('Thursday')),
+			(4, _('Friday'))
+		],
+		null = False,
+		blank = False,
+		verbose_name = _('day of week'),
+		help_text = """
+			The day of the week in which this course takes place. This model allows us maximum
+			location flexibility by assigning a single course to a single day on a time period with
+			the according restrictions. This way, we're manipulating a shorter, more concise and
+			sparse-friendly version of the schedule hyper-matrix.
+		"""
+	)
+	time = PositiveSmallIntegerField(
+		choices = [
+			(0, _('07:00')),
+			(1, _('08:30')),
+			(2, _('10:00')),
+			(3, _('11:30')),
+			(4, _('13:00')),
+			(5, _('14:30')),
+			(6, _('16:00')),
+			(7, _('17:30')),
+			(8, _('19:00')),
+			(9, _('20:30'))
+		],
+		null = False,
+		blank = False,
+		verbose_name = _('time slot'),
+		help_text = """
+			This represents the time slot assigned to this course on a given day of the week. Since
+			assignments occur only per day, time slots are also fixed to certain records, according
+			to our constraint specifying the duration of all courses from 07:00 to 22:00 at maximum.
 		"""
 	)
 	date_started = DateTimeField(
@@ -83,7 +124,7 @@ def _upload_to(instance, filename):
 		return 'users/%s/schedule-work-%s.bson' % (instance.user.user_id, instance.date_created.strftime('%b-%d-%Y'))
 
 class ScheduleManager(ActiveManager): pass
-class Schedule(Model):
+class ScheduleFile(Model):
 
 	type = PositiveSmallIntegerField(
 		choices = [
@@ -127,8 +168,36 @@ class Schedule(Model):
 
 	objects = ScheduleManager()
 
+	def read(self): pass
+	def write(self, schedule): pass
+
 	class Meta(object):
 
 		verbose_name = _('academic schedule')
 		verbose_name_plural = _('academic schedules')
 		app_label = 'rhea'
+
+class Schedule(object):
+
+	class Entry(object):
+
+		def __init__(self, course):
+
+			self.instructor = course.instructor_id,
+			self.course_id = course.id,
+			self.day = course.day,
+			self.time = course.time
+			self._course = course
+
+		@property
+		def course(self): return self._course
+		@course.setter
+		def course(self, course):
+
+			self.instructor = course.instructor_id,
+			self.course_id = course.id,
+			self.day = course.day,
+			self.time = course.time
+			self._course = course
+
+	def __init__(self): pass
