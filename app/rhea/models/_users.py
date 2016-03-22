@@ -134,6 +134,20 @@ class User(Model, AbstractBaseUser):
 		app_label = 'rhea'
 
 
+class StudentManager(UserManager):
+
+	def demanded_subjects(self):
+
+		# Offer is dictated by students depending on their candidate subjects
+		subjects = []
+		students = self.select_subclasses().filter(active = True)
+
+		# Get all candidate subjects for each student
+		for student in students:
+			subjects.extend([ subject.id for subject in student.candidate_subjects ])
+
+		# We require subjects to compare against subjects
+		return Subject.objects.active(id__in = set(subjects))
 class Student(User):
 
 	program = ForeignKey('rhea.AcademicProgram',
@@ -175,6 +189,8 @@ class Student(User):
         """
 	)
 
+	objects = StudentManager()
+
 	@cached_property
 	def candidate_subjects(self):
 
@@ -194,6 +210,28 @@ class Student(User):
 		verbose_name = _('student')
 		verbose_name_plural = _('students')
 		app_label = 'rhea'
+
+class InstructorManager(UserManager):
+
+	def offered_subjects(self):
+
+		# Offer is dependent on the available instructors and their specialties
+		subjects = []
+		instructors = self.select_subclasses().filter(active = True)
+
+		# Get all active subjects the instructor can provide
+		for instructor in instructors:
+			subjects.extend([ subject.id for subject in instructor.subjects.all().filter(active = True) ])
+
+		# We require subjects to compare against subjects
+		return Subject.objects.active(id__in = set(subjects))
+	def available_subjects(self):
+
+		demand = set(Student.objects.demanded_subjects().values_list('id', flat = True))
+		offer = set(self.offered_subjects().values_list('id', flat = True))
+		available = demand.intersection(offer)
+
+		return Subject.objects.active(id__in = available)
 class Instructor(User):
 
 	subjects = ManyToManyField('rhea.Subject',
@@ -229,6 +267,8 @@ class Instructor(User):
 			Since it is tied to the current academic period, this schedule has an expiry date.
 		"""
 	)
+
+	objects = InstructorManager()
 
 	class Meta(object):
 
