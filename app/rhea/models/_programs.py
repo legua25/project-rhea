@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
+from django.utils.functional import cached_property
 from operator import add as __add__
 from django.db.models import *
 from _base import (
@@ -55,6 +56,12 @@ class AcademicProgram(Model):
 	)
 
 	objects = ProgramManager()
+
+	@cached_property
+	def subjects(self):
+
+		query = self.requirements.all().filter(active = True).values_list('dependent_id', flat = True)
+		return Subject.objects.active(id__in = query)
 
 	class Meta(object):
 
