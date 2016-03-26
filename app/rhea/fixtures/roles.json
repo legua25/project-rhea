@@ -1,0 +1,54 @@
+[
+    {
+        "model":"rhea.role",
+        "pk":1,
+        "fields":{
+            "active":true,
+            "codename":"instructor",
+            "name":"Instructor",
+            "base":null,
+            "permissions":[
+
+            ]
+        }
+    },
+    {
+        "model":"rhea.role",
+        "pk":2,
+        "fields":{
+            "active":true,
+            "codename":"student",
+            "name":"Student",
+            "base":null,
+            "permissions":[
+
+            ]
+        }
+    },
+    {
+        "model":"rhea.role",
+        "pk":3,
+        "fields":{
+            "active":true,
+            "codename":"administrator",
+            "name":"Site administrator",
+            "base":null,
+            "permissions":[
+
+            ]
+        }
+    },
+    {
+        "model":"rhea.role",
+        "pk":4,
+        "fields":{
+            "active":true,
+            "codename":"superuser",
+            "name":"Superuser",
+            "base":3,
+            "permissions":[
+
+            ]
+        }
+    }
+]

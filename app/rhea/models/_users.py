@@ -178,16 +178,6 @@ class Student(User):
 			in the study plan's progress.
 		"""
 	)
-	course_schedule = OneToOneField('rhea.ScheduleFile',
-        related_name = 'student',
-		null = True,
-        verbose_name = _('current course schedule'),
-        help_text = """
-            This schedule is the current academic period's schedule for the instructor. This
-            specifies the courses the student should take and when should these be taken.
-            Since it is tied to the current academic period, this schedule has an expiry date.
-        """
-	)
 
 	objects = StudentManager()
 
@@ -248,23 +238,15 @@ class Instructor(User):
             hint on which subjects to consider first.
         """
 	)
-	work_schedule = OneToOneField('rhea.ScheduleFile',
-		related_name = 'user',
-		null = True,
-		verbose_name = _('work schedule'),
-		help_text = """
-			This schedule serves as a "probability matrix" which gets merged with the course's
-			in order to determine possible slots in which the course could be fitted into.
-		"""
-	)
-	course_schedule = OneToOneField('rhea.ScheduleFile',
+	availability = OneToOneField('rhea.AvailabilitySchedule',
 		related_name = 'instructor',
 		null = True,
-		verbose_name = _('current course schedule'),
+		verbose_name = _('availability schedule'),
 		help_text = """
-			This schedule is the current academic period's schedule for the instructor. This
-			specifies the courses the instructor should provide and when should these be given.
-			Since it is tied to the current academic period, this schedule has an expiry date.
+			This instructor's availability schedule. The availability schedule is unique for the
+			instructor and marks periods of the week in which he/she can/cannot instruct courses.
+			This is "multiplied" per course assignable to this instructor to yield a probability
+			matrix in which a course may be assigned.
 		"""
 	)
 

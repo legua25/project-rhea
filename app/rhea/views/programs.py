@@ -19,7 +19,7 @@ class ProgramListView(View):
 	# @method_decorator(role_required('administrator'))
 	def get(self, request):
 
-		# Page the subjects list
+		# Page the programs list
 		page, size = request.GET.get('page', 1), request.GET.get('size', 15)
 		pages = Paginator(AcademicProgram.objects.active().order_by('acronym'), size)
 
@@ -32,7 +32,7 @@ class ProgramListView(View):
 			'version': '0.1.0',
 			'status': 200,
 			'pagination': {
-				'total': Subject.objects.active().count(),
+				'total': AcademicProgram.objects.active().count(),
 				'current': page,
 				'previous': programs.previous_page_number() if programs.has_previous() else False,
 				'next': programs.next_page_number() if programs.has_next() else False,

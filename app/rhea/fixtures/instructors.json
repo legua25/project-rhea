@@ -435,8 +435,6 @@
         "model":"rhea.instructor",
         "pk":1,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]
@@ -446,8 +444,6 @@
         "model":"rhea.instructor",
         "pk":2,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]
@@ -457,8 +453,6 @@
         "model":"rhea.instructor",
         "pk":3,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]
@@ -468,8 +462,6 @@
         "model":"rhea.instructor",
         "pk":4,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]
@@ -479,8 +471,6 @@
         "model":"rhea.instructor",
         "pk":5,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]
@@ -490,8 +480,6 @@
         "model":"rhea.instructor",
         "pk":6,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]
@@ -501,8 +489,6 @@
         "model":"rhea.instructor",
         "pk":7,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]
@@ -512,8 +498,6 @@
         "model":"rhea.instructor",
         "pk":8,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]
@@ -523,8 +507,6 @@
         "model":"rhea.instructor",
         "pk":9,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]
@@ -534,8 +516,6 @@
         "model":"rhea.instructor",
         "pk":10,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]
@@ -545,8 +525,6 @@
         "model":"rhea.instructor",
         "pk":11,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]
@@ -556,8 +534,6 @@
         "model":"rhea.instructor",
         "pk":12,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]
@@ -567,8 +543,6 @@
         "model":"rhea.instructor",
         "pk":13,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]
@@ -578,8 +552,6 @@
         "model":"rhea.instructor",
         "pk":14,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]
@@ -589,8 +561,6 @@
         "model":"rhea.instructor",
         "pk":15,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]
@@ -600,8 +570,6 @@
         "model":"rhea.instructor",
         "pk":16,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]
@@ -611,8 +579,6 @@
         "model":"rhea.instructor",
         "pk":17,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]
@@ -622,8 +588,6 @@
         "model":"rhea.instructor",
         "pk":18,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]
@@ -633,8 +597,6 @@
         "model":"rhea.instructor",
         "pk":19,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]
@@ -644,8 +606,6 @@
         "model":"rhea.instructor",
         "pk":20,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]
@@ -655,8 +615,6 @@
         "model":"rhea.instructor",
         "pk":21,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]
@@ -666,8 +624,6 @@
         "model":"rhea.instructor",
         "pk":22,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]
@@ -677,8 +633,6 @@
         "model":"rhea.instructor",
         "pk":23,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]
@@ -688,8 +642,6 @@
         "model":"rhea.instructor",
         "pk":24,
         "fields":{
-            "work_schedule":null,
-            "course_schedule":null,
             "permissions":[
 
             ]

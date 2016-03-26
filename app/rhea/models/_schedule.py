@@ -1,64 +1,83 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
+from django.utils.functional import cached_property
+from django.utils.timezone import now
 from django.db.models import *
+from schedule import DayOfWeek
 from _base import (
+	InheritanceManager,
 	ActiveManager,
 	Model,
 )
 
 __all__ = [
 	'Course',
-	'ScheduleFile',
-	'Schedule'
+	'AvailabilitySchedule',
+	'Availability'
 ]
+
+class ScheduleManager(InheritanceManager): pass
+class Schedule(Model):
+
+	expiry = DateTimeField(
+		auto_now_add = False,
+		auto_now = False,
+		null = False,
+		blank = False,
+		verbose_name = _('expiration date'),
+		help_text = """
+			The expiration date for this schedule. Schedules are valid per semester, but since we don't
+			really know when is the semester scheduled to begin, we leave this to the staff to decide.
+		"""
+	)
+
+	@cached_property
+	def entries_list(self): raise NotImplementedError()
+
+	class Meta(object):
+		abstract = True
+
+
+# class CourseSchedule(Schedule): pass
 
 class CourseManager(ActiveManager): pass
 class Course(Model):
 
 	instructor = ForeignKey('rhea.Instructor',
 		related_name = 'courses',
-		verbose_name = _('instructor'),
+		null = False,
+		verbose_name = _('course subject'),
 		help_text = """
-			Courses is a list of all courses, past and present, which the instructor provided.
-			This field is provided for historic reasons and is not actually used by the generator
-			to calculate the new schedules.
+			The instructor for this course. Every course must have an instructor...
 		"""
 	)
-	students = ManyToManyField('rhea.Student',
-		related_name = 'courses',
-		verbose_name = _('students'),
-		help_text = """
-            Courses is a list of all courses, past and present, which the student participated in.
-            This field is provided for historic reasons and is not actually used by the generator
-            to calculate the new schedules.
-        """
-	)
 	subject = ForeignKey('rhea.Subject',
-		related_name = 'courses',
-		verbose_name = _('lecture subject'),
+		related_name = '+',
+		null = False,
+		verbose_name = _('course subject'),
 		help_text = """
-			The subject of the lecture series. This is not connected to specific requirements since
-			the subject may be present for more than one academic program and thus would create a
-			humongous amount of data duplication which is avoidable.
+			The subject of the course. The subject may only be offered once a day. Stacking
+			courses together counts only as one course and is thus valid. Stacking courses is
+			understood to be vertically grouping two or more immediately consecutive courses into
+			a single logical unit.
 		"""
 	)
 	day = PositiveSmallIntegerField(
-		choices = [
-			(0, _('Monday')),
-			(1, _('Tuesday')),
-			(2, _('Wednesday')),
-			(3, _('Thursday')),
-			(4, _('Friday'))
-		],
+		choices = [ (value, day.value) for (value, day) in enumerate(DayOfWeek.__members__.values()) ],
 		null = False,
-		blank = False,
 		verbose_name = _('day of week'),
 		help_text = """
-			The day of the week in which this course takes place. This model allows us maximum
-			location flexibility by assigning a single course to a single day on a time period with
-			the according restrictions. This way, we're manipulating a shorter, more concise and
-			sparse-friendly version of the schedule hyper-matrix.
+			The day of the week in which the course takes place. Preferably, courses follow the
+			following rules regarding placement by day of week:
+				- The course is unique per day per student. If a course is immediately preceded by
+				another course covering the same subject by the same instructor, it is assumed to
+				be an extension to the current course and thus is valid.
+				- If a course is given in Monday, giving the same course at Thursday at the same
+				hour is preferred over stacking sessions. Likewise, it is preferred to have
+				mirroring courses on Tuesday - Friday than stacking them.
+				- If a course is given in Wednesday, it is preferred to stack it instead of spreading
+				it through the week.
 		"""
 	)
 	time = PositiveSmallIntegerField(
@@ -75,38 +94,13 @@ class Course(Model):
 			(9, _('20:30'))
 		],
 		null = False,
-		blank = False,
 		verbose_name = _('time slot'),
 		help_text = """
-			This represents the time slot assigned to this course on a given day of the week. Since
-			assignments occur only per day, time slots are also fixed to certain records, according
-			to our constraint specifying the duration of all courses from 07:00 to 22:00 at maximum.
+			The time slot in which the lecture takes place. Time slots measure exactly 1:30 long. All
+			courses must conform to this constraint in order to be located efficiently. Courses lasting
+			3:00 or any other multiple of such time are considered as separate courses of 1:30 each.
 		"""
 	)
-	date_started = DateTimeField(
-		auto_now_add = False,
-		auto_now = False,
-		null = True,
-		verbose_name = _('date started'),
-		help_text = """
-			This sets the date in which the course started. Dates are subject to the institution's
-			policies regarding academic periods and must be set manually afterwards. Good thing this
-			can be a batch operation if we take into account the final schedules.
-		"""
-	)
-	date_ended = DateTimeField(
-		auto_now_add = False,
-		auto_now = False,
-		null = True,
-		verbose_name = _('date ended'),
-		help_text = """
-			This sets the date in which the course officially ended. Dates are subject to the
-			institution's policies regarding academic periods and must be set manually afterwards.
-			Good thing this can be a batch operation if we take into account the final schedules.
-		"""
-	)
-
-	objects = CourseManager()
 
 	class Meta(object):
 
@@ -114,90 +108,72 @@ class Course(Model):
 		verbose_name_plural = _('courses')
 		app_label = 'rhea'
 
-def _upload_to(instance, filename):
 
-	if instance.type == 0:
-		return 'users/%s/schedule-%s.bson' % (instance.student.user_id, instance.date_created.strftime('%b-%d-%Y'))
-	elif instance.type == 1:
-		return 'users/%s/schedule-%s.bson' % (instance.instructor.user_id, instance.date_created.strftime('%b-%d-%Y'))
-	else:
-		return 'users/%s/schedule-work-%s.bson' % (instance.user.user_id, instance.date_created.strftime('%b-%d-%Y'))
+class AvailabilitySchedule(Schedule):
 
-class ScheduleManager(ActiveManager): pass
-class ScheduleFile(Model):
-
-	type = PositiveSmallIntegerField(
-		choices = [
-			(0, _('Student academic schedule')),
-			(1, _('Instructor academic schedule')),
-			(2, _('Instructor work preference schedule'))
-		],
-		null = False,
-		blank = False,
-		verbose_name = _('schedule type'),
+	entries = ManyToManyField('rhea.Availability',
+		related_name = '+',
+		verbose_name = _('schedule entries'),
 		help_text = """
-			The type of schedule we're storing. We use this to determine where should we show the
-			schedule, how should we name it and to whom should we relate it to, since students have
-			one schedule and instructors have two.
-		"""
-	)
-	data = FileField(
-		upload_to = _upload_to,
-		verbose_name = _('schedule data file'),
-		help_text = """
-			The actual schedule, as a *.bson file. We chose this representation because we must store
-			a set of sparse data representing time slots, pointers to instructors and pointers to
-			courses. Storing in the RDBMS, although it may seem as a nice option, will cause a lot of
-			wasted resources per query where we need a free-form approach for data which will tend not
-			to mutate further as time goes by. Note that, per scope, we're disregarding dropping out
-			of courses as a valid action and we disallow it for simplicity.
-		"""
-	)
-	expiry = DateField(
-		auto_now = False,
-		auto_now_add = False,
-		null = False,
-		blank = False,
-		verbose_name = _('expiry date'),
-		help_text = """
-			The date in which this schedule was created. Since we use an expiry system with schedules
-			to deallocate them when done being useful, we must record the expiry date to compare it
-			with today's date to check if the schedule is still valid.
+			Schedules are sparse matrices of entries. In this case, this is a sparse matrix of
+			availability entries. Each availability entry represents a period of time per day
+			in which the instructor may be assigned a course.
 		"""
 	)
 
-	objects = ScheduleManager()
-
-	def read(self): pass
-	def write(self, schedule): pass
+	@cached_property
+	def entries_list(self):
+		return [ { 'day': e.day, 'time': e.time, 'level': e.level } for e in self.entries ]
 
 	class Meta(object):
 
-		verbose_name = _('academic schedule')
-		verbose_name_plural = _('academic schedules')
+		db_table = 'rhea_a_schedule'
+		verbose_name = _('availability schedule')
+		verbose_name_plural = _('availability schedules')
 		app_label = 'rhea'
+class Availability(Model):
 
-class Schedule(object):
+	level = FloatField(
+		choices = [
+			(0.0, _('Not available')),
+			(0.25, _('Mealtime')),
+			(0.5, _('If required')),
+			(1.0, _('Available'))
+		],
+		null = False,
+		default = 0.0,
+		verbose_name = _('availability level'),
+		help_text = """
+			The level of availability this availability slot represents. 0.0 implies the slot is
+			unavailable for selection whereas 1.0 implies the slot is absolutely available for
+			selection.
+		"""
+	)
+	day = PositiveSmallIntegerField(
+		choices = [ (value, day.value) for (value, day) in enumerate(DayOfWeek.__members__.values()) ],
+		null = False,
+		verbose_name = _('day of week')
+	)
+	time = PositiveSmallIntegerField(
+		choices = [
+			(0, _('07:00')),
+			(1, _('08:30')),
+			(2, _('10:00')),
+			(3, _('11:30')),
+			(4, _('13:00')),
+			(5, _('14:30')),
+			(6, _('16:00')),
+			(7, _('17:30')),
+			(8, _('19:00')),
+			(9, _('20:30'))
+		],
+		null = False,
+		verbose_name = _('time slot')
+	)
 
-	class Entry(object):
+	class Meta(object):
 
-		def __init__(self, course):
-
-			self.instructor = course.instructor_id,
-			self.course_id = course.id,
-			self.day = course.day,
-			self.time = course.time
-			self._course = course
-
-		@property
-		def course(self): return self._course
-		@course.setter
-		def course(self, course):
-
-			self.instructor = course.instructor_id,
-			self.course_id = course.id,
-			self.day = course.day,
-			self.time = course.time
-			self._course = course
-
-	def __init__(self): pass
+		db_table = 'rhea_a_entry'
+		verbose_name = _('availability entry')
+		verbose_name_plural = _('availability entries')
+		app_label = 'rhea'

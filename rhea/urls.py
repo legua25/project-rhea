@@ -57,14 +57,15 @@ urlpatterns = [
 			], namespace = 'subjects', app_name = 'rhea'))
 
 		], namespace = 'curricula', app_name = 'rhea')),
+
 		# Users, roles & permissions management
 		url(r'^users/', include([
 
-			url(r'^$', debug, name = 'list'),
-			url(r'^create/$', debug, name = 'create'),
+			url(r'^$', rhea.users.list, name = 'list'),
+			url(r'^create/$', rhea.users.create, name = 'create'),
 			url(r'^(?P<id>[LA][\d]+)/', include([
 
-				url(r'^$', debug, name = 'view'),
+				url(r'^$', rhea.users.view, name = 'view'),
 				url(r'^schedule/$', debug, name = 'query')
 
 			]))
