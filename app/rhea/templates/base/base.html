@@ -5,10 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<title>{% block title %}{% endblock title %}</title>
-		<link rel="stylesheet" href="{% static 'css/style.css' %}" />
-
-		<script src="{% static 'js/jquery.min.js' %}" async></script>
-		<script src="{% static 'js/bootstrap.min.js' %}" async></script>{% block scripts %}{% endblock scripts %}
+		<link rel="stylesheet" href="{% static 'css/style.css' %}" />{% block js %}{% endblock js %}
 	</head>
 	<body>
 		<nav id="navigation" class="navbar-navbar-default navbar-fixed-top">
