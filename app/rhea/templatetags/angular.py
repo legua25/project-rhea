@@ -13,7 +13,7 @@ class AngularNode(Node):
 	def render(self, context):
 		return '{{ %s }}' % ' '.join(self._contents[1:])
 
-@register.tag(name = 'angular')
+@register.tag(name = 'ng')
 def angular_tag(parser, token):
 
 	contents = token.split_contents()

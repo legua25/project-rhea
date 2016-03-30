@@ -3,30 +3,45 @@
 
 	define(function (require) {
 
-		require('jquery');
 		const angular = require('angular');
 
-		// <paginator> directive - automatic pagination with pluggable data source
+		// <paginator> directive - automatic pagination with pluggable data source and configurable representation
+		/* Example:
+
+		    <paginator data="subjects(page, size)" size="15">
+				<table class="table table-bordered table-hover">
+					<thead>
+						<tr><th>#</th> <th>Name</th> <th>Code</th> <th>Hours per Week</th></tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="entry in entries">
+							<td>{% ng entry.id %}</td> <td>{% ng entry.name %}</td> <td>{% ng entry.code %}</td> <td>{% ng entry.hours %}</td>
+						</tr>
+					</tbody>
+				</table>
+			</paginator>
+
+		*/
 		return function paginator() {
 
 			const template = `
 				<div class="paginator">
-					<div class="container-fluid">
-						<table class="table table-responsive table-hover paginator-table"></table>
+					<section class="container-fluid">
+						<div class="paginator-content"></div>
 						<div class="col-xs-12 text-center">
 							<ul class="pager paginator-control">
-								<li class="previous" ng-class="{ false: 'disabled' }[$paginator.$previous === false]"><a href="#" ng-click="$paginator.previous()">&larr; Previous</a></li>
-								<li class="next" ng-class="{ false: 'disabled' }[$paginator.$next === false]"><a href="#" ng-click="$paginator.next()">Next &rarr;</a></li>
+								<li class="previous" ng-class="{ false: 'disabled' }[$paginator.$previous !== false]"><a href="#" ng-click="$paginator.previous()">&larr; Previous</a></li>
+								<li class="next" ng-class="{ false: 'disabled' }[$paginator.$next !== false]"><a href="#" ng-click="$paginator.next()">Next &rarr;</a></li>
 							</ul>
 						</div>
-					</div>
+					</section>
 				</div>
 			`;
 
 			function controller($scope, $element, $transclude) {
 
 				const $size = ($scope.size || 15);
-				const $table = $element.find('table.paginator-table');
+				const $panel = $element.find('.paginator-content');
 				const $source = $scope.data;
 
 				let $page_scope = null;
@@ -41,7 +56,6 @@
 
 					// Reset the paginator - release resources and scopes
 					this.page = false;
-					$table.empty();
 					if ($page_scope !== null) {
 
 						$page_scope.$destroy();
@@ -72,11 +86,12 @@
 					// recently-loaded entries
 					$transclude(function (element, scope) {
 
-						$table.append(element);
-
 						$page_scope = scope;
 						$page_scope.entries = entries;
 						$page_scope.$offset = (this.page * $size);
+
+						$panel.empty();
+						$panel.prepend(element);
 					}.bind(this));
 				};
 

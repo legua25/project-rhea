@@ -1,13 +1,13 @@
 # -*- config: utf-8 -*-
 from __future__ import unicode_literals
-
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy as reverse
 from django.views.generic import RedirectView
 from django.conf.urls.static import static
 from django.conf.urls import url, include
 from django.conf import settings
 
 
+redirect = RedirectView.as_view
 def debug(request, **kwargs):
 
 	from django.http import JsonResponse
@@ -15,13 +15,12 @@ def debug(request, **kwargs):
 		'version': '0.1.0',
 		'status': 501
 	}, status = 501)
-def redirect(url, **kwargs):
-	return RedirectView.as_view(url = url, **kwargs)
 
 
 from app.rhea import views as rhea
 urlpatterns = [
 
+	url(r'^$', redirect(url = reverse('accounts:login')), name = 'index'),
 	url(r'^accounts/', include([
 
 		url(r'^login/$', debug, name = 'login'),

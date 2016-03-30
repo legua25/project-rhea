@@ -5,7 +5,9 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<title>{% block title %}{% endblock title %}</title>
-		<link rel="stylesheet" href="{% static 'css/style.css' %}" />{% block js %}{% endblock js %}
+		<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+		<script src="{% static 'js/vendor/require.js' %}" data-main="{% static 'js/rhea/config' %}"></script>
+		<script type="text/javascript">{% block js %}{% endblock js %}</script>
 	</head>
 	<body>
 		<nav id="navigation" class="navbar-navbar-default navbar-fixed-top">
@@ -18,7 +20,7 @@
 		</main>
 		<footer id="footer" class="footer footer-inverse">
 			<div class="container">
-				...
+				{% block footer %}{% endblock footer %}
 			</div>
 		</footer>
 	</body>
