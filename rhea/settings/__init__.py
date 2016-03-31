@@ -4,29 +4,6 @@ from _base import BaseConfiguration as Config
 from configurations.values import SecretValue
 from os.path import join
 
-"""
-
-	NOTE: There is a bug regarding neo4django for Django >= 1.9. The "django.utils.importlib" module was deprecated in
-	1.7 and removed in 1.9, making the import fail. Add the following to the file "neo4django/utils.py", line 242 to
-	create a workaround:
-
-	try: from django.utils.importlib import import_module
-	except ImportError: from importlib import import_module
-
-	Also, we have an error in the "query" module due to the same. The following imports must be modified as follows:
-
-	# Add support for the new applications registry model
-	try: from django.apps.registry import apps
-	except ImportError: from django.db.models.loading import get_model
-	else: get_model = apps.get_model
-
-	try: from django.utils.datastructures import SortedDict
-	except ImportError: from collections import OrderedDict as SortedDict
-
-	Remember to post the fix as a pull request one of these days... 'cause that's what you do when you fix someone
-	else's laziness-triggered mistakes.
-
-"""
 
 class Development(Config):
 

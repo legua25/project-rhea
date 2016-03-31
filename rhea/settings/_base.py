@@ -27,7 +27,8 @@ class BaseConfiguration(Configuration):
 		'django.contrib.sessions',
 		'django.contrib.messages',
 		'django.contrib.staticfiles',
-
+		'widget_tweaks',
+		'imagekit',
 		'app.rhea'
 	]
 
