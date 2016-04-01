@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
-from django.core.urlresolvers import reverse_lazy
-from django.shortcuts import render_to_response
 from django.views.generic import View
 from django.http import JsonResponse
 from app.rhea.models import *
@@ -54,7 +51,7 @@ class ProgramCreateView(View):
 	@method_decorator(csrf_protect)
 	# @method_decorator(login_required)
 	# @method_decorator(role_required('administrator'))
-	def post(self, request):
+	def put(self, request):
 
 		return JsonResponse({
 			'version': '0.1.0',
@@ -71,7 +68,7 @@ class ProgramView(View):
 	def get(self, request, acronym = ''):
 
 		# Try to locate the subject - return 404 Not Found if code is invalid
-		try: program = AcademicProgram.objects.get(acronym = acronym, active = True)
+		try: program = AcademicProgram.objects.get_active(acronym = acronym)
 		except Subject.DoesNotExist:
 			return JsonResponse({ 'version': '0.1.0', 'status': 404 }, status = 404)
 		else:

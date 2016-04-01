@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from . import students, instructors
+
+__all__ = [ 'list', 'students', 'instructors' ]
+
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
-from django.core.urlresolvers import reverse_lazy
-from django.shortcuts import render_to_response
 from django.contrib.auth import get_user_model
 from django.views.generic import View
 from django.http import JsonResponse
 from django.db.models import Q
 from app.rhea.models import *
 
-__all__ = [ 'list' ]
-
 User = get_user_model()
+
 
 class UserListView(View):
 
@@ -91,85 +91,3 @@ class UserListView(View):
 		else:
 			return JsonResponse({ 'version': '0.1.0', 'status': 404 }, status = 404)
 list = UserListView.as_view()
-
-
-class UserCreateView(View):
-
-	@method_decorator(csrf_protect)
-	# @method_decorator(login_required)
-	# @method_decorator(role_required('administrator'))
-	def post(self, request):
-
-		# user_type = request.GET.get('type', 'user')
-
-		return JsonResponse({
-			'version': '0.1.0',
-			'status': 501
-		}, status = 501)
-create = UserCreateView.as_view()
-
-
-class UserView(View):
-
-	@method_decorator(csrf_protect)
-	# @method_decorator(login_required)
-	# @method_decorator(role_required('administrator'))
-	def get(self, request, id = ''):
-
-		# Determine the type of user to request
-		user_type = request.GET.get('type', 'user')
-		if user_type == 'student': UserClass = Student
-		elif user_type == 'instructor': UserClass = Instructor
-		elif user_type == 'user': UserClass = User
-		else:
-			return JsonResponse({ 'version': '0.1.0', 'status': 404 }, status = 404)
-
-		# Try to locate the subject - return 404 Not Found if code is invalid
-		try: user = UserClass.objects.get(user_id = id, active = True)
-		except UserClass.DoesNotExist:
-			return JsonResponse({ 'version': '0.1.0', 'status': 404 }, status = 404)
-		else:
-
-			# Serialize the user
-			user_dict = {
-				'id': user.user_id,
-				'name': user.full_name,
-				'email': user.email_address
-			}
-
-			# Add additional data if the user is a student or an instructor
-			if user_type == 'student':
-
-				user_dict['program'] = user.program_id
-				user_dict['semester'] = user.semester
-				user_dict['subjects'] = [ s.dependent.code for s in user.subjects.all() ]
-			elif user_type == 'instructor':
-
-				user_dict['subjects'] = [ s.code for s in user.subjects.all() ]
-
-			# Serialize and send back response
-			return JsonResponse({
-				'version': '0.1.0',
-				'status': 200,
-				'type': user_type,
-				'user': user_dict
-			})
-	@method_decorator(csrf_protect)
-	# @method_decorator(login_required)
-	# @method_decorator(role_required('administrator'))
-	def post(self, request, code = ''):
-
-		return JsonResponse({
-			'version': '0.1.0',
-			'status': 501
-		}, status = 501)
-	@method_decorator(csrf_protect)
-	# @method_decorator(login_required)
-	# @method_decorator(role_required('administrator'))
-	def delete(self, request, code = ''):
-
-		return JsonResponse({
-			'version': '0.1.0',
-			'status': 501
-		}, status = 501)
-view = UserView.as_view()

@@ -18,7 +18,9 @@ class ActiveManager(Manager):
 
 	def inactive(self, *args, **kwargs): return self.filter(active = False, *args, **kwargs)
 	def active(self, *args, **kwargs): return self.filter(active = True, *args, **kwargs)
-class InheritanceManager(BaseInheritanceManager, ActiveManager):
+	def get_active(self, *args, **kwargs): return self.get(active = True, *args, **kwargs)
+	def get_inactive(self, *args, **kwargs): return self.get(active = False, *args, **kwargs)
+class InheritanceManager(ActiveManager, BaseInheritanceManager):
 	""" A utility class which adds inheritance resolution support to an active manager.	"""
 
 	pass

@@ -224,6 +224,16 @@ class InstructorManager(UserManager):
 		return Subject.objects.active(id__in = available)
 class Instructor(User):
 
+	title = CharField(
+		max_length = 16,
+		null = False,
+		default = '',
+		verbose_name = _('title'),
+		help_text = """
+			Because instructors have spent lots of time to earn that nice title of theirs,
+			shouldn't we just provide them a way to showcase it?
+		"""
+	)
 	subjects = ManyToManyField('rhea.Subject',
 		related_name = 'instructors',
 		through = 'rhea.Specialty',

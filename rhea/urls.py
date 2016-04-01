@@ -57,17 +57,37 @@ urlpatterns = [
 
 		], namespace = 'curricula', app_name = 'rhea')),
 
-		# Users, roles & permissions management
+		# Users management
 		url(r'^users/', include([
 
 			url(r'^$', rhea.users.list, name = 'list'),
-			url(r'^create/$', rhea.users.create, name = 'create'),
-			url(r'^(?P<id>[LA][\d]+)/', include([
+			url(r'^students/', include([
 
-				url(r'^$', rhea.users.view, name = 'view'),
-				url(r'^schedule/$', debug, name = 'query')
+				url(r'^create/$', rhea.users.students.create, name = 'create'),
+				url(r'^(?P<id>[aA][\d]+)/', include([
 
-			]))
+					url(r'^$', rhea.users.students.view, name = 'view'),
+					url(r'^schedule/', include([
+
+						url(r'^$', debug, name = 'schedule'),
+						url(r'^(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', debug, name = 'select')
+
+					]))
+
+				]))
+
+			], namespace = 'students')),
+			url(r'^instructors/', include([
+
+				url(r'^create/$', rhea.users.instructors.create, name = 'create'),
+				url(r'^(?P<id>[lL][\d]+)/', include([
+
+					url(r'^$', rhea.users.instructors.view, name = 'view'),
+					url(r'^schedule/$', debug, name = 'schedule')
+
+				]))
+
+			], namespace = 'instructors'))
 
 		], namespace = 'users', app_name = 'rhea'))
 

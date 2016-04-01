@@ -42,6 +42,9 @@ class Development(Config):
 			}
 		}
 	}
+
+	# Email
+	EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 class Testing(Config):
 
 	# Base settings
@@ -80,3 +83,6 @@ class Testing(Config):
 			}
 		}
 	}
+
+	# Email
+	EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
