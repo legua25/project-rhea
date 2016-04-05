@@ -3,7 +3,7 @@ Welcome to Project Rhea, {{ student.full_name }}.
 You have received this email because you've been enrolled into Project Rhea. Here are your account details as
 provided by the institution:
 
-- Enroll ID: {{ student.enroll_id }}
+- Enroll ID: {{ student.user_id }}
 - Generated password: {{ password }}
 
 We recommend changing your password on your first visit for something more memorable. We hope you'll enjoy

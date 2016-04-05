@@ -89,7 +89,15 @@ urlpatterns = [
 
 			], namespace = 'instructors'))
 
-		], namespace = 'users', app_name = 'rhea'))
+		], namespace = 'users', app_name = 'rhea')),
+
+		# Scheduling process management
+		url(r'^schedule/', include([
+
+			url(r'^subjects/$', rhea.schedule.subjects, name = 'subjects'),
+			url(r'^courses/$', debug, name = 'courses')
+
+		], namespace = 'schedule', app_name = 'rhea'))
 
 	], namespace = 'manage', app_name = 'rhea')),
 

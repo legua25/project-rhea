@@ -162,6 +162,7 @@ class Student(User):
 	)
 	subjects = ManyToManyField('rhea.Requirement',
 		related_name = '+',
+		related_query_name = 'students',
 		verbose_name = _('currently-coursing subjects'),
 	    help_text = """
             This is a list of pointers to subjects in the academic program's requirements tree,
