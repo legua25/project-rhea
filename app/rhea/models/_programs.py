@@ -99,7 +99,7 @@ class SubjectManager(ActiveManager):
 			# If all dependencies are included in the coursed set, it's also a candidate
 			elif all(dependency in coursed for dependency in dependencies): candidates.append(subject)
 
-		query = (Q(dependent_id__in = candidates) | (Q(semester__range = [ 1, semester + 2 ]) & ~Q(dependent_id__in = candidates + coursed)))
+		query = (Q(dependent_id__in = candidates) | (Q(semester__range = [ 1, semester + 1 ]) & ~Q(dependent_id__in = candidates + coursed)))
 		query = Requirement.objects.active(query).values_list('dependent_id', flat = True)
 		return Subject.objects.active(id__in = query)
 class Subject(Model):
@@ -234,6 +234,7 @@ class Requirement(Model):
 	)
 	dependent = ForeignKey('rhea.Subject',
 		related_name = '+',
+		related_query_name = 'requirements',
 		null = True,
 	    verbose_name = _('dependent'),
 	    help_text = """

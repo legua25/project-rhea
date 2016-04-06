@@ -31,26 +31,30 @@ def _evaluate(schedule, (inserted, conflicts), total):
 
 class ScheduleBuilder(object):
 
-	def __init__(self, instructor):
+	def __init__(self, instructor, available):
 
 		self.instructor = instructor
 
 		schedule = instructor.availability.entries.all().filter(active = True)
-		subjects = instructor.specialties.all().filter(active = True)
+		subjects = instructor.specialties.all().filter(active = True, confidence__gt = 0.0, subject_id__in = available)
 		days = len(DayOfWeek.__members__)
 
-		self._entries = { subject: { day: defaultdict(lambda: 0.0) for day in range(days) } for subject in subjects.values_list('subject_id', flat = True) }
-		self._courses = []
+		if subjects.exists():
 
-		# Initialize the probability matrix with what we know
-		for (subject, confidence) in subjects.values_list('subject_id', 'confidence'):
-			for (level, day, time) in schedule.values_list('level', 'day', 'time'):
-				self._entries[subject][day][time] = (level * confidence)
+			self._entries = { subject: { day: defaultdict(lambda: 0.0) for day in range(days) } for subject in subjects.values_list('subject_id', flat = True) }
+			self._courses = []
 
-		# Generate a schedule for this instructor
-		subjects_list = [ subject for subject in subjects.values_list('subject_id', flat = True) ]
-		slots_list = [ entry for entry in schedule.values_list('day', 'time') ]
-		self.entries = self._refine(subjects_list, slots_list)
+			# Initialize the probability matrix with what we know
+			for (subject, confidence) in subjects.values_list('subject_id', 'confidence'):
+				for (level, day, time) in schedule.values_list('level', 'day', 'time'):
+					self._entries[subject][day][time] = (level * confidence)
+
+			# Generate a schedule for this instructor
+			subjects_list = [ subject for subject in subjects.values_list('subject_id', flat = True) ]
+			slots_list = [ entry for entry in schedule.values_list('day', 'time') ]
+
+			self.entries = self._refine(subjects_list, slots_list)
+		else: self.entries = {}
 
 	def _refine(self, subjects, slots):
 

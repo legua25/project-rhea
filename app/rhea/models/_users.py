@@ -6,8 +6,10 @@ from imagekit.models.fields import ProcessedImageField
 from django.utils.functional import cached_property
 from django.core.validators import RegexValidator
 from _programs import Subject, Requirement
+from django.db.transaction import atomic
 from pilkit.processors import SmartCrop
 from django.utils.timezone import now
+from collections import defaultdict
 from django.db.models import *
 from _base import (
 	InheritanceManager,
@@ -136,18 +138,27 @@ class User(Model, AbstractBaseUser):
 
 class StudentManager(UserManager):
 
-	def demanded_subjects(self):
+	def demanded_subjects(self, minimum):
 
 		# Offer is dictated by students depending on their candidate subjects
-		subjects = []
-		students = self.select_subclasses().filter(active = True)
+		subjects = defaultdict(lambda: 0)
+		with atomic():
 
-		# Get all candidate subjects for each student
-		for student in students:
-			subjects.extend([ subject.id for subject in student.candidate_subjects ])
+			students = self.select_subclasses().filter(active = True)
+
+			# Get all candidate subjects for each student
+			for student in students:
+				for subject in student.candidate_subjects.values_list('id', flat = True):
+					subjects[subject] += 1
+
+			# Remove all those subjects which are required by less than the minimum amount of students
+			for subject in subjects.keys():
+
+				if subjects[subject] < minimum:
+					del subjects[subject]
 
 		# We require subjects to compare against subjects
-		return Subject.objects.active(id__in = set(subjects))
+		return Subject.objects.active(id__in = subjects.iterkeys())
 class Student(User):
 
 	program = ForeignKey('rhea.AcademicProgram',
@@ -216,11 +227,13 @@ class InstructorManager(UserManager):
 
 		# We require subjects to compare against subjects
 		return Subject.objects.active(id__in = set(subjects))
-	def available_subjects(self):
+	def available_subjects(self, minimum):
 
-		demand = set(Student.objects.demanded_subjects().values_list('id', flat = True))
-		offer = set(self.offered_subjects().values_list('id', flat = True))
-		available = demand.intersection(offer)
+		with atomic():
+
+			demand = set(Student.objects.demanded_subjects(minimum).values_list('id', flat = True))
+			offer = set(self.offered_subjects().values_list('id', flat = True))
+			available = demand.intersection(offer)
 
 		return Subject.objects.active(id__in = available)
 class Instructor(User):

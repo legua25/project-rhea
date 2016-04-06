@@ -95,7 +95,7 @@ urlpatterns = [
 		url(r'^schedule/', include([
 
 			url(r'^subjects/$', rhea.schedule.subjects, name = 'subjects'),
-			url(r'^courses/$', debug, name = 'courses')
+			url(r'^courses/$', rhea.schedule.courses, name = 'courses')
 
 		], namespace = 'schedule', app_name = 'rhea'))
 
