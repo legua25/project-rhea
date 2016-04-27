@@ -11,26 +11,25 @@ redirect = RedirectView.as_view
 def debug(request, **kwargs):
 
 	from django.http import JsonResponse
+	from django.middleware.csrf import get_token
+
 	return JsonResponse({
 		'version': '0.1.0',
-		'status': 501
+		'status': 501,
+		'csrf': get_token(request)
 	}, status = 501)
 
 
 from app.rhea import views as rhea
 urlpatterns = [
 
+	url(r'^test/$', debug, name = 'test'),
 	url(r'^$', redirect(url = reverse('accounts:login')), name = 'index'),
 	url(r'^accounts/', include([
 
-		url(r'^login/$', debug, name = 'login'),
-		url(r'^logout/$', debug, name = 'logout'),
-		url(r'^recover/', include([
-
-			url(r'^$', debug, name = 'request'),
-			url(r'^(?P<id>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', debug, name = 'reset')
-
-		], namespace = 'recover', app_name = 'rhea'))
+		url(r'^login/$', rhea.auth.login, name = 'login'),
+		url(r'^logout/$', rhea.auth.logout, name = 'logout'),
+		url(r'^(?P<id>[aAlL][\d]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', rhea.auth.validate, name = 'validate')
 
 	], namespace = 'accounts', app_name = 'rhea')),
 
@@ -94,8 +93,23 @@ urlpatterns = [
 		# Scheduling process management
 		url(r'^schedule/', include([
 
+			url(r'^update/', include([
+
+				url(r'^$', debug, name = 'start'),
+				url(r'^progress/$', debug, name = 'progress'),
+				url(r'^(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', debug, name = 'process')
+
+			], namespace = 'update', app_name = 'rhea')),
 			url(r'^subjects/$', rhea.schedule.subjects, name = 'subjects'),
-			url(r'^courses/$', rhea.schedule.courses, name = 'courses')
+			url(r'^courses/$', rhea.schedule.courses, name = 'courses'),
+			url(r'^schedule/', include([
+
+				url(r'^$', debug, name = 'start'),
+				url(r'^progress/$', debug, name = 'progress'),
+				url(r'^(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', debug, name = 'process')
+
+			], namespace = 'schedule', app_name = 'rhea')),
+			url(r'^gathering/$', debug, name = 'gathering')
 
 		], namespace = 'schedule', app_name = 'rhea'))
 

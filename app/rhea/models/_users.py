@@ -190,6 +190,20 @@ class Student(User):
 			in the study plan's progress.
 		"""
 	)
+	# Schedule goes here
+	last_confirmation = DateTimeField(
+		auto_now = False,
+		null = True,
+		default = None,
+		editable = False,
+		verbose_name = _('last update confirmation date'),
+		help_text = """
+			The last date in which the student selected a course schedule. All active students
+			are expected to do this. This date is not directly used other than by the token
+			generator and exclusion strategies to determine who has performed the selection and
+			who hasn't.
+		"""
+	)
 
 	objects = StudentManager()
 
@@ -206,6 +220,7 @@ class Student(User):
 
 		self.subjects = Requirement.objects.filter(semester = semester, program = self.program)
 		self.semester = semester
+		self.save()
 
 	class Meta(object):
 
@@ -271,6 +286,20 @@ class Instructor(User):
 			instructor and marks periods of the week in which he/she can/cannot instruct courses.
 			This is "multiplied" per course assignable to this instructor to yield a probability
 			matrix in which a course may be assigned.
+		"""
+	)
+	# Schedule goes here
+	last_confirmation = DateTimeField(
+		auto_now = False,
+		null = True,
+		default = None,
+		editable = False,
+		verbose_name = _('last update confirmation date'),
+		help_text = """
+			The last date in which the instructor performed a status update. All active instructors
+			are expected to do this. This date is not directly used other than by the token
+			generator and exclusion strategies to determine who has performed the update and who
+			hasn't.
 		"""
 	)
 

@@ -135,7 +135,6 @@ class ScheduleCourseView(View):
 				'courses': courses
 			})
 
-
 		except ValidationError:
 			return JsonResponse({ 'version': '0.1.0', 'status': 403 }, status = 403)
 courses = cache_page(3600)(ScheduleCourseView.as_view())

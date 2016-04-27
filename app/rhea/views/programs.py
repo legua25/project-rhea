@@ -187,7 +187,7 @@ class ProgramView(View):
 	@method_decorator(csrf_protect)
 	# @method_decorator(login_required)
 	# @method_decorator(role_required('administrator'))
-	def post(self, request, code = ''):
+	def post(self, request, acronym = ''):
 
 		return JsonResponse({
 			'version': '0.1.0',
@@ -196,10 +196,13 @@ class ProgramView(View):
 	@method_decorator(csrf_protect)
 	# @method_decorator(login_required)
 	# @method_decorator(role_required('administrator'))
-	def delete(self, request, code = ''):
+	def delete(self, request, acronym = ''):
 
-		return JsonResponse({
-			'version': '0.1.0',
-			'status': 501
-		}, status = 501)
+		try: program = AcademicProgram.objects.get_active(acronym = acronym)
+		except AcademicProgram.DoesNotExist:
+			return JsonResponse({ 'version': '0.1.0', 'status': 404 }, status = 404)
+		else:
+
+			program.delete(soft = True)
+			return JsonResponse({ 'version': '0.1.0', 'status': 200 })
 view = ProgramView.as_view()
