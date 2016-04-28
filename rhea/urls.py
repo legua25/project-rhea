@@ -100,8 +100,8 @@ urlpatterns = [
 				url(r'^(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', debug, name = 'process')
 
 			], namespace = 'update', app_name = 'rhea')),
-			url(r'^subjects/$', rhea.schedule.subjects, name = 'subjects'),
-			url(r'^courses/$', rhea.schedule.courses, name = 'courses'),
+			url(r'^subjects/$', rhea.pipeline.subjects, name = 'subjects'),
+			url(r'^courses/$', rhea.pipeline.courses, name = 'courses'),
 			url(r'^schedule/', include([
 
 				url(r'^$', debug, name = 'start'),

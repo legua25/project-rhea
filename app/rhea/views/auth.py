@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
-from dateutil.relativedelta import relativedelta as timedelta
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import update_last_login
 from jsonschema import Draft4Validator, ValidationError
@@ -9,10 +8,8 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth import get_user_model
 from app.rhea.tokens import AuthTokenFactory
 from django.views.generic import View
-from django.utils.timezone import now
 from django.http import JsonResponse
 from base64 import b64decode
-from time import mktime
 from json import loads
 
 from django.contrib.auth import (
@@ -46,7 +43,6 @@ class LoginView(View):
 	def post(self, request):
 
 		data = loads(request.body)
-
 		try:
 
 			# Validate the user's credentials

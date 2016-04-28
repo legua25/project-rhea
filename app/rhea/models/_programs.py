@@ -172,12 +172,15 @@ class RequirementManager(ActiveManager):
 	def dependencies_for(self, program, subject):
 
 		# We must convert the requirement to a list of subject IDs so the subject may convert them back
-		query = self.select_related('dependent', 'dependency').filter(dependent_id = subject, program_id = program, active = True)
-		return query.values_list('dependency_id', flat = True)
+		query = self.select_related('dependent', 'dependency').filter(dependent_id = subject, program_id = program, active = True, dependency__isnull = False)
+		values = query.values_list('dependency_id', flat = True)
+
+
+		return values
 	def dependents_for(self, program, subject):
 
 		# We must convert the requirement to a list of subject IDs so the subject may convert them back
-		query = self.select_related('dependent', 'dependency').filter(dependency_id = subject, program_id = program, active = True)
+		query = self.select_related('dependent', 'dependency').filter(dependency_id = subject, program_id = program, active = True, dependent__isnull = False)
 		return query.values_list('dependent_id', flat = True)
 	def ancestors_for(self, program, subject):
 

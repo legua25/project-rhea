@@ -97,6 +97,10 @@ class SubjectCreateView(View):
 			for e in entries:
 
 				code, name, hours = e['code'], e['name'], e['hours']
+
+				if Subject.objects.active(code__iexact = code).exists():
+					raise ValueError('Subject with code "%s" already exists' % code.upper())
+
 				subjects.append(Subject.objects.create(
 					code = code.upper(),
 					name = name,
@@ -117,9 +121,10 @@ class SubjectCreateView(View):
 				]
 			}, status = 201)
 
+		except ValueError:
+			return JsonResponse({ 'version': '0.1.0', 'status': 407 }, status = 407)
 		except ValidationError:
 			return JsonResponse({ 'version': '0.1.0', 'status': 403 }, status = 403)
-
 create = SubjectCreateView.as_view()
 
 class SubjectView(View):
@@ -136,7 +141,7 @@ class SubjectView(View):
 					{
 						'type': 'integer',
 						'multipleOf': 1,
-						'maximum': 10,
+						'maximum': 72,
 						'minimum': 1,
 						'exclusiveMaximum': True,
 						'exclusiveMinimum': False
