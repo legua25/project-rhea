@@ -1,27 +1,36 @@
 <!DOCTYPE html>
-<html lang="en-us">
-	<head>{% load static %}
+<html lang="en-us" ng-controller="Rhea as rhea">
+	<head>{% load static angular %}
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		<title>{% block title %}{% endblock title %}</title>
+		<title>{% ng rhea.$title %} | Rhea Scheduling System</title>
 		<link rel="stylesheet" href="{% static 'css/style.css' %}" />
-		<script src="{% static 'js/vendor/require.js' %}" data-main="{% static 'js/rhea/config' %}"></script>
-		<script type="text/javascript">{% block js %}{% endblock js %}</script>
+
+		<script type="text/javascript">
+			'use strict';
+			var require = { 'baseUrl': '{% static 'js' %}' };
+		</script>
+		<script src="{% static 'js/vendor/require.js' %}"></script>
+		<script type="text/javascript">
+			(function () {
+				'use strict';
+
+				// Manual initialization of RequireJS module system
+				require([ 'config' ], () => {
+					require([ 'lodash', 'jquery', 'angular-aria', 'angular-cookies', 'bootstrap' ], (_, $, angular) => {
+						{% block js %}{% endblock js %}
+					});
+				});
+			})();
+		</script>
 	</head>
 	<body>
-		<nav id="navigation" class="navbar-navbar-default navbar-fixed-top">
-			<header class="navbar-header">
-				{% block navigation %}{% endblock navigation %}
+		<nav id="navigation" class="navbar navbar-default navbar-fixed-top" ng-if="rhea.$user !== false">
+			<header class="navbar-header" style="width: 100%">
+				<div class="container-fluid">{% block navigation %}{% endblock navigation %}</div>
 			</header>
 		</nav>
-		<main id="content" class="container">
-			{% block content %}{% endblock content %}
-		</main>
-		<footer id="footer" class="footer footer-inverse">
-			<div class="container">
-				{% block footer %}{% endblock footer %}
-			</div>
-		</footer>
+		<main id="content" class="container ng-cloak" style="padding-top: 72px">{% block content %}{% endblock content %}</main>
 	</body>
 </html>

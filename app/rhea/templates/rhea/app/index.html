@@ -1,0 +1,42 @@
+{% extends 'base/base.html' %}
+{% load angular %}
+
+						{% block js %}require([ 'rhea/index' ], () => {
+							$(document).ready(() => { angular.bootstrap(document, [ 'ngAria', 'ngCookies', 'rhea' ]); });
+						});{% endblock js %}
+
+				{% block navigation %}
+					<a href="#/" class="navbar-brand" style="margin-right: 15px; color: #4790A0">
+						<i class="glyphicon glyphicon-calendar" style="margin-right: 15px"></i>
+						<span class="form-control-static"><strong>RHEA</strong> <small>Scheduling System</small></span>
+					</a>
+					<ul class="nav navbar-nav">
+						<li><a href="#/program/">Programs</a></li>
+						<li><a href="#/student/">Students</a></li>
+						<li><a href="#/instructor/">Instructors</a></li>
+					</ul>
+					<ul class="navbar-right nav navbar-nav">
+						<li class="dropdown" ng-if="rhea.$user.can('view-admin')">
+							<a class="dropdown-toggle" style="cursor: pointer" data-toggle="dropdown"><i class="glyphicon glyphicon-cog"></i></a>
+							<ul class="dropdown-menu">
+								<li ng-if="rhea.$user.can('edit-programs')"><a href="#/manage/program/">Manage Programs &amp; Subjects</a></li>
+								<li ng-if="rhea.$user.can('edit-students')"><a href="#/manage/student/">Manage Students</a></li>
+								<li ng-if="rhea.$user.can('edit-instructors')"><a href="#/manage/instructor/">Manage Instructors</a></li>
+								<li class="divider"></li>
+								<li ng-if="rhea.$user.can('view-pipeline')"><a href="#/manage/pipeline/">Manage Scheduling</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a class="dropdown-toggle" style="cursor: pointer" data-toggle="dropdown">
+								<i class="glyphicon glyphicon-user"></i> {% ng rhea.$user.name %} <i class="caret"></i>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="#/profile/">My Profile&hellip;</a></li>
+								<li><a href="#/logout/">Log out</a></li>
+							</ul>
+						</li>
+					</ul>
+				{% endblock navigation %}
+
+		{% block content %}{% include 'rhea/app/parts/auth.html' %}
+		{% endblock content %}

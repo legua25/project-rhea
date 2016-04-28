@@ -127,6 +127,12 @@ class User(Model, AbstractBaseUser):
 
 	def get_full_name(self): return self.full_name
 	def get_short_name(self): return self.full_name
+	def all_permissions(self):
+
+		perms = { p for p in self.permissions.all().filter(active = True) }
+		if self.role is not None: perms |= self.role.all_permissions()
+
+		return perms
 
 	class Meta(object):
 

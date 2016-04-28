@@ -85,6 +85,12 @@ class Role(Model):
 
 		# All permissions must be granted or it's a fail
 		return all([ has_perm(self, perm) for perm in permissions ])
+	def all_permissions(self):
+
+		perms = { p for p in self.permissions.all().filter(active = True) }
+		if self.base is not None: perms |= self.base.all_permissions()
+
+		return perms
 
 	class Meta(object):
 

@@ -23,8 +23,8 @@ def debug(request, **kwargs):
 from app.rhea import views as rhea
 urlpatterns = [
 
-	url(r'^test/$', debug, name = 'test'),
-	url(r'^$', redirect(url = reverse('accounts:login')), name = 'index'),
+	url(r'^$', rhea.view, name = 'index'),
+	url(r'^view/(?P<template>[\w\d]+)/$', rhea.view, name = 'template'),
 	url(r'^accounts/', include([
 
 		url(r'^login/$', rhea.auth.login, name = 'login'),

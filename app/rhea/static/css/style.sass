@@ -1,2 +1,42 @@
+@charset "UTF-8"
 @import "bootstrap/_bootstrap"
 @import "bootstrap/_lumen"
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide:not(.ng-hide-animate)
+	display: none !important
+ng\:form
+	display: block
+.ng-animate-shim
+	visibility: hidden
+.ng-anchor
+	position: absolute
+
+@mixin cover()
+	position: absolute
+	top: 0
+	bottom: 0
+	left: 0
+	right: 0
+
+html, body
+	height: 100%
+
+section#authentication
+	+cover
+	background: no-repeat fixed
+	background-size: cover
+	align-items: center
+	display: flex
+
+	& .overlay
+		+cover
+		background: rgba(0, 0, 0, 0.2)
+
+	&.wallpaper-1
+		background-image: url(https://images.unsplash.com/photo-1437382944886-45a9f73d4158?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=733f1b1d8238de29d9fa41d841e96d0d)
+	&.wallpaper-2
+		background-image: url(https://images.unsplash.com/photo-1451906278231-17b8ff0a8880?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=1fbb817fbfe2b13a0c81de025e89a890)
+	&.wallpaper-3
+		background-image: url(https://images.unsplash.com/photo-1433190152045-5a94184895da?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=4578a679069b9fb7be2d39d5d2d1e2bf)
+	&.wallpaper-4
+		background-image: url(https://images.unsplash.com/photo-1440557653082-e8e186733eeb?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=446a504f97d92b1926453bb2d6d26518)

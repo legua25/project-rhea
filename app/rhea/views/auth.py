@@ -35,7 +35,6 @@ class LoginView(View):
 			'id': { 'type': 'string', 'minLength': 1 },
 			'password': { 'type': 'string', 'minLength': 1 }
 		},
-		'additionalProperties': False,
 		'required': [ 'id', 'password' ]
 	})
 
@@ -65,10 +64,16 @@ class LoginView(View):
 					return JsonResponse({
 						'version': '0.1.0',
 						'status': 200,
-						'token': token
+						'token': token,
+						'user': {
+							'id': user.user_id,
+							'name': user.full_name,
+							'email': user.email_address,
+							'permissions': [ p.codename for p in user.all_permissions() ]
+						}
 					})
 
-				return JsonResponse({ 'version': '0.1.0', 'status': 403 }, status = 403)
+				return JsonResponse({ 'version': '0.1.0', 'status': 404 }, status = 404)
 
 		except ValidationError:
 			return JsonResponse({ 'version': '0.1.0', 'status': 403 }, status = 403)
@@ -95,10 +100,22 @@ class TokenValidationView(View):
 			return JsonResponse({ 'version': '0.1.0', 'status': 404 }, status = 404)
 		else:
 
+			# Do not provide any details for any user other than ourselves
 			tokens = AuthTokenFactory()
-			return JsonResponse({
-				'version': '0.1.0',
-				'status': 200,
-				'token': tokens.check_token(user, token)
-			})
+			is_valid = tokens.check_token(user, token)
+			if request.user and (request.user.user_id == id and is_valid):
+
+				return JsonResponse({
+					'version': '0.1.0',
+					'status': 200,
+					'token': is_valid,
+					'user': {
+						'id': user.user_id,
+						'name': user.full_name,
+						'email': user.email_address,
+						'permissions': [ p.codename for p in user.all_permissions() ]
+					}
+				})
+
+			return JsonResponse({ 'version': '0.1.0', 'status': 200, 'token': is_valid })
 validate = TokenValidationView.as_view()
