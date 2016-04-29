@@ -22,21 +22,8 @@
 				this.id = this.id.trim();
 				this.password = this.password.trim();
 
-				if (!!(this.id && this.password)) {
-
-					const id = this.id;
-					const password = btoa(this.password);
-					console.log(password);
-
-					// Send the response by HTTP POST
-					const $http = this.$$ctrl.$$inject.get('$http');
-					$http.post(`/accounts/login/`, { 'id': id, 'password': password }, { 'headers': { 'X-CSRFToken': this.$$ctrl.$csrf } })
-					.then(({ 'data': data }) => {
-
-						this.$$ctrl.$token = `${data['user']['id']}:${data['token']}`;
-						this.$$ctrl.$user = data['user'];
-					});
-				}
+				if (!!(this.id && this.password))
+					this.$$ctrl.login(this.id, btoa(this.password));
 				else {
 
 					if (!this.id) this.$errors['id'] = 'User ID cannot be empty';
