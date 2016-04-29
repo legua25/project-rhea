@@ -24,7 +24,7 @@ from app.rhea import views as rhea
 urlpatterns = [
 
 	url(r'^$', rhea.view, name = 'index'),
-	url(r'^view/(?P<template>[\w\d]+)/$', rhea.view, name = 'template'),
+	url(r'^view/(?P<template>[\w\d\.]+)/$', rhea.view, name = 'template'),
 	url(r'^accounts/', include([
 
 		url(r'^login/$', rhea.auth.login, name = 'login'),
@@ -33,88 +33,86 @@ urlpatterns = [
 
 	], namespace = 'accounts', app_name = 'rhea')),
 
-	url(r'^manage/', include([
+	# Curricula management
+	url(r'^curricula/', include([
 
-		# Curricula management
-		url(r'^curricula/', include([
+		url(r'^$', debug, name = 'list'),
+		url(r'^programs/', include([
 
-			url(r'^$', debug, name = 'list'),
-			url(r'^programs/', include([
+			url(r'^$', rhea.programs.list, name = 'list'),
+			url(r'^create/$', rhea.programs.create, name = 'create'),
+			url(r'^(?P<acronym>[A-Z]+)/$', rhea.programs.view, name = 'view')
 
-				url(r'^$', rhea.programs.list, name = 'list'),
-				url(r'^create/$', rhea.programs.create, name = 'create'),
-				url(r'^(?P<acronym>[A-Z]+)/$', rhea.programs.view, name = 'view')
+		], namespace = 'programs', app_name = 'rhea')),
+		url(r'^subjects/', include([
 
-			], namespace = 'programs', app_name = 'rhea')),
-			url(r'^subjects/', include([
+			url(r'^$', rhea.subjects.list, name = 'list'),
+			url(r'^create/$', rhea.subjects.create, name = 'create'),
+			url(r'^(?P<code>[A-Z0-9]+)/$', rhea.subjects.view, name = 'view')
 
-				url(r'^$', rhea.subjects.list, name = 'list'),
-				url(r'^create/$', rhea.subjects.create, name = 'create'),
-				url(r'^(?P<code>[A-Z0-9]+)/$', rhea.subjects.view, name = 'view')
+		], namespace = 'subjects', app_name = 'rhea'))
 
-			], namespace = 'subjects', app_name = 'rhea'))
+	], namespace = 'curricula', app_name = 'rhea')),
 
-		], namespace = 'curricula', app_name = 'rhea')),
+	# Users management
+	url(r'^users/', include([
 
-		# Users management
-		url(r'^users/', include([
+		url(r'^$', rhea.users.list, name = 'list'),
+		url(r'^(?P<id>[aAlL][\d]+)/$', rhea.users.query, name = 'query'),
+		url(r'^students/', include([
 
-			url(r'^$', rhea.users.list, name = 'list'),
-			url(r'^students/', include([
+			url(r'^create/$', rhea.users.students.create, name = 'create'),
+			url(r'^(?P<id>[aA][\d]+)/', include([
 
-				url(r'^create/$', rhea.users.students.create, name = 'create'),
-				url(r'^(?P<id>[aA][\d]+)/', include([
+				url(r'^$', rhea.users.students.view, name = 'view'),
+				url(r'^schedule/', include([
 
-					url(r'^$', rhea.users.students.view, name = 'view'),
-					url(r'^schedule/', include([
-
-						url(r'^$', debug, name = 'schedule'),
-						url(r'^(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', debug, name = 'select')
-
-					]))
+					url(r'^$', debug, name = 'schedule'),
+					url(r'^(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', debug, name = 'select')
 
 				]))
 
-			], namespace = 'students')),
-			url(r'^instructors/', include([
+			]))
 
-				url(r'^create/$', rhea.users.instructors.create, name = 'create'),
-				url(r'^(?P<id>[lL][\d]+)/', include([
+		], namespace = 'students')),
+		url(r'^instructors/', include([
 
-					url(r'^$', rhea.users.instructors.view, name = 'view'),
-					url(r'^schedule/$', debug, name = 'schedule')
+			url(r'^create/$', rhea.users.instructors.create, name = 'create'),
+			url(r'^(?P<id>[lL][\d]+)/', include([
 
-				]))
+				url(r'^$', rhea.users.instructors.view, name = 'view'),
+				url(r'^schedule/$', debug, name = 'schedule')
 
-			], namespace = 'instructors'))
+			]))
 
-		], namespace = 'users', app_name = 'rhea')),
+		], namespace = 'instructors'))
 
-		# Scheduling process management
+	], namespace = 'users', app_name = 'rhea')),
+
+	# Scheduling process management
+	url(r'^schedule/', include([
+
+		url(r'^update/', include([
+
+			url(r'^$', debug, name = 'start'),
+			url(r'^progress/$', debug, name = 'progress'),
+			url(r'^(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', debug, name = 'process')
+
+		], namespace = 'update', app_name = 'rhea')),
+		url(r'^subjects/$', rhea.pipeline.subjects, name = 'subjects'),
+		url(r'^courses/$', rhea.pipeline.courses, name = 'courses'),
 		url(r'^schedule/', include([
 
-			url(r'^update/', include([
+			url(r'^$', debug, name = 'start'),
+			url(r'^progress/$', debug, name = 'progress'),
+			url(r'^(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', debug, name = 'process')
 
-				url(r'^$', debug, name = 'start'),
-				url(r'^progress/$', debug, name = 'progress'),
-				url(r'^(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', debug, name = 'process')
+		], namespace = 'schedule', app_name = 'rhea')),
+		url(r'^gathering/$', debug, name = 'gathering')
 
-			], namespace = 'update', app_name = 'rhea')),
-			url(r'^subjects/$', rhea.pipeline.subjects, name = 'subjects'),
-			url(r'^courses/$', rhea.pipeline.courses, name = 'courses'),
-			url(r'^schedule/', include([
+	], namespace = 'schedule', app_name = 'rhea'))
 
-				url(r'^$', debug, name = 'start'),
-				url(r'^progress/$', debug, name = 'progress'),
-				url(r'^(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', debug, name = 'process')
-
-			], namespace = 'schedule', app_name = 'rhea')),
-			url(r'^gathering/$', debug, name = 'gathering')
-
-		], namespace = 'schedule', app_name = 'rhea'))
-
-	], namespace = 'manage', app_name = 'rhea')),
-
-] + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
+] + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT) \
+  + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 
 

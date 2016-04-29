@@ -2,7 +2,7 @@
 {% load angular %}
 
 						{% block js %}require([ 'rhea/index' ], () => {
-							$(document).ready(() => { angular.bootstrap(document, [ 'ngAria', 'ngCookies', 'rhea' ]); });
+							$(document).ready(() => { angular.bootstrap(document, [ 'ngAria', 'ngCookies', 'ngRoute', 'rhea' ]); });
 						});{% endblock js %}
 
 				{% block navigation %}
@@ -16,14 +16,14 @@
 						<li><a href="#/instructor/">Instructors</a></li>
 					</ul>
 					<ul class="navbar-right nav navbar-nav">
-						<li class="dropdown" ng-if="rhea.$user.can('view-admin')">
+						<li class="dropdown" ng-if="true || rhea.$user.can('view-admin')">
 							<a class="dropdown-toggle" style="cursor: pointer" data-toggle="dropdown"><i class="glyphicon glyphicon-cog"></i></a>
 							<ul class="dropdown-menu">
-								<li ng-if="rhea.$user.can('edit-programs')"><a href="#/manage/program/">Manage Programs &amp; Subjects</a></li>
-								<li ng-if="rhea.$user.can('edit-students')"><a href="#/manage/student/">Manage Students</a></li>
-								<li ng-if="rhea.$user.can('edit-instructors')"><a href="#/manage/instructor/">Manage Instructors</a></li>
+								<li ng-if="true || rhea.$user.can('edit-programs')"><a href="#/manage/program/">Manage Programs &amp; Subjects</a></li>
+								<li ng-if="true || rhea.$user.can('edit-students')"><a href="#/manage/student/">Manage Students</a></li>
+								<li ng-if="true || rhea.$user.can('edit-instructors')"><a href="#/manage/instructor/">Manage Instructors</a></li>
 								<li class="divider"></li>
-								<li ng-if="rhea.$user.can('view-pipeline')"><a href="#/manage/pipeline/">Manage Scheduling</a></li>
+								<li ng-if="true || rhea.$user.can('view-pipeline')"><a href="#/manage/pipeline/">Manage Scheduling</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">
@@ -38,4 +38,5 @@
 				{% endblock navigation %}
 
 		{% block content %}{% include 'rhea/app/parts/auth.html' %}
+			<ng-view ng-if="!!(rhea.$user) !== false"></ng-view>
 		{% endblock content %}

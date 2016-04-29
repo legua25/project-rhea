@@ -18,7 +18,7 @@
 
 				// Manual initialization of RequireJS module system
 				require([ 'config' ], () => {
-					require([ 'lodash', 'jquery', 'angular-aria', 'angular-cookies', 'bootstrap' ], (_, $, angular) => {
+					require([ 'lodash', 'jquery', 'angular-aria', 'angular-cookies', 'angular-route', 'bootstrap' ], (_, $, angular) => {
 						{% block js %}{% endblock js %}
 					});
 				});

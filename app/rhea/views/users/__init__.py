@@ -5,6 +5,7 @@ from . import students, instructors
 __all__ = [ 'list', 'students', 'instructors' ]
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 from django.contrib.auth import get_user_model
@@ -15,11 +16,10 @@ from app.rhea.models import *
 
 User = get_user_model()
 
-
 class UserListView(View):
 
 	@method_decorator(csrf_protect)
-	# @method_decorator(login_required)
+	@method_decorator(login_required)
 	# @method_decorator(role_required('administrator'))
 	def get(self, request):
 
@@ -91,3 +91,58 @@ class UserListView(View):
 		else:
 			return JsonResponse({ 'version': '0.1.0', 'status': 404 }, status = 404)
 list = UserListView.as_view()
+
+class UserQueryView(View):
+
+	@method_decorator(csrf_protect)
+	@method_decorator(login_required)
+	# @method_decorator(role_required('admin'))
+	def get(self, request, id = ''):
+
+		try: user = User.objects.select_subclasses().get(active = True, user_id__iexact = id)
+		except User.DoesNotExist:
+			return JsonResponse({ 'version': '0.1.0', 'status': 404 }, status = 404)
+		else:
+
+			user_type = type(user).__name__.lower()
+			data = {
+				'version': '0.1.0',
+				'status': 200,
+				'type': user_type,
+				'user': {
+					'id': user.user_id,
+					'name': user.full_name,
+					'email': user.email_address,
+					'picture': user.picture.url if user.picture else False
+				}
+			}
+
+			if isinstance(user, Student):
+
+				data['user'].update({
+					'program': { 'id': user.program_id, 'acronym': user.program.acronym, 'name': user.program.name },
+					'semester': user.semester,
+					'schedule': False
+				})
+			elif isinstance(user, Instructor):
+
+				data['user'].update({
+					'title': user.title or '',
+					'schedule': False,
+					'subjects': [
+						{
+							'id': subject.id,
+							'code': subject.code,
+							'name': subject.name
+						} for subject in user.subjects.all()
+					]
+				})
+
+				if True or request.user.user_id == id:
+
+					data['user']['availability'] = {
+						'expires': user.availability.expiry,
+						'entries': user.availability.entries_list
+					}
+			return JsonResponse(data)
+query = UserQueryView.as_view()

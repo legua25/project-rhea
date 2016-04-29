@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from dateutil.relativedelta import relativedelta as timedelta
+from django.contrib.auth.decorators import login_required
 from jsonschema import Draft4Validator, ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
@@ -47,7 +48,7 @@ class InstructorCreateView(View):
 	})
 
 	@method_decorator(csrf_protect)
-	# @method_decorator(login_required)
+	@method_decorator(login_required)
 	# @method_decorator(role_required('administrator'))
 	def put(self, request):
 
@@ -144,7 +145,7 @@ class InstructorView(View):
 	})
 
 	@method_decorator(csrf_protect)
-	# @method_decorator(login_required)
+	@method_decorator(login_required)
 	# @method_decorator(role_required('administrator'))
 	def get(self, request, id = ''):
 
@@ -175,7 +176,7 @@ class InstructorView(View):
 				}
 			})
 	@method_decorator(csrf_protect)
-	# @method_decorator(login_required)
+	@method_decorator(login_required)
 	# @method_decorator(role_required('administrator'))
 	def post(self, request, id = ''):
 
@@ -247,7 +248,7 @@ class InstructorView(View):
 		except ValidationError:
 			return JsonResponse({ 'version': '0.1.0', 'status': 403 }, status = 403)
 	@method_decorator(csrf_protect)
-	# @method_decorator(login_required)
+	@method_decorator(login_required)
 	# @method_decorator(role_required('administrator'))
 	def delete(self, request, id = ''):
 

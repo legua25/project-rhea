@@ -8,7 +8,8 @@ class InterfaceView(View):
 	def get(self, request, template = 'index'):
 
 		# Select a template from the requested URL parameter
-		return render_to_response('rhea/app/%s.html' % template, context = RequestContext(request, locals()))
+		template_url = template.replace('.', '/').strip('/')
+		return render_to_response('rhea/app/%s.html' % template_url, context = RequestContext(request, locals()))
 view = InterfaceView.as_view()
 
 import subjects, users, programs, auth, pipeline

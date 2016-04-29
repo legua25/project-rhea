@@ -123,7 +123,7 @@ class AvailabilitySchedule(Schedule):
 
 	@cached_property
 	def entries_list(self):
-		return [ { 'day': e.day, 'time': e.time, 'level': e.level } for e in self.entries ]
+		return [ { 'day': e.day, 'time': e.time, 'level': e.level } for e in self.entries.all() ]
 
 	class Meta(object):
 

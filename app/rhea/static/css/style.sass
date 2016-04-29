@@ -18,6 +18,7 @@ ng\:form
 	left: 0
 	right: 0
 
+
 html, body
 	height: 100%
 
@@ -40,3 +41,14 @@ section#authentication
 		background-image: url(https://images.unsplash.com/photo-1433190152045-5a94184895da?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=4578a679069b9fb7be2d39d5d2d1e2bf)
 	&.wallpaper-4
 		background-image: url(https://images.unsplash.com/photo-1440557653082-e8e186733eeb?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=446a504f97d92b1926453bb2d6d26518)
+
+img.user-picture
+	height: 200px
+	width: 200px
+	max-height: 200px
+	max-width: 200px
+
+$availability-colors: transparent, #979797, #464e53, #3b4146
+@for $i from 0 to 3
+	td.availability-#{$i}
+		background-color: nth($availability-colors, $i + 1)
