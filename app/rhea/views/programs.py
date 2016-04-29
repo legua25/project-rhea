@@ -134,7 +134,7 @@ class ProgramCreateView(View):
 							'id': subject.id,
 							'code': subject.code,
 							'name': subject.name,
-							'dependencies': [ r.dependency_id for r in dependencies ]
+							'dependencies': [ r.dependency.code for r in dependencies ]
 						} for subject, dependencies in requirements
 					]
 				}
@@ -199,7 +199,7 @@ class ProgramView(View):
 							'id': s.id,
 							'code': s.code,
 							'name': s.name,
-							'dependencies': [ subject for subject in Requirement.objects.dependencies_for(program.id, s.id) ]
+							'dependencies': [ Subject.objects.get(id = subject).code for subject in Requirement.objects.dependencies_for(program.id, s.id) ]
 						} for s in subjects
 					]
 				}

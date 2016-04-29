@@ -163,38 +163,29 @@ class SubjectView(View):
 			return JsonResponse({ 'version': '0.1.0', 'status': 404 }, status = 404)
 		else:
 
-			response = {
+			# Output programs and the position of this subject in the programs
+			acronyms = Requirement.objects.active(dependent_id = subject.id).values_list('program__acronym', flat = True)
+			programs = { AcademicProgram.objects.get(acronym = acronym) for acronym in acronyms }
+
+			# Serialize and send back response
+			return JsonResponse({
 				'version': '0.1.0',
 				'status': 200,
 				'subject': {
 					'id': subject.id,
 					'code': subject.code,
 					'name': subject.name,
-					'hours': subject.hours
+					'hours': subject.hours,
+					'programs': [
+						{
+							'acronym': program.acronym,
+							'name': program.name,
+							'dependencies': [ { 'id': s.id, 'code': s.code } for s in subject.dependencies(program) ],
+							'dependents': [ { 'id': s.id, 'code': s.code } for s in subject.dependents(program) ]
+						} for program in programs
+					]
 				}
-			}
-
-			# If we were given the optional "program" parameter, we should list dependencies and dependents instead of programs
-			if 'program' in request.GET:
-
-				try: program = AcademicProgram.objects.get(acronym = request.GET['program'])
-				except AcademicProgram.DoesNotExist:
-					return JsonResponse({ 'version': '0.1.0', 'status': 404 }, status = 404)
-				else:
-
-					response['subject']['program'] = {
-						'acronym': program.acronym,
-						'dependencies': [ { 'id': s.id, 'code': s.code } for s in subject.dependencies(program) ],
-						'dependents': [ { 'id': s.id, 'code': s.code } for s in subject.dependents(program) ]
-					}
-			else:
-
-				# Get all programs in which this subject is a requirement and list their IDs
-				programs = set(Requirement.objects.active(dependent_id = subject.id).values_list('program__acronym', flat = True))
-				response['subject']['programs'] = [ program for program in programs ]
-
-			# Serialize and send back response
-			return JsonResponse(response)
+			})
 	@method_decorator(csrf_protect)
 	# @method_decorator(login_required)
 	# @method_decorator(role_required('administrator'))

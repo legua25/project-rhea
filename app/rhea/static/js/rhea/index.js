@@ -77,11 +77,12 @@
 			}
 
 		});
+		app.directive('paginator', require('rhea/directives/pagination'));
 		app.config([ '$routeProvider', ($router) => {
 
 			$router.when('/', { 'templateUrl': '/view/parts.profile/', 'controller': require('rhea/controller/profile'), 'controllerAs': 'profile' })
-				   .when('/program/', {  })
-				   .when('/student/', {  })
+				   .when('/program/:id?/?', { 'templateUrl': '/view/parts.program/', 'controller': require('rhea/controller/program'), 'controllerAs': 'list' })
+				   .when('/subject/:id?/?', { 'templateUrl': '/view/parts.subject/', 'controller': require('rhea/controller/subject'), 'controllerAs': 'list' })
 				   .when('/instructor/', {  })
 				   .when('/manage/program/', {  })
 				   .when('/manage/student/', {  })

@@ -30,8 +30,8 @@
 						<div class="paginator-content"></div>
 						<div class="col-xs-12 text-center">
 							<ul class="pager paginator-control">
-								<li class="previous" ng-class="{ false: 'disabled' }[$paginator.$previous !== false]"><a href="#" ng-click="$paginator.previous()">&larr; Previous</a></li>
-								<li class="next" ng-class="{ false: 'disabled' }[$paginator.$next !== false]"><a href="#" ng-click="$paginator.next()">Next &rarr;</a></li>
+								<li class="previous" ng-class="{ false: 'disabled' }[$paginator.$previous !== false]"><a style="cursor: pointer" ng-click="($paginator.$previous !== false) && $paginator.previous()">&larr; Previous</a></li>
+								<li class="next" ng-class="{ false: 'disabled' }[$paginator.$next !== false]"><a style="cursor: pointer" ng-click="($paginator.$next !== false) && $paginator.next()">Next &rarr;</a></li>
 							</ul>
 						</div>
 					</section>
@@ -88,7 +88,7 @@
 
 						$page_scope = scope;
 						$page_scope.entries = entries;
-						$page_scope.$offset = (this.page * $size);
+						$page_scope.$offset = ((this.page - 1) * $size);
 
 						$panel.empty();
 						$panel.prepend(element);
