@@ -11,20 +11,19 @@
 						<span class="form-control-static"><strong>RHEA</strong> <small>Scheduling System</small></span>
 					</a>
 					<ul class="nav navbar-nav">
-						<li><a href="#/program/">Programs</a></li>
-						<li><a href="#/subject/">Subjects</a></li>
-						<li><a href="#/student/">Students</a></li>
-						<li><a href="#/instructor/">Instructors</a></li>
+						<li ng-class="{ 'active': (rhea.$location.url().startsWith('/program/')) }"><a href="#/program/">Programs</a></li>
+						<li ng-class="{ 'active': (rhea.$location.url().startsWith('/subject/')) }"><a href="#/subject/">Subjects</a></li>
+						<li ng-class="{ 'active': (rhea.$location.url().startsWith('/user/')) }"><a href="#/user/">Users</a></li>
 					</ul>
 					<ul class="navbar-right nav navbar-nav">
-						<li class="dropdown" ng-if="true || rhea.$user.can('view-admin')">
+						<li class="dropdown" ng-if="true || rhea.can('view-admin')">
 							<a class="dropdown-toggle" style="cursor: pointer" data-toggle="dropdown"><i class="glyphicon glyphicon-cog"></i></a>
 							<ul class="dropdown-menu">
-								<li ng-if="true || rhea.$user.can('edit-programs')"><a href="#/manage/program/">Manage Programs &amp; Subjects</a></li>
-								<li ng-if="true || rhea.$user.can('edit-students')"><a href="#/manage/student/">Manage Students</a></li>
-								<li ng-if="true || rhea.$user.can('edit-instructors')"><a href="#/manage/instructor/">Manage Instructors</a></li>
+								<li ng-if="true || rhea.can('edit-programs')"><a href="#/manage/program/">Manage Programs &amp; Subjects</a></li>
+								<li ng-if="true || rhea.can('edit-students')"><a href="#/manage/student/">Manage Students</a></li>
+								<li ng-if="true || rhea.can('edit-instructors')"><a href="#/manage/instructor/">Manage Instructors</a></li>
 								<li class="divider"></li>
-								<li ng-if="true || rhea.$user.can('view-pipeline')"><a href="#/manage/pipeline/">Manage Scheduling</a></li>
+								<li ng-if="true || rhea.can('view-pipeline')"><a href="#/manage/pipeline/">Manage Scheduling</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">

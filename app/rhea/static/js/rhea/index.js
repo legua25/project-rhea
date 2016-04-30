@@ -83,7 +83,7 @@
 			$router.when('/', { 'templateUrl': '/view/parts.profile/', 'controller': require('rhea/controller/profile'), 'controllerAs': 'profile' })
 				   .when('/program/:id?/?', { 'templateUrl': '/view/parts.program/', 'controller': require('rhea/controller/program'), 'controllerAs': 'list' })
 				   .when('/subject/:id?/?', { 'templateUrl': '/view/parts.subject/', 'controller': require('rhea/controller/subject'), 'controllerAs': 'list' })
-				   .when('/instructor/', {  })
+				   .when('/user/:id?/?', { 'templateUrl': '/view/parts.user/', 'controller': require('rhea/controller/user'), 'controllerAs': 'list' })
 				   .when('/manage/program/', {  })
 				   .when('/manage/student/', {  })
 				   .when('/manage/instructor/', {  })
