@@ -12,11 +12,16 @@
 
 				super($scope, $injector);
 
+				const token = this.$token;
+				if (token) this.$$token = token.split(':', 2)[1];
+
 				this.$user = false;
 				this.$type = 'user';
 			}
 
 			$init(rhea) {
+
+				rhea.$extras.title = 'Users';
 
 				const user = rhea.$user.id;
 				this.students(user).then(() => {
@@ -36,7 +41,7 @@
 				return this.$http.get(url, {
 					'headers': {
 						'X-CSRFToken': this.$csrf,
-						'HTTP-Authentication': `Basic ${user}:${this.$token}`
+						'HTTP-Authentication': `Basic ${user}:${this.$$token}`
 					}
 				})
 				.then(({ data }) => {
@@ -58,7 +63,7 @@
 					this.$http.get(`/users/${id}/`, {
 						'headers': {
 							'X-CSRFToken': this.$csrf,
-							'HTTP-Authentication': `Basic ${user}:${this.$token}`
+							'HTTP-Authentication': `Basic ${user}:${this.$$token}`
 						}
 					})
 					.then(({ data }) => {

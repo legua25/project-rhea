@@ -12,6 +12,10 @@
 			constructor ($scope, $injector) {
 
 				super($scope, $injector);
+
+				const token = this.$token;
+				if (token) this.$$token = token.split(':', 2)[1];
+
 				this.$user = false;
 				this.$type = 'user';
 				this.$times = [
@@ -32,10 +36,12 @@
 
 			$init(rhea) {
 
+				rhea.$extras.title = 'Your Profile';
+
 				this.$http.get(`/users/${rhea.$user.id}/`, {
 					'headers': {
 						'X-CSRFToken': this.$csrf,
-						'HTTP-Authentication': `Basic ${rhea.$user.id}:${this.$token}`
+						'HTTP-Authentication': `Basic ${rhea.$user.id}:${this.$$token}`
 					}
 				})
 				.then(({ data }) => {

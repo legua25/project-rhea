@@ -11,10 +11,16 @@
 			constructor ($scope, $injector) {
 
 				super($scope, $injector);
+
+				const token = this.$token;
+				if (token) this.$$token = token.split(':', 2)[1];
+
 				this.$program = false;
 			}
 
 			$init(rhea) {
+
+				rhea.$extras.title = 'Programs';
 
 				const user = rhea.$user.id;
 				this.list(user).then(() => { this.view(user, this.$routeParams['id'] || false); });
@@ -24,7 +30,7 @@
 				return this.$http.get(`/curricula/programs/?size=${size}&page=${page}`, {
 					'headers': {
 						'X-CSRFToken': this.$csrf,
-						'HTTP-Authentication': `Basic ${user}:${this.$token}`
+						'HTTP-Authentication': `Basic ${user}:${this.$$token}`
 					}
 				})
 				.then(({ data }) => {
@@ -46,7 +52,7 @@
 					return this.$http.get(`/curricula/programs/${acronym}/?size=${size}&page=${page}`, {
 						'headers': {
 							'X-CSRFToken': this.$csrf,
-							'HTTP-Authentication': `Basic ${user}:${this.$token}`
+							'HTTP-Authentication': `Basic ${user}:${this.$$token}`
 						}
 					})
 					.then(({ data }) => {

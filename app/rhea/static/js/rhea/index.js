@@ -84,10 +84,7 @@
 				   .when('/program/:id?/?', { 'templateUrl': '/view/parts.program/', 'controller': require('rhea/controller/program'), 'controllerAs': 'list' })
 				   .when('/subject/:id?/?', { 'templateUrl': '/view/parts.subject/', 'controller': require('rhea/controller/subject'), 'controllerAs': 'list' })
 				   .when('/user/:id?/?', { 'templateUrl': '/view/parts.user/', 'controller': require('rhea/controller/user'), 'controllerAs': 'list' })
-				   .when('/manage/program/', {  })
-				   .when('/manage/student/', {  })
-				   .when('/manage/instructor/', {  })
-				   .when('/manage/pipeline/', {  })
+				   .when('/manage/', { 'templateUrl': '/view/parts.management/', 'controller': require('rhea/controller/management'), 'controllerAs': 'manage' })
 				   .when('/login/', {}).when('/logout/', {})
 				   .otherwise('/');
 		} ]);

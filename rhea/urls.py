@@ -94,18 +94,16 @@ urlpatterns = [
 
 		url(r'^update/', include([
 
-			url(r'^$', debug, name = 'start'),
-			url(r'^progress/$', debug, name = 'progress'),
-			url(r'^(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', debug, name = 'process')
+			url(r'^$', rhea.pipeline.update, name = 'start'),
+			url(r'^(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', rhea.pipeline.update, name = 'process')
 
 		], namespace = 'update', app_name = 'rhea')),
 		url(r'^subjects/$', rhea.pipeline.subjects, name = 'subjects'),
 		url(r'^courses/$', rhea.pipeline.courses, name = 'courses'),
-		url(r'^schedule/', include([
+		url(r'^selection/', include([
 
-			url(r'^$', debug, name = 'start'),
-			url(r'^progress/$', debug, name = 'progress'),
-			url(r'^(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', debug, name = 'process')
+			url(r'^$', rhea.pipeline.select, name = 'start'),
+			url(r'^(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', rhea.pipeline.select, name = 'process')
 
 		], namespace = 'schedule', app_name = 'rhea')),
 		url(r'^gathering/$', debug, name = 'gathering')

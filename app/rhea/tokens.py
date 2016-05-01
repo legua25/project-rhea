@@ -21,6 +21,11 @@ class AbstractTokenFactory(object):
 	timeout_days = None
 	token_split = '-'
 
+	def __init__(self, salt = None, timeout_days = None):
+
+		self.salt = salt or self.__class__.salt
+		self.timeout_days = timeout_days or self.__class__.timeout_days
+
 	def make_token(self, user):
 		return self._make_token(user, _days_in(date.today()) + self.timeout_days)
 	def check_token(self, user, token):

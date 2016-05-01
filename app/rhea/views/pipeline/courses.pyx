@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, division
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.contrib.auth.decorators import login_required
 from jsonschema import Draft4Validator, ValidationError
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.cache import cache_page
@@ -14,56 +14,8 @@ from app.rhea.models import *
 from time import mktime
 from json import loads
 
-__all__ = [ 'subjects' ]
 
-class ScheduleSubjectsView(View):
-
-	@method_decorator(csrf_protect)
-	# @method_decorator(login_required)
-	# @method_decorator(role_required('administrator'))
-	def post(self, request):
-
-		try:
-
-			# This view is profiled to measure performance and support/refute hypothesis
-			start = now()
-			with atomic():
-
-				# TODO: This number is hardcoded where it should be editable without getting into code
-				minimum = min(Student.objects.active().count(), 15)
-
-				# Calculate academic demand and offer
-				demand = Student.objects.demanded_subjects(minimum).count()
-				subjects = Instructor.objects.available_subjects(minimum)
-
-				# Coverage is a measure of how much of the demand can the institution cover with their current resources
-				coverage = subjects.count() / demand
-			end = now()
-
-			# Serialize the result and send it back
-			# As much as we'd like to, we should not calculate the population again - we're dealing with future values,
-			# not current ones, so this cannot be done without taxing performance
-			return JsonResponse({
-				'version': '0.1.0',
-				'status': 200,
-				'stats': {
-					'elapsed': (end - start).microseconds,
-					'start': mktime(start.utctimetuple()),
-					'coverage': coverage
-				},
-				'subjects': [
-					{
-						'id': s.id,
-						'code': s.code,
-						'name': s.name
-					} for s in subjects
-				]
-			})
-
-		except ValidationError:
-			return JsonResponse({ 'version': '0.1.0', 'status': 403 }, status = 403)
-subjects = cache_page(3600)(ScheduleSubjectsView.as_view())
-
+__all__ = [ 'courses' ]
 
 class ScheduleCourseView(View):
 
@@ -89,7 +41,7 @@ class ScheduleCourseView(View):
 	})
 
 	@method_decorator(csrf_protect)
-	# @method_decorator(login_required)
+	@method_decorator(login_required)
 	# @method_decorator(role_required('administrator'))
 	def post(self, request):
 
@@ -109,7 +61,7 @@ class ScheduleCourseView(View):
 				for instructor in Instructor.objects.active():
 
 					# Availability and the like is computed automatically by the schedule builder
-					builder = ScheduleBuilder(instructor, subjects)
+					builder = ScheduleBuilder(instructor, subjects)  # TODO: I think this should be restricted to only the courses the instructor can give
 
 					# Collect all time slots for the same course
 					slots.clear()
@@ -117,10 +69,12 @@ class ScheduleCourseView(View):
 						slots[subject].append(slot)
 
 					# Roll the information out into the final form
-					for (subject, slots) in slots.iteritems():
+					for (id, slots) in slots.iteritems():
+
+						subject = Subject.objects.get_active(id = subject)
 						courses.append({
-							'instructor': instructor.user_id,
-							'subject': Subject.objects.get_active(id = subject).code,
+							'instructor': { 'id': instructor.user_id, 'name': instructor.full_name },
+							'subject': { 'code': subject.code, 'name': subject.name },
 							'slots': [ { 'day': day, 'time': time } for (day, time) in slots ]
 						})
 			end = now()

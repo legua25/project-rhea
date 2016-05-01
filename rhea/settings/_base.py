@@ -33,6 +33,7 @@ class BaseConfiguration(Configuration):
 		'django.contrib.staticfiles',
 		'widget_tweaks',
 		'imagekit',
+		'kronos',
 		'app.rhea'
 	]
 

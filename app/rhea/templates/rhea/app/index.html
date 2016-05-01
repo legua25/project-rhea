@@ -16,15 +16,8 @@
 						<li ng-class="{ 'active': (rhea.$location.url().startsWith('/user/')) }"><a href="#/user/">Users</a></li>
 					</ul>
 					<ul class="navbar-right nav navbar-nav">
-						<li class="dropdown" ng-if="true || rhea.can('view-admin')">
-							<a class="dropdown-toggle" style="cursor: pointer" data-toggle="dropdown"><i class="glyphicon glyphicon-cog"></i></a>
-							<ul class="dropdown-menu">
-								<li ng-if="true || rhea.can('edit-programs')"><a href="#/manage/program/">Manage Programs &amp; Subjects</a></li>
-								<li ng-if="true || rhea.can('edit-students')"><a href="#/manage/student/">Manage Students</a></li>
-								<li ng-if="true || rhea.can('edit-instructors')"><a href="#/manage/instructor/">Manage Instructors</a></li>
-								<li class="divider"></li>
-								<li ng-if="true || rhea.can('view-pipeline')"><a href="#/manage/pipeline/">Manage Scheduling</a></li>
-							</ul>
+						<li ng-if="true || rhea.can('view-admin')">
+							<a href="#/manage/"><i class="glyphicon glyphicon-cog"></i></a>
 						</li>
 						<li class="dropdown">
 							<a class="dropdown-toggle" style="cursor: pointer" data-toggle="dropdown">
