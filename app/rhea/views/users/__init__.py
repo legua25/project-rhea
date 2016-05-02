@@ -131,10 +131,10 @@ class UserQueryView(View):
 					'schedule': False,
 					'subjects': [
 						{
-							'id': subject.id,
-							'code': subject.code,
-							'name': subject.name
-						} for subject in user.subjects.all()
+							'id': specialty.subject_id,
+							'code': specialty.subject.code,
+							'name': specialty.subject.name
+						} for specialty in user.specialties.all().filter(active = True)
 					]
 				})
 

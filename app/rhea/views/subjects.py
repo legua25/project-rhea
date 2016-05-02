@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 from django.views.generic import View
 from django.http import JsonResponse
+from django.db.models import Q
 from app.rhea.models import *
 from json import loads
 
@@ -21,7 +22,12 @@ class SubjectListView(View):
 
 		# Page the subjects list
 		page, size = request.GET.get('page', 1), request.GET.get('size', 15)
-		pages = Paginator(Subject.objects.active().order_by('code'), size)
+		query = Subject.objects.active()
+
+		if 'query' in request.GET:
+			query = Subject.objects.active(Q(code__istartswith = request.GET['query']) | Q(name__icontains = request.GET['query']))
+
+		pages = Paginator(query.order_by('code'), size)
 
 		try: subjects = pages.page(page)
 		except PageNotAnInteger: subjects = pages.page(1)
@@ -32,7 +38,7 @@ class SubjectListView(View):
 			'version': '0.1.0',
 			'status': 200,
 			'pagination': {
-				'total': Subject.objects.active().count(),
+				'total': query.count(),
 				'current': page,
 				'previous': subjects.previous_page_number() if subjects.has_previous() else False,
 				'next': subjects.next_page_number() if subjects.has_next() else False,

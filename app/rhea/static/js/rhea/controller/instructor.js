@@ -4,8 +4,10 @@
 	define(function (require) {
 
 		const angular = require('angular');
+		const $ = require('jquery');
 		const _ = require('lodash');
 		const Controller = require('rhea/controller');
+		require('bootstrap');
 
 		return class RheaInstructor extends Controller {
 
@@ -33,8 +35,14 @@
 
 				];
 
+				this.$list = [];
+				this.$subjects = [];
 				this.$table = this.$times.map(() => { return [ 0, 0, 0, 0, 0 ]; });
 				this.$level = 1.0;
+
+				this.$scope.$transform = (item) => {
+					return { 'code': item.code.toUpperCase() };
+				};
 			}
 
 			$init(rhea) {
@@ -57,25 +65,22 @@
 						this.$location.url('/');
 				});
 			}
-			list(user, size = 15, page = 1) {
+			list(user, search) {
 
-				return this.$http.get(`/curricula/programs/?size=${size}&page=${page}`, {
-					'headers': {
-						'X-CSRFToken': this.$csrf,
-						'HTTP-Authentication': `Basic ${user}:${this.$$token}`
-					}
-				})
-				.then(({ data }) => {
+				if (!!search) {
 
-					return {
-						'entries': data['programs'],
-						'pagination': {
-							'page': data['pagination']['current'],
-							'next': data['pagination']['next'],
-							'previous': data['pagination']['previous']
+					return this.$http.get(`/curricula/subjects/?query=${search}&size=5`, {
+						'headers': {
+							'X-CSRFToken': this.$csrf,
+							'HTTP-Authentication': `Basic ${user}:${this.$$token}`
 						}
-					};
-				});
+					})
+					.then(({ data }) => {
+						this.$list = data['subjects'];
+					});
+				}
+				else
+					this.$list = [];
 			}
 			toggle_cell(row, col) {
 
@@ -115,6 +120,39 @@
 					case 0.50: return 2;
 					case 1.00: return 3;
 				}
+			}
+			submit(user) {
+
+				const data = {
+					'subjects': this.$subjects.map(({ code }) => { return code; }),
+					'schedule': this.$table.reduce(($carry, $days, $time) => {
+
+						const data = [];
+						for (let i = 0; i < $days.length; i++) {
+
+							const level = $days[i];
+							if (level > 0.0) data.push({ 'day': i, 'time': $time, 'level': level });
+						}
+
+						return $carry.concat(data);
+					}, [])
+				};
+
+				return this.$http.post(`/schedule/update/${this.$auth}/`, data, {
+					'headers': {
+						'X-CSRFToken': this.$csrf,
+						'HTTP-Authentication': `Basic ${user}:${this.$$token}`
+					}
+				})
+				.then(() => {
+
+					const modal = $('#confirm');
+
+					modal.modal({ 'backdrop': 'static', 'show': true });
+					modal.on('hidden.bs.modal', () => { this.$scope.$apply(() => { this.$location.url('/'); }); });
+
+					setTimeout(() => { modal.modal('hide'); }, 1500);
+				});
 			}
 
 		};

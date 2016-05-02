@@ -7,7 +7,7 @@
 		const Controller = require('rhea/controller');
 
 		const max = 4, min = 1;
-		const app = angular.module('rhea', [ 'ngAria', 'ngCookies', 'ngRoute' ]);
+		const app = angular.module('rhea', [ 'ngAria', 'ngCookies', 'ngRoute', 'ngSanitize', 'ui.select' ]);
 
 		app.controller('Rhea', class Rhea extends Controller {
 

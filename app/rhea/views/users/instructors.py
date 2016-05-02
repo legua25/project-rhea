@@ -171,7 +171,7 @@ class InstructorView(View):
 							'code': s.subject.code,
 							'name': s.subject.name,
 							'confidence': s.confidence
-						} for s in instructor.specialties
+						} for s in instructor.specialties.all().filter(active = True)
 					]
 				}
 			})

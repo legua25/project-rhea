@@ -112,7 +112,7 @@ class Course(Model):
 class AvailabilitySchedule(Schedule):
 
 	entries = ManyToManyField('rhea.Availability',
-		related_name = '+',
+		related_name = 'schedule',
 		verbose_name = _('schedule entries'),
 		help_text = """
 			Schedules are sparse matrices of entries. In this case, this is a sparse matrix of

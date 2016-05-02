@@ -2,7 +2,7 @@
 {% load angular %}
 
 						{% block js %}require([ 'rhea/index' ], () => {
-							$(document).ready(() => { angular.bootstrap(document, [ 'ngAria', 'ngCookies', 'ngRoute', 'rhea' ]); });
+							$(document).ready(() => { angular.bootstrap(document, [ 'ngAria', 'ngCookies', 'ngRoute', 'ngSanitize', 'ui.select', 'rhea' ]); });
 						});{% endblock js %}
 
 				{% block navigation %}
