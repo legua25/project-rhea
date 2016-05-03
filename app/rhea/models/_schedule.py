@@ -36,6 +36,27 @@ class Schedule(Model):
 	)
 
 	@cached_property
+	def entries_list(self): raise NotImplementedError()
+
+	class Meta(object):
+		abstract = True
+
+
+class CourseSchedule(Schedule):
+
+	entries = ManyToManyField('rhea.Course',
+		related_name = 'schedule',
+		related_query_name = 'schedule',
+		verbose_name = _('schedule entries'),
+		help_text = """
+			This indicates a course is to be taken by a student or instructed by an instructor. Since
+			this data is collected into the individual course object, we can relax the relationship and
+			use courses as the middle-man between students, instructors, subjects, and time slots.
+			Programming time is just so much fun!
+		"""
+	)
+
+	@cached_property
 	def entries_list(self):
 
 		entries = defaultdict(list)
@@ -58,24 +79,6 @@ class Schedule(Model):
 		]
 
 	class Meta(object):
-		abstract = True
-
-
-class CourseSchedule(Schedule):
-
-	entries = ManyToManyField('rhea.Course',
-		related_name = 'schedule',
-		related_query_name = 'schedule',
-		verbose_name = _('schedule entries'),
-		help_text = """
-			This indicates a course is to be taken by a student or instructed by an instructor. Since
-			this data is collected into the individual course object, we can relax the relationship and
-			use courses as the middle-man between students, instructors, subjects, and time slots.
-			Programming time is just so much fun!
-		"""
-	)
-
-	class Meta(object):
 
 		verbose_name = _('course schedule')
 		verbose_name_plural = _('course schedules')
@@ -93,7 +96,7 @@ class Course(Model):
 		"""
 	)
 	subject = ForeignKey('rhea.Subject',
-		related_name = '+',
+		related_name = 'courses',
 		null = False,
 		verbose_name = _('course subject'),
 		help_text = """

@@ -281,6 +281,60 @@
 					};
 				});
 			}
+			run_gathering(user) {
+
+				this.$http.post(`/schedule/gathering/`, undefined, {
+					'headers': {
+						'X-CSRFToken': this.$csrf,
+						'HTTP-Authentication': `Basic ${user}:${this.$$token}`
+					}
+				})
+				.then(({ data }) => {
+
+					const total = data['stats']['total'];
+					const coverage = (data['stats']['coverage'] * 100);
+					const start = new Date(data['stats']['start'] * 1000);
+					const elapsed_sec = (data['stats']['elapsed'] / 1000000);
+					const elapsed_hour = +(Math.round((elapsed_sec / 3600) + 'e+2') + 'e-2');
+
+					this.$pane.export = () => { this.export_file({ 'courses': data['courses'] }, 'step-4-gathering'); };
+					this.$pane.serialize = (slots) => {
+
+						let days = [ '·', '·', '·', '·', '·' ];
+						let hours = '';
+
+						for (let { day, time } of slots) {
+
+							switch (day) {
+								case 0: days[0] = 'M'; break;
+								case 1: days[1] = 'T'; break;
+								case 2: days[2] = 'W'; break;
+								case 3: days[3] = 'X'; break;
+								case 4: days[4] = 'F'; break;
+							}
+							hours = this.$times[time];
+						}
+
+						return [ days.join(' '), hours ];
+					};
+					this.$pane.data = {
+						'total': total,
+						'coverage': +(Math.round(coverage + 'e+2') + 'e-2'),
+						'start': start.toLocaleDateString('en-US', {
+							'minute': '2-digit',
+							'hour': '2-digit',
+							'day': 'numeric',
+							'month': 'short',
+							'year': 'numeric'
+						}),
+						'elapsed': {
+							'seconds': elapsed_sec,
+							'hours': (elapsed_hour > 1.0) ? `about ${elapsed_hour} hour(s)` : 'less than an hour'
+						},
+						'courses': data['courses']
+					};
+				});
+			}
 
 		};
 	});

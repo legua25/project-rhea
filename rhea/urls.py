@@ -111,7 +111,7 @@ urlpatterns = [
 			]))
 
 		], namespace = 'schedule', app_name = 'rhea')),
-		url(r'^gathering/$', debug, name = 'gathering')
+		url(r'^gathering/$', rhea.pipeline.gathering, name = 'gathering')
 
 	], namespace = 'schedule', app_name = 'rhea'))
 
