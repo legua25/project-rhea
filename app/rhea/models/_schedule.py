@@ -3,8 +3,10 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 from django.utils.functional import cached_property
 from django.utils.timezone import now
+from collections import defaultdict
 from django.db.models import *
 from schedule import DayOfWeek
+from _programs import Subject
 from _base import (
 	InheritanceManager,
 	ActiveManager,
@@ -13,6 +15,7 @@ from _base import (
 
 __all__ = [
 	'Course',
+	'CourseSchedule',
 	'AvailabilitySchedule',
 	'Availability'
 ]
@@ -33,13 +36,49 @@ class Schedule(Model):
 	)
 
 	@cached_property
-	def entries_list(self): raise NotImplementedError()
+	def entries_list(self):
+
+		entries = defaultdict(list)
+		subjects = {}
+
+		for entry in self.entries.all():
+
+			if entry.subject_id not in subjects:
+				subjects[entry.subject_id] = Subject.objects.get_active(id = entry.subject_id)
+
+			entries[entry.subject_id].append({ 'day': entry.day, 'time': entry.time })
+
+		return [
+			{
+				'id': id,
+				'code': subjects[id].code,
+				'name': subjects[id].name,
+				'slots': slots
+			} for (id, slots) in entries.iteritems()
+		]
 
 	class Meta(object):
 		abstract = True
 
 
-# class CourseSchedule(Schedule): pass
+class CourseSchedule(Schedule):
+
+	entries = ManyToManyField('rhea.Course',
+		related_name = 'schedule',
+		verbose_name = _('schedule entries'),
+		help_text = """
+			This indicates a course is to be taken by a student or instructed by an instructor. Since
+			this data is collected into the individual course object, we can relax the relationship and
+			use courses as the middle-man between students, instructors, subjects, and time slots.
+			Programming time is just so much fun!
+		"""
+	)
+
+	class Meta(object):
+
+		verbose_name = _('course schedule')
+		verbose_name_plural = _('course schedules')
+		app_label = 'rhea'
 
 class CourseManager(ActiveManager): pass
 class Course(Model):

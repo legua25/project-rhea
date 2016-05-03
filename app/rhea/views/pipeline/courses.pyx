@@ -61,7 +61,8 @@ class ScheduleCourseView(View):
 				for instructor in Instructor.objects.active():
 
 					# Availability and the like is computed automatically by the schedule builder
-					builder = ScheduleBuilder(instructor, subjects)  # TODO: I think this should be restricted to only the courses the instructor can give
+					builder = ScheduleBuilder(instructor, subjects)
+					builder.save(CourseSchedule, Course)
 
 					# Collect all time slots for the same course
 					slots.clear()

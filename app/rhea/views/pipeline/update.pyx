@@ -137,6 +137,9 @@ class ScheduleUpdateView(View):
 			ScheduleUpdateView.schema.validate(data)
 			instructor = Instructor.objects.get(id = request.user.id)
 
+			tokens = AuthTokenFactory(timeout_days = 5)
+			if not tokens.check_token(instructor, token): raise ValueError('Token is invalid')
+
 			with atomic():
 
 				# Update subjects
@@ -144,8 +147,10 @@ class ScheduleUpdateView(View):
 				instructor.specialties = [ Specialty.objects.create(instructor = instructor, subject = Subject.objects.get_active(code = subject)) for subject in data['subjects'] ]
 
 				# Update schedule
-				instructor.availability.active = False
-				instructor.availability.save()
+				if instructor.availability:
+
+					instructor.availability.active = False
+					instructor.availability.save()
 
 				schedule = AvailabilitySchedule.objects.create(expiry = now() + timedelta(months = 6))
 				for e in data['schedule']:
@@ -168,8 +173,10 @@ class ScheduleUpdateView(View):
 						'schedule': schedule.entries_list
 					}
 				}, status = 201)
-		except TypeError as e:
-			return JsonResponse({ 'version': '0.1.0', 'status': 407, 'reason': e.message }, status = 200)
+		except ValueError:
+			return JsonResponse({ 'version': '0.1.0', 'status': 407 }, status = 407)
+		except Instructor.DoesNotExist:
+			return JsonResponse({ 'version': '0.1.0', 'status': 404 }, status = 404)
 		except ValidationError:
-			return JsonResponse({ 'version': '0.1.0', 'status': 403, 'reason': e.message }, status = 403)
+			return JsonResponse({ 'version': '0.1.0', 'status': 403 }, status = 403)
 update = ScheduleUpdateView.as_view()

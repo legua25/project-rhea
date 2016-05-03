@@ -122,13 +122,13 @@ class UserQueryView(View):
 				data['user'].update({
 					'program': { 'id': user.program_id, 'acronym': user.program.acronym, 'name': user.program.name },
 					'semester': user.semester,
-					'schedule': False
+					'schedule': user.schedule.entries_list if user.schedule else False
 				})
 			elif isinstance(user, Instructor):
 
 				data['user'].update({
 					'title': user.title or '',
-					'schedule': False,
+					'schedule': user.schedule.entries_list if user.schedule else False,
 					'subjects': [
 						{
 							'id': specialty.subject_id,

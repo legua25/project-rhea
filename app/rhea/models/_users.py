@@ -196,7 +196,18 @@ class Student(User):
 			in the study plan's progress.
 		"""
 	)
-	# Schedule goes here
+	schedule = OneToOneField('rhea.CourseSchedule',
+		related_name = 'student',
+		null = True,
+		default = None,
+		verbose_name = _('course schedule'),
+		help_text = """
+			This is the student's course schedule. This uses the same object type as the instructors'
+			because they have the same things and serve the same purpose. The student's courses are,
+			unlike the instructors', chosen by themselves as part of the process, simplifying the
+			endeavor.
+		"""
+	)
 	last_confirmation = DateTimeField(
 		auto_now = False,
 		null = True,
@@ -294,7 +305,17 @@ class Instructor(User):
 			matrix in which a course may be assigned.
 		"""
 	)
-	# Schedule goes here
+	schedule = OneToOneField('rhea.CourseSchedule',
+		related_name = 'instructor',
+		null = True,
+		default = None,
+		verbose_name = _('course schedule'),
+		help_text = """
+			This is the instructor's course schedule. This uses the same object type as the students'
+			because they have the same things and serve the same purpose. The instructor's courses are,
+			however, not decided by them but by the system using our algorithm.
+		"""
+	)
 	last_confirmation = DateTimeField(
 		auto_now = False,
 		null = True,

@@ -17,7 +17,7 @@ from time import mktime
 from json import loads
 
 
-__all__ = [ 'select' ]
+__all__ = [ 'select', 'predict' ]
 
 class ScheduleSelectView(View):
 
@@ -85,3 +85,8 @@ class ScheduleSelectView(View):
 	def post(self, request, token = ''):
 		return JsonResponse({ 'version': '0.1.0', 'status': 403 }, status = 403)
 select = ScheduleSelectView.as_view()
+
+class SchedulePredictView(View):
+
+	pass
+predict = SchedulePredictView.as_view()

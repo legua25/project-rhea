@@ -76,6 +76,21 @@
 					case 1.0: return 3;
 				}
 			}
+			course(day, time) {
+
+				if (this.$user.schedule !== false) {
+
+					const result = _.find(this.$user.schedule.entries, { day, time });
+					if (result !== undefined) {
+
+						return `<p style="width: 100%; height: 100%; display: flex; align-items: center; align-content: center">
+							<a href="#/subject/${result.code}/"><span class="badge">${result.code.toUpperCase()}</span></a>
+						</p>`;
+					}
+				}
+
+				return `&nbsp;`;
+			}
 
 		};
 	});
