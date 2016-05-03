@@ -1,0 +1,65 @@
+{% load angular %}
+<section id="profile" class="row" ng-init="profile.$init(rhea)">
+	<div class="panel panel-primary">
+		<header class="panel-heading"><h3 style="color: white">Your Profile</h3></header>
+		<section class="panel-body">
+			<div class="col-md-4 text-center">
+				<img class="user-picture" src="{% ng profile.$user.picture %}" alt="{% ng profile.$user.name %}'s Picture" />
+			</div>
+			<div class="col-md-8">
+				<dl class="dl dl-horizontal">
+					<dt>{% ng (profile.$type === 'instructor') ? 'Payroll ID' : 'Enroll ID' %}</dt> <dd>{% ng profile.$user.id %}</dd>
+					<dt>Full name</dt> <dd>{% ng profile.$user.name %}</dd>
+					<dt>Email address</dt> <dd>{% ng profile.$user.email %}</dd>
+				</dl>
+				<dl class="dl dl-horizontal" ng-if="profile.$type === 'student'">
+					<dt>Academic Program</dt> <dd><a href="#/program/{% ng profile.$user.program.acronym %}/">{% ng profile.$user.program.name %}</a></dd>
+					<dt>Semester No.</dt> <dd>{% ng profile.$user.semester %}</dd>
+				</dl>
+				<dl class="dl dl-horizontal" ng-if="profile.$type === 'instructor'">
+					<dt>Title</dt> <dd>{% ng profile.$user.title || 'Not defined' %}</dd>
+					<dt>Subjects</dt> <dd>
+						<ul class="list-unstyled list-inline">
+							<li ng-repeat="subject in profile.$user.subjects">
+								<a href="#/program/subject/{% ng subject.code %}/"><span class="badge">{% ng subject.code | uppercase %}</span></a>
+							</li>
+						</ul>
+					</dd>
+				</dl>
+			</div>
+		</section>
+	</div>
+	<div class="panel panel-default" ng-if="profile.$type === 'instructor'">
+		<header class="panel-heading"><h3>Work Schedule <small>valid until {% ng profile.expiry(profile.$user.availability) %}</small></h3></header>
+		<section class="panel-body">
+			<table class="table table-striped table-hover table-bordered">
+				<thead>
+					<tr><th style="width: 55px"></th> <th style="width: 215px">Monday</th> <th style="width: 215px">Tuesday</th> <th style="width: 215px">Wednesday</th> <th style="width: 215px">Thursday</th> <th style="width: 215px">Friday</th></tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="time in profile.$times" ng-init="$time = $index">
+						<td class="text-right"><small>{% ng time %}</small></td>
+						<td class="availability-{% ng profile.availability(day, $time) %}" ng-repeat="day in [ 0, 1, 2, 3, 4 ]">&nbsp;</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+	</div>
+	<div class="panel panel-default">
+		<header class="panel-heading"><h3>Latest Schedule <small ng-if="profile.$user.schedule !== false && profile.$user.schedule.entries.length">valid until {% ng profile.expiry(profile.$user.schedule) %}</small></h3></header>
+		<section class="panel-body">
+			<span class="col-xs-12 text-center" ng-if="profile.$user.schedule === false || !profile.$user.schedule.entries.length">User has no schedule defined</span>
+			<table class="table table-striped table-hover table-bordered" ng-if="profile.$user.schedule !== false && profile.$user.schedule.entries.length">
+				<thead>
+					<tr><th style="width: 55px"></th> <th style="width: 215px">Monday</th> <th style="width: 215px">Tuesday</th> <th style="width: 215px">Wednesday</th> <th style="width: 215px">Thursday</th> <th style="width: 215px">Friday</th></tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="time in profile.$times" ng-init="$time = $index">
+						<td class="text-right"><small>{% ng time %}</small></td>
+						<td ng-repeat="day in [ 0, 1, 2, 3, 4 ]" ng-bind-html="profile.course(day, $time)"></td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+	</div>
+</section>

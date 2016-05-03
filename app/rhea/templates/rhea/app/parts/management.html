@@ -1,0 +1,289 @@
+{% load angular %}
+<section id="profile" class="row" ng-init="manage.$init(rhea)">
+	<div class="panel panel-primary">
+		<header class="panel-heading"><h3 style="color: white">Management</h3></header>
+		<section class="panel-body">
+			<div class="col-xs-12">
+				<div class="col-sm-6 col-lg-3 text-center">
+					<div class="col-xs-12" style="margin: 15px 0">
+						<i class="glyphicon glyphicon-briefcase" style="font-size: 72pt"></i>
+					</div>
+					<button type="button" class="btn btn-default btn-block disabled" ng-click="manage.select('program')">Program Management</button>
+					<span class="col-xs-12 text-justify" style="margin-top: 15px">
+						From this panel, you can add, update, or disable academic programs or subjects. You can also manage
+						how subjects are related within an academic program.
+					</span>
+				</div>
+				<div class="col-sm-6 col-lg-3 text-center">
+					<div class="col-xs-12" style="margin: 15px 0">
+						<i class="glyphicon glyphicon-user" style="font-size: 72pt"></i>
+					</div>
+					<button type="button" class="btn btn-default btn-block disabled" ng-click="manage.select('student')">Student Management</button>
+					<span class="col-xs-12 text-justify" style="margin-top: 15px">
+						From this pane, you can add or disable individual students, as well as administrating their academic
+						preferences &ndash; academic program, subjects, etc&hellip;
+					</span>
+				</div>
+				<div class="col-sm-6 col-lg-3 text-center">
+					<div class="col-xs-12" style="margin: 15px 0">
+						<i class="glyphicon glyphicon-education" style="font-size: 72pt"></i>
+					</div>
+					<button type="button" class="btn btn-default btn-block disabled" ng-click="manage.select('instructor')">Instructor Management</button>
+					<span class="col-xs-12 text-justify" style="margin-top: 15px">
+						From this pane, you can add instructors, as well as manage the subjects they provide, their work
+						schedules, and overall information.
+					</span>
+				</div>
+				<div class="col-sm-6 col-lg-3 text-center">
+					<div class="col-xs-12" style="margin: 15px 0">
+						<i class="glyphicon glyphicon-calendar" style="font-size: 72pt"></i>
+					</div>
+					<button type="button" class="btn btn-default btn-block" ng-click="manage.select('schedule')">Scheduling Management</button>
+					<span class="col-xs-12 text-justify" style="margin-top: 15px">
+						From this pane, you can begin, interrupt and/or continue the scheduling process, as well as track
+						its execution and obtain statistics from each step.
+					</span>
+				</div>
+			</div>
+		</section>
+	</div>{% comment %}
+	<div class="panel panel-default" ng-if="manage.$pane.title === 'program'">
+		<header class="panel-heading"><h3>Program Management</h3></header>
+		<section class="panel-body">
+			...
+		</section>
+	</div>
+	<div class="panel panel-default" ng-if="manage.$pane.title === 'student'">
+		<header class="panel-heading"><h3>Student Management</h3></header>
+		<section class="panel-body">
+			...
+		</section>
+	</div>
+	<div class="panel panel-default" ng-if="manage.$pane.title === 'instructor'">
+		<header class="panel-heading"><h3>Instructor Management</h3></header>
+		<section class="panel-body">
+			...
+		</section>
+	</div>{% endcomment %}
+	<div class="panel panel-default" ng-if="manage.$pane.title === 'schedule'">
+		<header class="panel-heading"><h3>Scheduling Management</h3></header>
+		<section class="panel-body">
+			<div class="col-md-3" style="margin-top: 15px">
+				<ul class="nav nav-pills nav-stacked">
+					<li ng-class="{ 'active': (manage.$pane.tab === 0) }">
+						<a class="process-tab" ng-click="manage.$pane.tab = 0">Instructor Update</a>
+					</li>
+					<li ng-class="{ 'active': (manage.$pane.tab === 1) }">
+						<a class="process-tab" ng-click="manage.$pane.tab = 1">Subjects Estimation</a>
+					</li>
+					<li ng-class="{ 'active': (manage.$pane.tab === 2) }">
+						<a class="process-tab" ng-click="manage.$pane.tab = 2">Course Scheduling</a>
+					</li>
+					<li ng-class="{ 'active': (manage.$pane.tab === 3) }">
+						<a class="process-tab" ng-click="manage.$pane.tab = 3">Student Selection</a>
+					</li>
+					<li ng-class="{ 'active': (manage.$pane.tab === 4) }">
+						<a class="process-tab" ng-click="manage.$pane.tab = 4">Final Gathering</a>
+					</li>
+				</ul>
+			</div>
+			<div class="col-md-9">
+				<div class="col-xs-12" ng-if="manage.$pane.tab === 0">
+					<h3>
+						<span class="pull-right">
+							<button type="button" class="btn btn-primary btn-sm" ng-click="manage.run_update(rhea.$user.id)"><i class="glyphicon glyphicon-play"></i> Run step</button>
+						</span>
+						Instructor Update
+					</h3>
+					<label class="col-xs-12">
+						If available, provide followup token to process:
+						<input type="text" class="form-control" placeholder="Followup token" ng-model="manage.$pane.data.token" />
+					</label>
+					<span class="col-xs-12 text-center" style="margin: 15px 0" ng-if="!!(manage.$pane.data && manage.$pane.data.instructors) === false">No data collected for display.</span>
+					<div class="col-xs-12" ng-if="!!(manage.$pane.data && manage.$pane.data.instructors) !== false">
+						<br /><br />
+						<dl class="dl dl-horizontal">
+							<dt>Instructor Coverage</dt> <dd>{% ng manage.$pane.data.coverage %}% of active instructors pending</dd>
+							<dt>Followup Token</dt> <dd><strong><kbd>{% ng manage.$pane.data.token %}</kbd></strong></dd>
+							<dt>Started At</dt> <dd>{% ng manage.$pane.data.start %}</dd>
+							<dt>Elapsed Time</dt> <dd>{% ng manage.$pane.data.elapsed.seconds %} seconds ({% ng manage.$pane.data.elapsed.hours %})</dd>
+						</dl>
+						<hr />
+						<h4>
+							<span class="pull-right">
+								<button type="button" class="btn btn-success btn-sm" ng-click="manage.$pane.export()"><i class="glyphicon glyphicon-download"></i> Export</button>
+							</span>
+							Instructors List
+						</h4>
+						<table class="table table-striped table-hover">
+							<thead>
+								<tr><th style="width: 37px">#</th> <th style="width: 120px">Payroll ID</th> <th style="width: 580px">Instructor Name</th></tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="instructor in manage.$pane.data.instructors track by $index">
+									<td>{% ng $index + 1 %}</td>
+									<td>{% ng instructor.id | uppercase %}</td>
+									<td>{% ng instructor.name %}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="col-xs-12" ng-if="manage.$pane.tab === 1">
+					<h3>
+						<span class="pull-right">
+							<button type="button" class="btn btn-primary btn-sm" ng-click="manage.run_subjects(rhea.$user.id)"><i class="glyphicon glyphicon-play"></i> Run step</button>
+						</span>
+						Subjects Estimation
+					</h3>
+					<span class="col-xs-12 text-center" style="margin: 15px 0" ng-if="!!(manage.$pane.data) === false">No data collected for display.</span>
+					<div class="col-xs-12" ng-if="!!(manage.$pane.data) !== false">
+						<dl class="dl dl-horizontal">
+							<dt>Subject Coverage</dt> <dd>{% ng manage.$pane.data.coverage %}% of expected subjects can be offered</dd>
+							<dt>Started At</dt> <dd>{% ng manage.$pane.data.start %}</dd>
+							<dt>Elapsed Time</dt> <dd>{% ng manage.$pane.data.elapsed.seconds %} seconds ({% ng manage.$pane.data.elapsed.hours %})</dd>
+						</dl>
+						<hr />
+						<h4>
+							<span class="pull-right">
+								<button type="button" class="btn btn-success btn-sm" ng-click="manage.$pane.export()"><i class="glyphicon glyphicon-download"></i> Export</button>
+							</span>
+							Subjects List
+						</h4>
+						<table class="table table-striped table-hover">
+							<thead>
+								<tr><th style="width: 37px">#</th> <th style="width: 120px">Subject Code</th> <th style="width: 580px">Subject Name</th></tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="subject in manage.$pane.data.subjects">
+									<td>{% ng $index + 1 %}</td>
+									<td><span class="badge">{% ng subject.code | uppercase %}</span></td>
+									<td>{% ng subject.name %}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="col-xs-12" ng-if="manage.$pane.tab === 2">
+					<h3>
+						<span class="pull-right">
+							<button type="button" class="btn btn-primary btn-sm" ng-click="manage.run_courses(rhea.$user.id)"><i class="glyphicon glyphicon-play"></i> Run step</button>
+						</span>
+						Course Scheduling
+					</h3>
+					<label class="col-xs-12">
+						Please provide a list of subjects to process:
+						<input type="file" class="form-control" id="courses-list" />
+					</label>
+					<span class="col-xs-12 text-center" style="margin: 15px 0" ng-if="!!(manage.$pane.data) === false">No data collected for display.</span>
+					<div class="col-xs-12" ng-if="!!(manage.$pane.data) !== false">
+						<br /><br />
+						<dl class="dl dl-horizontal">
+							<dt>Started At</dt> <dd>{% ng manage.$pane.data.start %}</dd>
+							<dt>Elapsed Time</dt> <dd>{% ng manage.$pane.data.elapsed.seconds %} seconds ({% ng manage.$pane.data.elapsed.hours %})</dd>
+						</dl>
+						<h4>
+							<span class="pull-right">
+								<button type="button" class="btn btn-success btn-sm" ng-click="manage.$pane.export()"><i class="glyphicon glyphicon-download"></i> Export</button>
+							</span>
+							Courses List
+						</h4>
+						<table class="table table-striped table-hover">
+							<thead>
+								<tr><th style="width: 37px">#</th> <th style="width: 120px">Subject Code</th> <th style="width: 500px">Instructor Name</th> <th style="width: 100px">Days</th> <th style="width: 100px">Time</th></tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="course in manage.$pane.data.courses" ng-init="slots = manage.$pane.serialize(course.slots)">
+									<td>{% ng $index + 1 %}</td>
+									<td><span class="badge">{% ng course.subject.code | uppercase %}</span></td>
+									<td>{% ng course.instructor.name %}</td>
+									<td><strong>{% ng slots[0] %}</strong></td>
+									<td>{% ng slots[1] %}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="col-xs-12" ng-if="manage.$pane.tab === 3">
+					<h3>
+						<span class="pull-right">
+							<button type="button" class="btn btn-primary btn-sm" ng-click="manage.run_selection(rhea.$user.id)"><i class="glyphicon glyphicon-play"></i> Run step</button>
+						</span>
+						Student Selection
+					</h3>
+					<label class="col-xs-12">
+						If available, provide followup token to process:
+						<input type="text" class="form-control" placeholder="Followup token" ng-model="manage.$pane.data.token" />
+					</label>
+					<span class="col-xs-12 text-center" style="margin: 15px 0" ng-if="!!(manage.$pane.data && manage.$pane.data.students) === false">No data collected for display.</span>
+					<div class="col-xs-12" ng-if="!!(manage.$pane.data && manage.$pane.data.students) !== false">
+						<br /><br />
+						<dl class="dl dl-horizontal">
+							<dt>Instructor Coverage</dt> <dd>{% ng manage.$pane.data.coverage %}% of active students pending</dd>
+							<dt>Followup Token</dt> <dd><strong><kbd>{% ng manage.$pane.data.token %}</kbd></strong></dd>
+							<dt>Started At</dt> <dd>{% ng manage.$pane.data.start %}</dd>
+							<dt>Elapsed Time</dt> <dd>{% ng manage.$pane.data.elapsed.seconds %} seconds ({% ng manage.$pane.data.elapsed.hours %})</dd>
+						</dl>
+						<hr />
+						<h4>
+							<span class="pull-right">
+								<button type="button" class="btn btn-success btn-sm" ng-click="manage.$pane.export()"><i class="glyphicon glyphicon-download"></i> Export</button>
+							</span>
+							Students List
+						</h4>
+						<table class="table table-striped table-hover">
+							<thead>
+								<tr><th style="width: 37px">#</th> <th style="width: 120px">Enroll ID</th> <th style="width: 580px">Student Name</th></tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="student in manage.$pane.data.students track by $index">
+									<td>{% ng $index + 1 %}</td>
+									<td>{% ng student.id | uppercase %}</td>
+									<td>{% ng student.name %}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="col-xs-12" ng-if="manage.$pane.tab === 4">
+					<h3>
+						<span class="pull-right">
+							<button type="button" class="btn btn-primary btn-sm" ng-click="manage.run_gathering(rhea.$user.id)"><i class="glyphicon glyphicon-play"></i> Run step</button>
+						</span>
+						Final Gathering
+					</h3>
+					<span class="col-xs-12 text-center" style="margin: 15px 0" ng-if="!!(manage.$pane.data) === false">No data collected for display.</span>
+					<div class="col-xs-12" ng-if="!!(manage.$pane.data) !== false">
+						<dl class="dl dl-horizontal">
+							<dt>Remaining Courses</dt> <dd>{% ng manage.$pane.data.total %}</dd>
+							<dt>Course Coverage</dt> <dd>{% ng manage.$pane.data.coverage %}% of planned courses remaining</dd>
+							<dt>Started At</dt> <dd>{% ng manage.$pane.data.start %}</dd>
+							<dt>Elapsed Time</dt> <dd>{% ng manage.$pane.data.elapsed.seconds %} seconds ({% ng manage.$pane.data.elapsed.hours %})</dd>
+						</dl>
+						<hr />
+						<h4>
+							<span class="pull-right">
+								<button type="button" class="btn btn-success btn-sm" ng-click="manage.$pane.export()"><i class="glyphicon glyphicon-download"></i> Export</button>
+							</span>
+							Courses List
+						</h4>
+						<table class="table table-striped table-hover">
+							<thead>
+								<tr><th style="width: 37px">#</th> <th style="width: 120px">Subject Code</th> <th style="width: 500px">Instructor Name</th> <th style="width: 100px">Days</th> <th style="width: 100px">Time</th></tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="course in manage.$pane.data.courses" ng-init="slots = manage.$pane.serialize(course.slots)">
+									<td>{% ng $index + 1 %}</td>
+									<td><span class="badge">{% ng course.subject.code | uppercase %}</span></td>
+									<td>{% ng course.instructor.name %}</td>
+									<td><strong>{% ng slots[0] %}</strong></td>
+									<td>{% ng slots[1] %}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+</section>

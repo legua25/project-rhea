@@ -1,0 +1,92 @@
+{% load angular %}
+<section id="user-list" class="row" ng-init="list.$init(rhea)">
+	<div class="panel panel-primary" ng-if="list.$user !== false">
+		<header class="panel-heading"><h3 style="color: white">User Details</h3></header>
+		<section class="panel-body">
+			<div class="col-md-4 text-center">
+				<img class="user-picture" ng-src="{% ng list.$user.picture %}" alt="{% ng list.$user.name %}'s Picture" />
+			</div>
+			<div class="col-md-8">
+				<dl class="dl dl-horizontal">
+					<dt>{% ng (list.$type === 'instructor') ? 'Payroll ID' : 'Enroll ID' %}</dt> <dd>{% ng list.$user.id %}</dd>
+					<dt>Full name</dt> <dd>{% ng list.$user.name %}</dd>
+					<dt>Email address</dt> <dd>{% ng list.$user.email %}</dd>
+				</dl>
+				<dl class="dl dl-horizontal" ng-if="list.$type === 'student'">
+					<dt>Academic Program</dt> <dd><a href="#/program/{% ng list.$user.program.acronym %}/">{% ng list.$user.program.name %}</a></dd>
+					<dt>Semester No.</dt> <dd>{% ng list.$user.semester %}</dd>
+				</dl>
+				<dl class="dl dl-horizontal" ng-if="list.$type === 'instructor'">
+					<dt>Title</dt> <dd>{% ng list.$user.title || 'Not defined' %}</dd>
+					<dt>Subjects</dt> <dd>
+						<ul class="list-unstyled list-inline">
+							<li ng-repeat="subject in list.$user.subjects">
+								<a href="#/subject/{% ng subject.code %}/"><span class="badge">{% ng subject.code | uppercase %}</span></a>
+							</li>
+						</ul>
+					</dd>
+				</dl>
+			</div>
+		</section>
+		<footer class="panel-footer">
+			<section class="panel-body">
+				<span class="col-xs-12 text-center" ng-if="list.$user.schedule === false || !list.$user.schedule.entries.length">User has no schedule defined</span>
+				<table class="table table-striped table-hover table-bordered" ng-if="list.$user.schedule !== false && list.$user.schedule.entries.length">
+					<thead>
+						<tr><th style="width: 55px"></th> <th style="width: 215px">Monday</th> <th style="width: 215px">Tuesday</th> <th style="width: 215px">Wednesday</th> <th style="width: 215px">Thursday</th> <th style="width: 215px">Friday</th></tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="time in list.$times" ng-init="$time = $index">
+							<td class="text-right"><small>{% ng time %}</small></td>
+							<td ng-repeat="day in [ 0, 1, 2, 3, 4 ]" ng-bind-html="list.course(day, $time)"></td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+		</footer>
+	</div>
+	<div class="panel panel-primary">
+		<header class="panel-heading"><h3 style="color: white">Active Students</h3></header>
+		<section class="panel-body">
+			<paginator data="list.students(rhea.$user.id, size, page)" size="10">
+				<table class="table table-striped table-hover">
+					<thead><tr><th style="width: 37px">#</th> <th style="width: 115px">Enroll ID</th> <th>Full Name</th> <th style="width: 100px">Actions</th></tr></thead>
+					<tbody>
+						<tr ng-repeat="user in entries">
+							<td class="form-control-static">{% ng $offset + ($index + 1) %}</td>
+							<td class="form-control-static">{% ng user.id | uppercase %}</td>
+							<td class="form-control-static">{% ng user.name %}</td>
+							<td>
+								<a href="#/user/{% ng user.id %}/" class="btn btn-default btn-sm">
+									<i class="glyphicon glyphicon-eye-open" style="margin-right: 15px"></i> View
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</paginator>
+		</section>
+	</div>
+	<div class="panel panel-primary">
+		<header class="panel-heading"><h3 style="color: white">Active Instructors</h3></header>
+		<section class="panel-body">
+			<paginator data="list.instructors(rhea.$user.id, size, page)" size="10">
+				<table class="table table-striped table-hover">
+					<thead><tr><th style="width: 37px">#</th> <th style="width: 115px">Payroll ID</th> <th>Full Name</th> <th style="width: 100px">Actions</th></tr></thead>
+					<tbody>
+						<tr ng-repeat="user in entries">
+							<td class="form-control-static">{% ng $offset + ($index + 1) %}</td>
+							<td class="form-control-static">{% ng user.id | uppercase %}</td>
+							<td class="form-control-static">{% ng user.name %}</td>
+							<td>
+								<a href="#/user/{% ng user.id %}/" class="btn btn-default btn-sm">
+									<i class="glyphicon glyphicon-eye-open" style="margin-right: 15px"></i> View
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</paginator>
+		</section>
+	</div>
+</section>

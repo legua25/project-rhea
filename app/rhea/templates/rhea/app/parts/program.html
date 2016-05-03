@@ -1,0 +1,66 @@
+{% load angular %}
+<section id="program-view" class="row" ng-init="list.$init(rhea)">
+	<div class="panel panel-default" ng-if="list.$program !== false">
+		<header class="panel-heading"><h3>Program Details</h3></header>
+		<section class="panel-body">
+			<dl class="dl dl-horizontal">
+				<dt>Program Acronym</dt> <dd>{% ng list.$program.acronym %}</dd>
+				<dt>Program Name</dt> <dd>{% ng list.$program.name %}</dd>
+				<dt>Graduate Profile</dt> <dd>{% ng list.$program.profile || 'Not available' %}</dd>
+			</dl>
+			<h4>Subjects in Program</h4>
+			<paginator data="list.view(rhea.$user.id, list.$program.acronym, size, page)" size="5">
+				<table class="table table-striped table-hover">
+					<thead><tr><th style="width: 36px">#</th> <th style="width: 60px">Code</th> <th style="min-width: 220px">Subject Name</th> <th style="width: 500px">Dependencies</th></tr></thead>
+					<tbody>
+						<tr ng-repeat="subject in entries">
+							<td class="form-control-static">{% ng $offset + ($index + 1) %}</td>
+							<td class="form-control-static">
+								<a href="#/subject/{% ng subject.code %}/">
+									<span class="badge"><strong>{% ng subject.code | uppercase %}</strong></span>
+								</a>
+							</td>
+							<td class="form-control-static">{% ng subject.name %}</td>
+							<td>
+								<ul class="list-unstyled list-inline" ng-if="subject.dependencies.length">
+									<li ng-repeat="s in subject.dependencies">
+										<a href="#/subject/{% ng s %}/">
+											<span class="badge"><strong>{% ng s | uppercase %}</strong></span>
+										</a>
+									</li>
+								</ul>
+								<span ng-if="!(subject.dependencies.length)">This subject has no dependencies</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</paginator>
+		</section>
+	</div>
+	<div class="panel panel-primary">
+		<header class="panel-heading"><h3 style="color: white">Available Programs</h3></header>
+		<section class="panel-body">
+			<paginator data="list.list(rhea.$user.id, size, page)" size="15">
+				<table class="table table-striped table-hover">
+					<thead><tr><th>#</th> <th style="width: 214px">Acronym</th> <th style="width: 766px">Program Name</th> <th style="width: 90px">Actions</th></tr></thead>
+					<tbody>
+						<tr ng-repeat="program in entries">
+							<td class="form-control-static">{% ng $offset + ($index + 1) %}</td>
+							<td class="form-control-static">
+								<a href="#/program/{% ng program.acronym %}/">
+									<span class="badge"><strong>{% ng program.acronym | uppercase %}</strong></span>
+								</a>
+							</td>
+							<td class="form-control-static">{% ng program.name %}</td>
+							<td>
+								<a href="#/program/{% ng program.acronym %}/" class="btn btn-default btn-sm">
+									<i class="glyphicon glyphicon-eye-open" style="margin-right: 15px"></i> View
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</paginator>
+		</section>
+	</div>
+</section>

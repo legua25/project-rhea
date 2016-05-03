@@ -1,0 +1,24 @@
+{% load angular %}
+			<section id="authentication" class="wallpaper-{% ng rhea.$extras.background %}" ng-if="rhea.$user === false">
+				<div class="overlay"></div>
+				<div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+					<div class="panel panel-default">
+						<header class="panel-heading"><h3>Welcome!</h3></header>
+						<form>
+							<section class="panel-body">
+								<div class="col-xs-12 form-group input-group" ng-class="{ 'has-error': rhea.$forms.auth.error('id') }">
+									<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+									<input type="text" class="form-control" placeholder="User ID" ng-model="rhea.$forms.auth.id" />
+								</div>
+								<div class="col-xs-12 form-group input-group" ng-class="{ 'has-error': rhea.$forms.auth.error('password') }">
+									<span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
+									<input type="password" class="form-control" placeholder="Password" ng-model="rhea.$forms.auth.password" />
+								</div>
+							</section>
+							<footer class="panel-footer text-center">
+								<button type="button" class="btn btn-primary" ng-click="rhea.$forms.auth.submit()"><i class="glyphicon glyphicon-log-in"></i> Log in</button>
+							</footer>
+						</form>
+					</div>
+				</div>
+			</section>
