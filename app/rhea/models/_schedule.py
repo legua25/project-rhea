@@ -65,6 +65,7 @@ class CourseSchedule(Schedule):
 
 	entries = ManyToManyField('rhea.Course',
 		related_name = 'schedule',
+		related_query_name = 'schedule',
 		verbose_name = _('schedule entries'),
 		help_text = """
 			This indicates a course is to be taken by a student or instructed by an instructor. Since

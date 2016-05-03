@@ -79,7 +79,7 @@ class ScheduleUpdateView(View):
 
 			# Validate the token first
 			if tokens.check_token(request.user, token) is False:
-				return JsonResponse({ 'version': '0.1.0', 'status': 407 }, status = 407)
+				return JsonResponse({ 'version': '0.1.0', 'status': 409 }, status = 409)
 
 			# Having a token means we're querying the current state
 			with atomic():
@@ -174,7 +174,7 @@ class ScheduleUpdateView(View):
 					}
 				}, status = 201)
 		except ValueError:
-			return JsonResponse({ 'version': '0.1.0', 'status': 407 }, status = 407)
+			return JsonResponse({ 'version': '0.1.0', 'status': 409 }, status = 409)
 		except Instructor.DoesNotExist:
 			return JsonResponse({ 'version': '0.1.0', 'status': 404 }, status = 404)
 		except ValidationError:

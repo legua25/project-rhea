@@ -128,7 +128,7 @@ class SubjectCreateView(View):
 			}, status = 201)
 
 		except ValueError:
-			return JsonResponse({ 'version': '0.1.0', 'status': 407 }, status = 407)
+			return JsonResponse({ 'version': '0.1.0', 'status': 409 }, status = 409)
 		except ValidationError:
 			return JsonResponse({ 'version': '0.1.0', 'status': 403 }, status = 403)
 create = SubjectCreateView.as_view()

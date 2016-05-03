@@ -41,7 +41,7 @@ class AbstractTokenFactory(object):
 			if not constant_time_compare(self._make_token(user, timestamp), token):
 				return False
 
-			if ((_days_in(date.today()) + self.timeout_days) - timestamp) > 0:
+			if (_days_in(date.today()) - timestamp) > self.timeout_days:
 				return False
 
 			return True

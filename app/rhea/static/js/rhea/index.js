@@ -86,7 +86,7 @@
 				   .when('/user/:id?/?', { 'templateUrl': '/view/parts.user/', 'controller': require('rhea/controller/user'), 'controllerAs': 'list' })
 				   .when('/manage/', { 'templateUrl': '/view/parts.management/', 'controller': require('rhea/controller/management'), 'controllerAs': 'manage' })
 				   .when('/instructor/:token/', { 'templateUrl': '/view/parts.instructor/', 'controller': require('rhea/controller/instructor'), 'controllerAs': 'schedule' })
-				   .when('/student/:token/', {})
+				   .when('/student/:token/', { 'templateUrl': '/view/parts.student/', 'controller': require('rhea/controller/student'), 'controllerAs': 'schedule' })
 				   .when('/login/', {}).when('/logout/', {})
 				   .otherwise('/');
 		} ]);

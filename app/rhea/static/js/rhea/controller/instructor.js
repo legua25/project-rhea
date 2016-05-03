@@ -39,10 +39,6 @@
 				this.$subjects = [];
 				this.$table = this.$times.map(() => { return [ 0, 0, 0, 0, 0 ]; });
 				this.$level = 1.0;
-
-				this.$scope.$transform = (item) => {
-					return { 'code': item.code.toUpperCase() };
-				};
 			}
 
 			$init(rhea) {
@@ -61,7 +57,7 @@
 					this.$user = data['user'];
 					this.$auth = this.$routeParams['token'];
 
-					if (!!(this.$auth) === false /*|| data['type'] !== 'instructor' */)
+					if (!!(this.$auth) === false || data['type'] !== 'instructor')
 						this.$location.url('/');
 				});
 			}

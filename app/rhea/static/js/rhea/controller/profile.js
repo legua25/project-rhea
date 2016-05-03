@@ -54,7 +54,7 @@
 
 				if (this.$user !== false && (!!schedule) !== false) {
 
-					const date = new Date(schedule.expires);
+					const date = new Date(schedule.expires * 1000);
 					return date.toLocaleDateString('en-us', {
 						'day': 'numeric',
 						'month': 'long',
@@ -83,7 +83,7 @@
 					const result = _.find(this.$user.schedule.entries, { 'slots': [ { day, time } ] });
 					if (result !== undefined) {
 
-						return `<p style="width: 100%; height: 100%; display: flex; align-items: center; align-content: center">
+						return `<p class="course-entry">
 							<a href="#/subject/${result.code}/"><span class="badge">${result.code.toUpperCase()}</span></a>
 						</p>`;
 					}

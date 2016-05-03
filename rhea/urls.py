@@ -103,8 +103,12 @@ urlpatterns = [
 		url(r'^selection/', include([
 
 			url(r'^$', rhea.pipeline.select, name = 'start'),
-			url(r'^query/$', rhea.pipeline.predict, name = 'start'),
-			url(r'^(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', rhea.pipeline.select, name = 'process')
+			url(r'^(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/', include([
+
+				url(r'^$', rhea.pipeline.select, name = 'process'),
+				url(r'^query/$', rhea.pipeline.predict, name = 'predict')
+
+			]))
 
 		], namespace = 'schedule', app_name = 'rhea')),
 		url(r'^gathering/$', debug, name = 'gathering')
