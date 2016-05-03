@@ -184,7 +184,7 @@
 			run_update(user) {
 
 				let request = null;
-				if (this.$pane.data.token === undefined) {
+				if ((!!this.$pane.data.token) === false) {
 
 					request = this.$http.get(`/schedule/update/`, {
 						'headers': {
@@ -234,7 +234,7 @@
 			run_selection(user) {
 
 				let request = null;
-				if (this.$pane.data.token === undefined) {
+				if ((!!this.$pane.data.token) === false) {
 
 					request = this.$http.get(`/schedule/selection/`, {
 						'headers': {
