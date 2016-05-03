@@ -13,6 +13,7 @@ from django.views.generic import View
 from django.http import JsonResponse
 from django.db.models import Q
 from app.rhea.models import *
+from time import mktime
 
 User = get_user_model()
 
@@ -122,13 +123,19 @@ class UserQueryView(View):
 				data['user'].update({
 					'program': { 'id': user.program_id, 'acronym': user.program.acronym, 'name': user.program.name },
 					'semester': user.semester,
-					'schedule': user.schedule.entries_list if user.schedule else False
+					'schedule': {
+						'expires': mktime(user.schedule.expiry.utctimetuple()),
+						'entries': user.schedule.entries_list
+					} if user.schedule else False,
 				})
 			elif isinstance(user, Instructor):
 
 				data['user'].update({
 					'title': user.title or '',
-					'schedule': user.schedule.entries_list if user.schedule else False,
+					'schedule': {
+						'expires': mktime(user.schedule.expiry.utctimetuple()),
+						'entries': user.schedule.entries_list
+					} if user.schedule else False,
 					'subjects': [
 						{
 							'id': specialty.subject_id,
@@ -141,7 +148,7 @@ class UserQueryView(View):
 				if True or request.user.user_id == id:
 
 					data['user']['availability'] = {
-						'expires': user.availability.expiry,
+						'expires': mktime(user.availability.expiry.utctimetuple()),
 						'entries': user.availability.entries_list
 					}
 			return JsonResponse(data)

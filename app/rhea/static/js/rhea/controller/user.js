@@ -4,6 +4,7 @@
 	define(function (require) {
 
 		const angular = require('angular');
+		const _ = require('lodash');
 		const Controller = require('rhea/controller');
 
 		return class RheaUser extends Controller {
@@ -17,6 +18,20 @@
 
 				this.$user = false;
 				this.$type = 'user';
+				this.$times = [
+
+					'07:00 08:30',
+					'08:30 10:00',
+					'10:00 11:30',
+					'11:30 13:00',
+					'13:00 14:30',
+					'14:30 16:00',
+					'16:00 17:30',
+					'17:30 19:00',
+					'19:00 20:30',
+					'20:30 22:00'
+
+				];
 			}
 
 			$init(rhea) {
@@ -72,6 +87,21 @@
 						this.$type = data['type'];
 					});
 				}
+			}
+			course(day, time) {
+
+				if ((!!this.$user.schedule) !== false) {
+
+					const result = _.find(this.$user.schedule.entries, { 'slots': [ { day, time } ] });
+					if (result !== undefined) {
+
+						return `<p class="course-entry">
+							<a href="#/subject/${result.code}/"><span class="badge">${result.code.toUpperCase()}</span></a>
+						</p>`;
+					}
+				}
+
+				return `&nbsp;`;
 			}
 
 		};

@@ -50,11 +50,11 @@
 					this.$user = data['user'];
 				});
 			}
-			expiry() {
+			expiry(schedule) {
 
-				if (this.$user !== false) {
+				if (this.$user !== false && (!!schedule) !== false) {
 
-					const date = new Date(this.$user.availability.expires);
+					const date = new Date(schedule.expires);
 					return date.toLocaleDateString('en-us', {
 						'day': 'numeric',
 						'month': 'long',
@@ -78,9 +78,9 @@
 			}
 			course(day, time) {
 
-				if (this.$user.schedule !== false) {
+				if ((!!this.$user.schedule) !== false) {
 
-					const result = _.find(this.$user.schedule.entries, { day, time });
+					const result = _.find(this.$user.schedule.entries, { 'slots': [ { day, time } ] });
 					if (result !== undefined) {
 
 						return `<p style="width: 100%; height: 100%; display: flex; align-items: center; align-content: center">

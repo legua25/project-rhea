@@ -11,8 +11,8 @@ ng\:form
 .ng-anchor
 	position: absolute
 
-@mixin cover()
-	position: absolute
+@mixin cover($extents: absolute)
+	position: $extents
 	top: 0
 	bottom: 0
 	left: 0
@@ -69,3 +69,13 @@ input.ui-select-search
 
 span.ui-select-match-item
 	margin: 0 2px !important
+
+p.course-entry
+	margin: -7px 0
+	height: 52px
+	display: flex
+	align-items: center
+	justify-content: center
+
+	a
+		align-self: center
