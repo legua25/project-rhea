@@ -1,5 +1,8 @@
 @charset "UTF-8"
-[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate)
+@import "bootstrap/_bootstrap"
+@import "bootstrap/_lumen"
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide:not(.ng-hide-animate)
 	display: none !important
 ng\:form
 	display: block
@@ -8,65 +11,76 @@ ng\:form
 .ng-anchor
 	position: absolute
 
-@import "bootstrap/_bootstrap"
-@import "bootstrap/_lumen"
-@import "extras"
-
-$footer-inverse-bg: #464E53
-$footer-inverse-border: #3b4146
-
-@mixin fullscreen()
-	position: fixed
+@mixin cover($extents: absolute)
+	position: $extents
 	top: 0
 	bottom: 0
 	left: 0
 	right: 0
 
-// Background & overlays
-.background
-	+fullscreen
-	opacity: 0.8
 
-	& + .overlay
-		+fullscreen
-		background: rgba(0, 0, 0, 0.25)
+html, body
+	height: 100%
 
-@for $i from 1 to 3
-	.background-#{$i}
-		background: url('../images/background-0#{$i}.jpg') no-repeat fixed
-		background-size: cover
+section#authentication
+	+cover
+	background: no-repeat fixed
+	background-size: cover
+	align-items: center
+	display: flex
 
-ul.nav.navbar-nav li.active a
-	color: #158CBA
-	font-weight: bold
+	& .overlay
+		+cover
+		background: rgba(0, 0, 0, 0.2)
 
+	&.wallpaper-1
+		background-image: url(https://images.unsplash.com/photo-1437382944886-45a9f73d4158?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=733f1b1d8238de29d9fa41d841e96d0d)
+	&.wallpaper-2
+		background-image: url(https://images.unsplash.com/photo-1451906278231-17b8ff0a8880?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=1fbb817fbfe2b13a0c81de025e89a890)
+	&.wallpaper-3
+		background-image: url(https://images.unsplash.com/photo-1433190152045-5a94184895da?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=4578a679069b9fb7be2d39d5d2d1e2bf)
+	&.wallpaper-4
+		background-image: url(https://images.unsplash.com/photo-1440557653082-e8e186733eeb?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=446a504f97d92b1926453bb2d6d26518)
 
-// Template-wide styling
-#content
-	margin-top: $navbar-height + 15px
+img.user-picture
+	height: 200px
+	width: 200px
+	max-height: 200px
+	max-width: 200px
 
-#footer
-	background-color: $footer-inverse-bg
-	border-color: $footer-inverse-border
-	color: white
+$availability-colors: transparent, #F1532B, #F4A620, #7AAA13
+@for $i from 0 to 4
+	td.availability-#{$i}
+		background-color: nth($availability-colors, $i + 1)
 
-
-// Individual pages
-// User profile
-#user-briefing
-	img#avatar
-		margin-bottom: 15px
-
-#user-schedule
-	section
-		background: #E1E1E1
-
-// Management
-kbd.subject-tag
-	width: 100%
-	display: inline-block
-	text-align: center
+a.process-tab
+	cursor: pointer
 	text-transform: uppercase
-	font-weight: bold
-	font-family: inherit
-	background-color: $panel-primary-heading-bg
+	text-align: center
+
+.ui-select-container
+	height: 44px
+
+input.ui-select-search
+	position: relative !important
+	right: 0 !important
+	left: 5px !important
+	border: 1px white
+
+span.ui-select-match-item
+	margin: 0 2px !important
+
+p.course-entry
+	margin: -7px 0
+	height: 52px
+	display: flex
+	align-items: center
+	justify-content: center
+	flex-direction: column
+
+	a
+		align-self: center
+
+ul.instructors-list
+	max-height: 452px
+	overflow-y: auto

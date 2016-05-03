@@ -1,0 +1,12 @@
+Dear {{ instructor.title }} {{ instructor.full_name }},
+
+A new school period is approaching. As an enrolled instructor in the platform, we'd like you to review the
+subjects you will be giving in the next period and your work schedule to better suit your needs and provide
+a more personalized course schedule later on. To review this, please follow the following link:
+
+http://localhost:8000/#/instructor/{{ token }}/
+
+If you run into any issues, feel free to contact an administrator for assistance.
+
+Best regards,
+the Project Rhea Team

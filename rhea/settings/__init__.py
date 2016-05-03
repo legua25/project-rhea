@@ -42,6 +42,10 @@ class Development(Config):
 			}
 		}
 	}
+
+	# Email
+	EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+	EMAIL_FILE_PATH = join(Config.BASE_DIR, 'emails')
 class Testing(Config):
 
 	# Base settings
@@ -80,3 +84,6 @@ class Testing(Config):
 			}
 		}
 	}
+
+	# Email
+	EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'

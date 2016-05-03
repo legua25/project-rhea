@@ -1,0 +1,35 @@
+{% extends 'base/base.html' %}
+{% load angular %}
+
+						{% block js %}require([ 'rhea/index' ], () => {
+							$(document).ready(() => { angular.bootstrap(document, [ 'ngAria', 'ngCookies', 'ngRoute', 'ngSanitize', 'ui.select', 'rhea' ]); });
+						});{% endblock js %}
+
+				{% block navigation %}
+					<a href="#/" class="navbar-brand" style="margin-right: 15px; color: #4790A0">
+						<i class="glyphicon glyphicon-calendar" style="margin-right: 15px"></i>
+						<span class="form-control-static"><strong>RHEA</strong> <small>Scheduling System</small></span>
+					</a>
+					<ul class="nav navbar-nav">
+						<li ng-class="{ 'active': (rhea.$location.url().startsWith('/program/')) }"><a href="#/program/">Programs</a></li>
+						<li ng-class="{ 'active': (rhea.$location.url().startsWith('/subject/')) }"><a href="#/subject/">Subjects</a></li>
+						<li ng-class="{ 'active': (rhea.$location.url().startsWith('/user/')) }"><a href="#/user/">Users</a></li>
+					</ul>
+					<ul class="navbar-right nav navbar-nav">
+						<li ng-if="true || rhea.can('view-admin')">
+							<a href="#/manage/"><i class="glyphicon glyphicon-cog"></i></a>
+						</li>
+						<li class="dropdown">
+							<a class="dropdown-toggle" style="cursor: pointer" data-toggle="dropdown">
+								<i class="glyphicon glyphicon-user"></i> {% ng rhea.$user.name %} <i class="caret"></i>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="#/logout/" ng-click="rhea.logout()">Log out</a></li>
+							</ul>
+						</li>
+					</ul>
+				{% endblock navigation %}
+
+		{% block content %}{% include 'rhea/app/parts/auth.html' %}
+			<ng-view ng-if="!!(rhea.$user) !== false"></ng-view>
+		{% endblock content %}

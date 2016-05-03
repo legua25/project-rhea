@@ -1,0 +1,12 @@
+Dear {{ student.full_name }},
+
+As with every new school period, time has come for you to pick the courses you wish to study. In order for
+you to select your course schedule, please visit the following link. It is important to do so since without
+one, you will miss this next period.
+
+http://localhost:8000/#/student/{{ token }}/
+
+If you run into any issues, feel free to contact an administrator for assistance.
+
+Best regards,
+the Project Rhea Team

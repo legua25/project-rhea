@@ -1,39 +1,48 @@
 <!DOCTYPE html>
-<html lang="en-us">
-	<head>{% load static %}
+<html lang="en-us" ng-controller="Rhea as rhea">
+	<head>{% load static angular %}
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		<title>{% block title %}{% endblock title %}</title>
+		<title>{% ng rhea.$extras.title %} | Rhea Scheduling System</title>
 		<link rel="stylesheet" href="{% static 'css/style.css' %}" />
 
-		<script src="{% static 'js/vendor/jquery.js' %}"></script>
-		<script src="{% static 'js/vendor/angular.js' %}"></script>
-		<script src="{% static 'js/vendor/bootstrap.js' %}"></script>
-		<script src="{% static 'js/vendor/system.js' %}"></script>
-		<script>
+		<script type="text/javascript">
 			'use strict';
+			var require = { 'baseUrl': '{% static 'js' %}' };
+		</script>
+		<script src="{% static 'js/vendor/require.js' %}"></script>
+		<script type="text/javascript">
+			(function () {
+				'use strict';
 
-			// Configure System.js
-			System.config({
-				'defaultJSExtensions': true,
-				'map': {
-					'vendor': '{% get_static_prefix %}js/vendor',
-					'rhea': '{% get_static_prefix %}js/rhea'
-				}
-			});{% block js %}{% endblock js %}
+				// Manual initialization of RequireJS module system
+				require([ 'config' ], () => {
+
+					const $dependencies = [
+						'lodash',
+						'jquery',
+						'angular-aria',
+						'angular-cookies',
+						'angular-route',
+						'angular-sanitize',
+						'bootstrap',
+						'select'
+					];
+
+					require($dependencies, (_, $, angular) => {
+						{% block js %}{% endblock js %}
+					});
+				});
+			})();
 		</script>
 	</head>
 	<body>
-		{% block navigation %}<nav id="navigation" class="navbar navbar-default navbar-fixed-top">
-			<div class="container-fluid">{% block primary-nav %}{% endblock primary-nav %}</div>{% block secondary-nav %}{% endblock secondary-nav %}
-		</nav>{% endblock navigation %}
-		<main id="content" class="container">{% block content %}{% endblock content %}</main>
-		<footer id="footer" class="footer footer-fixed footer-inverse">
-			<div class="container">
-				<span class="pull-left"><strong>Project "Rhea"</strong> | Timetable Manager</span>
-				<span class="pull-right">Copyright &copy; 2016</span>
-			</div>
-		</footer>
+		<nav id="navigation" class="navbar navbar-default navbar-fixed-top" ng-if="rhea.$user !== false">
+			<header class="navbar-header" style="width: 100%">
+				<div class="container-fluid">{% block navigation %}{% endblock navigation %}</div>
+			</header>
+		</nav>
+		<main id="content" class="container ng-cloak" style="padding-top: 72px">{% block content %}{% endblock content %}</main>
 	</body>
 </html>
