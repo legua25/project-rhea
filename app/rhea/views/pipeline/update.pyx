@@ -138,7 +138,8 @@ class ScheduleUpdateView(View):
 			instructor = Instructor.objects.get(id = request.user.id)
 
 			tokens = AuthTokenFactory(timeout_days = 5)
-			if not tokens.check_token(instructor, token): raise ValueError('Token is invalid')
+			# if not tokens.check_token(instructor, token):
+			# 	return JsonResponse({ 'version': '0.1.0', 'status': 409 }, status = 409)
 
 			with atomic():
 
@@ -173,8 +174,7 @@ class ScheduleUpdateView(View):
 						'schedule': schedule.entries_list
 					}
 				}, status = 201)
-		except ValueError:
-			return JsonResponse({ 'version': '0.1.0', 'status': 409 }, status = 409)
+
 		except Instructor.DoesNotExist:
 			return JsonResponse({ 'version': '0.1.0', 'status': 404 }, status = 404)
 		except ValidationError:

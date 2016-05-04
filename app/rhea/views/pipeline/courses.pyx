@@ -70,13 +70,13 @@ class ScheduleCourseView(View):
 						slots[subject].append(slot)
 
 					# Roll the information out into the final form
-					for (id, slots) in slots.iteritems():
+					for (id, slot) in slots.iteritems():
 
 						subject = Subject.objects.get_active(id = subject)
 						courses.append({
 							'instructor': { 'id': instructor.user_id, 'name': instructor.full_name },
 							'subject': { 'code': subject.code, 'name': subject.name },
-							'slots': [ { 'day': day, 'time': time } for (day, time) in slots ]
+							'slots': [ { 'day': day, 'time': time } for (day, time) in slot ]
 						})
 			end = now()
 

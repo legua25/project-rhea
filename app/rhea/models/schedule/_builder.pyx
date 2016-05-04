@@ -32,7 +32,7 @@ cdef int _evaluate(schedule, scores, total):
 					if consecutive >= 3: points -= 25
 				else: consecutive = 0
 
-	return points
+	return min(0, points)
 
 cdef class ScheduleBuilder:
 
@@ -63,7 +63,8 @@ cdef class ScheduleBuilder:
 			subjects_list = [ subject for subject in subjects.values_list('subject_id', flat = True) ]
 			slots_list = [ entry for entry in schedule.values_list('day', 'time') ]
 
-			self.entries = self._refine(subjects_list, slots_list)
+			if subjects_list and slots_list: self.entries = self._refine(subjects_list, slots_list)
+			else: self.entries = {}
 		else: self.entries = {}
 
 	def save(self, schedule_type, course_type):
@@ -91,14 +92,14 @@ cdef class ScheduleBuilder:
 		self.instructor.schedule = schedule
 		self.instructor.save()
 
-	cdef dict _refine(self, list subjects, list slots):
+	cdef dict _refine(self, list subjects, list slots, int max_iters = 100000):
 
 		# Build a randomized solution - count how many did we fit without collisions
 		tabu_list = defaultdict(lambda: 0)
 		entries, performance = self._create_solution(subjects, slots, tabu_list)
 		score = _evaluate(entries, performance, total = len(subjects))
 
-		while score < 100.0:
+		while score < 95.0 and max_iters > 0:
 
 			candidates = []
 			inserted, conflicts = performance
@@ -133,6 +134,8 @@ cdef class ScheduleBuilder:
 				score = best_score
 				tabu_list = last_tabus
 
+			max_iters -= 1
+
 		return entries
 	cdef tuple _create_solution(self, subjects, slots, tabu_list):
 
@@ -147,7 +150,8 @@ cdef class ScheduleBuilder:
 	cdef tuple _permute_solution(self, entries, subject, conflict, slots, tabu_list, count):
 
 		# Remove previous entries of the subject form the entries list
-		for (day, time) in entries.keys():
+		time_slots = random.shuffle(entries.keys())
+		for (day, time) in time_slots:
 			if entries[day, time] == subject:
 
 				# Mark the item as tabu to prevent its usage
@@ -165,7 +169,8 @@ cdef class ScheduleBuilder:
 	cdef object _insert_subject(self, subject, entries, slots, inserted, conflicts, tabu_list, count):
 
 		# Calculate a random seed - this will be used to check if a slot is candidate for insertion
-		seed = random.uniform(0.0, 1.0)
+		seed = random.uniform(0.0, 0.5)
+		random.shuffle(slots)
 		for (day, time) in slots:
 
 			# We set these by means of a random seed and its non-existence in the tabu list

@@ -204,24 +204,23 @@ class SchedulePredictView(View):
 
 			# List all courses for this user grouped by subject, then instructor
 			courses = defaultdict(lambda: defaultdict(list))
-			subjects = set()
-			instructors = set()
+			instructors = {}
+			course_list = []
 
 			for subject in student.candidate_subjects:
-				for course in Course.objects.active(subject_id = subject.id).annotate(count = Count('schedule__student')):
 
-					subjects.add(subject)
-					if course.count < 28:
+				candidate_courses = Course.objects.active(subject_id = subject.id).annotate(count = Count('schedule__student'))
+				if candidate_courses.count() > 0:
 
-						instructors.add(course.instructor)
-						courses[subject.id][course.instructor_id].append({ 'day': course.day, 'time': course.time })
+					instructors.clear()
+					for course in candidate_courses:
 
-			# Serialize and return response
-			return JsonResponse({
-				'version': '0.1.0',
-				'status': 200,
-				'subjects': [
-					{
+						if course.count < 28:
+
+							instructors[course.instructor_id] = course.instructor
+							courses[subject.id][course.instructor_id].append({ 'day': course.day, 'time': course.time })
+
+					course_list.append({
 						'id': subject.id,
 						'code': subject.code,
 						'name': subject.name,
@@ -232,10 +231,15 @@ class SchedulePredictView(View):
 								'email': instructor.email_address,
 								'title': instructor.title or '',
 								'slots': courses[subject.id][instructor.id]
-							} for instructor in instructors
+							} for instructor in instructors.itervalues()
 						]
-					} for subject in subjects
-				]
+					})
+
+			# Serialize and return response
+			return JsonResponse({
+				'version': '0.1.0',
+				'status': 200,
+				'subjects': course_list
 			})
 
 		except User.DoesNotExist:

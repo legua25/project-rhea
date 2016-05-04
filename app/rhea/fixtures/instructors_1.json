@@ -1,0 +1,3018 @@
+[
+	{
+		"model": "rhea.user",
+		"pk": 1,
+		"fields": {
+			"password": "pbkdf2_sha256$24000$7pus2KSbmYXP$ozRxAv7zmgoPkijm9D3YoO3c+Nj84XuQDLmgOK3F8kc=",
+			"last_login": "2016-05-04T00:24:29.547Z",
+			"active": true,
+			"user_id": "L03006142",
+			"date_registered": "2016-05-04T00:12:53.489Z",
+			"full_name": "Juan José Carracedo Navarro",
+			"picture": "users/default/picture.png",
+			"email_address": "jcarrace@itesm.mx",
+			"role": 1,
+			"permissions": []
+		}
+	},
+	{
+		"model": "rhea.user",
+		"pk": 2,
+		"fields": {
+			"password": "pbkdf2_sha256$24000$6gsUbMeaYnla$XdI4ItTMSouGR6EAwwxJgHm13BkpdK3svBsEKM9HWMM=",
+			"last_login": "2016-05-04T00:28:02.514Z",
+			"active": true,
+			"user_id": "L02336589",
+			"date_registered": "2016-05-04T00:12:53.573Z",
+			"full_name": "Luis Miguel Méndez Díaz",
+			"picture": "users/default/picture.png",
+			"email_address": "lmmendezd@itesm.mx",
+			"role": 1,
+			"permissions": []
+		}
+	},
+	{
+		"model": "rhea.user",
+		"pk": 3,
+		"fields": {
+			"password": "pbkdf2_sha256$24000$ZxUEIGtrhJIi$CEjgJODVfyISv1fHJ2SyRqHD+ehatB/zCEMp4P7UaP0=",
+			"last_login": "2016-05-04T00:29:42.240Z",
+			"active": true,
+			"user_id": "L04295436",
+			"date_registered": "2016-05-04T00:12:53.656Z",
+			"full_name": "Martha Elia García Corza",
+			"picture": "users/default/picture.png",
+			"email_address": "megarcia@itesm.mx",
+			"role": 1,
+			"permissions": []
+		}
+	},
+	{
+		"model": "rhea.user",
+		"pk": 4,
+		"fields": {
+			"password": "pbkdf2_sha256$24000$tTxiTFx8QeIn$Zfa1/tRtFWNqO2VXKrhyGrtC7T/2U8r3v1owWAoOqqM=",
+			"last_login": "2016-05-04T00:31:35.327Z",
+			"active": true,
+			"user_id": "L01093184",
+			"date_registered": "2016-05-04T00:12:53.748Z",
+			"full_name": "Dulce María Hernández Méndez",
+			"picture": "users/default/picture.png",
+			"email_address": "dhernand@itesm.mx",
+			"role": 1,
+			"permissions": []
+		}
+	},
+	{
+		"model": "rhea.user",
+		"pk": 5,
+		"fields": {
+			"password": "pbkdf2_sha256$24000$XXvZd12KZqoQ$S+jkBzPj+nkgEax03i1c6HJiK7U0bFQDwI2Q4ZEIQgY=",
+			"last_login": "2016-05-04T00:33:49.455Z",
+			"active": true,
+			"user_id": "L04230850",
+			"date_registered": "2016-05-04T00:12:53.831Z",
+			"full_name": "Jorge Francisco Gómez Sautto",
+			"picture": "users/default/picture.png",
+			"email_address": "jfgomez@itesm.mx",
+			"role": 1,
+			"permissions": []
+		}
+	},
+	{
+		"model": "rhea.user",
+		"pk": 6,
+		"fields": {
+			"password": "pbkdf2_sha256$24000$4H3bLAvg4HCl$TzKPp0Z5LajJnWpdcwwBzCVYpU16YFBwcfgfqBt8Z88=",
+			"last_login": "2016-05-04T00:35:01.530Z",
+			"active": true,
+			"user_id": "L08283406",
+			"date_registered": "2016-05-04T00:12:53.920Z",
+			"full_name": "Sithanantham Kanthimathinathan Citanathan",
+			"picture": "users/default/picture.png",
+			"email_address": "skanthim@itesm.mx",
+			"role": 1,
+			"permissions": []
+		}
+	},
+	{
+		"model": "rhea.user",
+		"pk": 7,
+		"fields": {
+			"password": "pbkdf2_sha256$24000$OLbGNbhGosZz$0/RWYrBtqDRdNVnBtHOT19tmgiWD93Fcxxzq7XiGZAM=",
+			"last_login": "2016-05-04T00:37:09.267Z",
+			"active": true,
+			"user_id": "L05745082",
+			"date_registered": "2016-05-04T00:12:54.004Z",
+			"full_name": "Verónica Saavedra Gastélum",
+			"picture": "users/default/picture.png",
+			"email_address": "veronica.saavedra@itesm.mx",
+			"role": 1,
+			"permissions": []
+		}
+	},
+	{
+		"model": "rhea.user",
+		"pk": 8,
+		"fields": {
+			"password": "pbkdf2_sha256$24000$AkHWYtNqP5Q5$/zi4XE5I8RyLpDQ9rgdyIs0TN+5vv6GPFB+l5w0otZA=",
+			"last_login": "2016-05-04T00:38:18.862Z",
+			"active": true,
+			"user_id": "L04420818",
+			"date_registered": "2016-05-04T00:12:54.083Z",
+			"full_name": "Araceli Soto Hernández",
+			"picture": "users/default/picture.png",
+			"email_address": "asotohern@itesm.mx",
+			"role": 1,
+			"permissions": []
+		}
+	},
+
+	{
+		"model": "rhea.instructor",
+		"pk": 1,
+		"fields": {
+			"title": "Master",
+			"availability": 25,
+			"schedule": null,
+			"last_confirmation": "2016-05-04T00:27:35.235Z",
+			"permissions": []
+		}
+	},
+	{
+		"model": "rhea.instructor",
+		"pk": 2,
+		"fields": {
+			"title": "Master",
+			"availability": 26,
+			"schedule": null,
+			"last_confirmation": "2016-05-04T00:29:30.680Z",
+			"permissions": []
+		}
+	},
+	{
+		"model": "rhea.instructor",
+		"pk": 3,
+		"fields": {
+			"title": "Master",
+			"availability": 27,
+			"schedule": null,
+			"last_confirmation": "2016-05-04T00:31:24.610Z",
+			"permissions": []
+		}
+	},
+	{
+		"model": "rhea.instructor",
+		"pk": 4,
+		"fields": {
+			"title": "Master",
+			"availability": 28,
+			"schedule": null,
+			"last_confirmation": "2016-05-04T00:33:37.759Z",
+			"permissions": []
+		}
+	},
+	{
+		"model": "rhea.instructor",
+		"pk": 5,
+		"fields": {
+			"title": "Master",
+			"availability": 29,
+			"schedule": null,
+			"last_confirmation": "2016-05-04T00:34:53.239Z",
+			"permissions": []
+		}
+	},
+	{
+		"model": "rhea.instructor",
+		"pk": 6,
+		"fields": {
+			"title": "Dr.",
+			"availability": 30,
+			"schedule": null,
+			"last_confirmation": "2016-05-04T00:36:37.483Z",
+			"permissions": []
+		}
+	},
+	{
+		"model": "rhea.instructor",
+		"pk": 7,
+		"fields": {
+			"title": "Master",
+			"availability": 31,
+			"schedule": null,
+			"last_confirmation": "2016-05-04T00:38:04.113Z",
+			"permissions": []
+		}
+	},
+	{
+		"model": "rhea.instructor",
+		"pk": 8,
+		"fields": {
+			"title": "Master",
+			"availability": 32,
+			"schedule": null,
+			"last_confirmation": "2016-05-04T00:39:39.770Z",
+			"permissions": []
+		}
+	},
+
+	{
+		"model": "rhea.availabilityschedule",
+		"pk": 25,
+		"fields": {
+			"active": true,
+			"expiry": "2016-11-04T00:27:35.153Z",
+			"entries": [
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28
+			]
+		}
+	},
+	{
+		"model": "rhea.availabilityschedule",
+		"pk": 26,
+		"fields": {
+			"active": true,
+			"expiry": "2016-11-04T00:29:30.572Z",
+			"entries": [
+				29,
+				30,
+				31,
+				32,
+				33,
+				34,
+				35,
+				36,
+				37,
+				38,
+				39,
+				40,
+				41,
+				42,
+				43,
+				44,
+				45,
+				46,
+				47,
+				48,
+				49,
+				50,
+				51,
+				52,
+				53,
+				54,
+				55,
+				56,
+				57,
+				58,
+				59
+			]
+		}
+	},
+	{
+		"model": "rhea.availabilityschedule",
+		"pk": 27,
+		"fields": {
+			"active": true,
+			"expiry": "2016-11-04T00:31:24.506Z",
+			"entries": [
+				60,
+				61,
+				62,
+				63,
+				64,
+				65,
+				66,
+				67,
+				68,
+				69,
+				70,
+				71,
+				72,
+				73,
+				74,
+				75,
+				76,
+				77,
+				78,
+				79,
+				80,
+				81,
+				82,
+				83,
+				84,
+				85,
+				86,
+				87,
+				88,
+				89,
+				90,
+				91,
+				92,
+				93,
+				94,
+				95,
+				96,
+				97
+			]
+		}
+	},
+	{
+		"model": "rhea.availabilityschedule",
+		"pk": 28,
+		"fields": {
+			"active": true,
+			"expiry": "2016-11-04T00:33:37.687Z",
+			"entries": [
+				98,
+				99,
+				100,
+				101,
+				102,
+				103,
+				104,
+				105,
+				106,
+				107,
+				108,
+				109,
+				110,
+				111,
+				112,
+				113,
+				114,
+				115,
+				116,
+				117,
+				118,
+				119,
+				120,
+				121,
+				122,
+				123,
+				124,
+				125,
+				126,
+				127
+			]
+		}
+	},
+	{
+		"model": "rhea.availabilityschedule",
+		"pk": 29,
+		"fields": {
+			"active": true,
+			"expiry": "2016-11-04T00:34:53.147Z",
+			"entries": [
+				128,
+				129,
+				130,
+				131,
+				132,
+				133,
+				134,
+				135,
+				136,
+				137,
+				138,
+				139,
+				140,
+				141,
+				142,
+				143,
+				144,
+				145,
+				146,
+				147,
+				148,
+				149,
+				150,
+				151,
+				152,
+				153,
+				154,
+				155,
+				156,
+				157,
+				158,
+				159
+			]
+		}
+	},
+	{
+		"model": "rhea.availabilityschedule",
+		"pk": 30,
+		"fields": {
+			"active": true,
+			"expiry": "2016-11-04T00:36:37.390Z",
+			"entries": [
+				160,
+				161,
+				162,
+				163,
+				164,
+				165,
+				166,
+				167,
+				168,
+				169,
+				170,
+				171,
+				172,
+				173,
+				174,
+				175,
+				176,
+				177,
+				178,
+				179,
+				180,
+				181,
+				182,
+				183,
+				184,
+				185,
+				186,
+				187,
+				188
+			]
+		}
+	},
+	{
+		"model": "rhea.availabilityschedule",
+		"pk": 31,
+		"fields": {
+			"active": true,
+			"expiry": "2016-11-04T00:38:04.020Z",
+			"entries": [
+				189,
+				190,
+				191,
+				192,
+				193,
+				194,
+				195,
+				196,
+				197,
+				198,
+				199,
+				200,
+				201,
+				202,
+				203,
+				204,
+				205,
+				206,
+				207,
+				208,
+				209,
+				210,
+				211,
+				212,
+				213,
+				214,
+				215,
+				216,
+				217,
+				218,
+				219
+			]
+		}
+	},
+	{
+		"model": "rhea.availabilityschedule",
+		"pk": 32,
+		"fields": {
+			"active": true,
+			"expiry": "2016-11-04T00:39:39.700Z",
+			"entries": [
+				220,
+				221,
+				222,
+				223,
+				224,
+				225,
+				226,
+				227,
+				228,
+				229,
+				230,
+				231,
+				232,
+				233,
+				234,
+				235,
+				236,
+				237,
+				238,
+				239,
+				240,
+				241,
+				242,
+				243,
+				244,
+				245,
+				246,
+				247
+			]
+		}
+	},
+
+	{
+		"model": "rhea.availability",
+		"pk": 1,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 2,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 1,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 3,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 2,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 4,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 5,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 4,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 6,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 7,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 1,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 8,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 2,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 9,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 10,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 4,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 11,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 12,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 1,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 13,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 2,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 14,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 15,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 4,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 16,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 0,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 17,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 1,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 18,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 2,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 19,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 3,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 20,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 4,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 21,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 0,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 22,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 1,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 23,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 2,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 24,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 3,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 25,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 4,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 26,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 0,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 27,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 2,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 28,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 3,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 29,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 0
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 30,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 0
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 31,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 1
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 32,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 1
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 33,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 34,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 1,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 35,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 2,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 36,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 37,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 4,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 38,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 39,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 1,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 40,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 2,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 41,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 42,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 4,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 43,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 0,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 44,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 1,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 45,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 2,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 46,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 3,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 47,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 4,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 48,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 0,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 49,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 1,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 50,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 2,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 51,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 3,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 52,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 4,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 53,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 0,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 54,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 1,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 55,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 2,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 56,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 3,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 57,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 4,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 58,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 1,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 59,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 4,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 60,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 0
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 61,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 2,
+			"time": 0
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 62,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 0
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 63,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 1
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 64,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 2,
+			"time": 1
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 65,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 1
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 66,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 0,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 67,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 1,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 68,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 2,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 69,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 3,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 70,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 4,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 71,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 0,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 72,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 1,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 73,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 2,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 74,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 3,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 75,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 4,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 76,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 77,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 1,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 78,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 2,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 79,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 80,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 4,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 81,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 0,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 82,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 1,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 83,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 2,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 84,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 3,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 85,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 4,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 86,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 87,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 1,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 88,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 2,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 89,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 90,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 4,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 91,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 0,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 92,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 1,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 93,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 2,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 94,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 3,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 95,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 4,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 96,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 1,
+			"time": 8
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 97,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 4,
+			"time": 8
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 98,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 0,
+			"time": 1
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 99,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 3,
+			"time": 1
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 100,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 0,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 101,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 3,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 102,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 0,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 103,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 1,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 104,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 3,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 105,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 4,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 106,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 107,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 1,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 108,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 2,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 109,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 110,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 4,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 111,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 0,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 112,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 1,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 113,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 2,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 114,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 3,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 115,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 4,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 116,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 117,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 1,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 118,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 2,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 119,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 120,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 4,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 121,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 122,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 1,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 123,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 2,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 124,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 125,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 4,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 126,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 1,
+			"time": 8
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 127,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 4,
+			"time": 8
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 128,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 0
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 129,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 0
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 130,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 1
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 131,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 1
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 132,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 133,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 1,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 134,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 135,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 4,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 136,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 137,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 1,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 138,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 139,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 4,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 140,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 0,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 141,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 1,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 142,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 2,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 143,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 3,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 144,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 4,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 145,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 0,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 146,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 1,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 147,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 2,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 148,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 3,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 149,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 4,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 150,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 0,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 151,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 1,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 152,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 3,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 153,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 4,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 154,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 0,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 155,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 1,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 156,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 3,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 157,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 4,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 158,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 0,
+			"time": 8
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 159,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 3,
+			"time": 8
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 160,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 1,
+			"time": 0
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 161,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 4,
+			"time": 0
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 162,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 1,
+			"time": 1
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 163,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 4,
+			"time": 1
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 164,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 1,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 165,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 4,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 166,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 167,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 1,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 168,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 2,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 169,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 170,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 4,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 171,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 172,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 1,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 173,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 2,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 174,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 175,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 4,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 176,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 0,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 177,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 1,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 178,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 2,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 179,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 3,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 180,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 4,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 181,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 182,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 2,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 183,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 184,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 0,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 185,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 2,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 186,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 3,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 187,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 0,
+			"time": 8
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 188,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 3,
+			"time": 8
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 189,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 2,
+			"time": 0
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 190,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 2,
+			"time": 1
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 191,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 192,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 2,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 193,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 4,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 194,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 195,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 1,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 196,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 2,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 197,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 198,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 4,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 199,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 0,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 200,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 1,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 201,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 2,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 202,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 3,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 203,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 4,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 204,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 0,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 205,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 1,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 206,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 2,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 207,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 3,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 208,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 4,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 209,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 0,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 210,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 1,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 211,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 2,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 212,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 3,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 213,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 4,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 214,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 215,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 2,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 216,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 217,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 8
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 218,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 2,
+			"time": 8
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 219,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 8
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 220,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 2,
+			"time": 1
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 221,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 2,
+			"time": 2
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 222,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 223,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 1,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 224,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 2,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 225,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 226,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 4,
+			"time": 3
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 227,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 0,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 228,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 1,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 229,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 2,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 230,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 3,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 231,
+		"fields": {
+			"active": true,
+			"level": 1,
+			"day": 4,
+			"time": 4
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 232,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 0,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 233,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 1,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 234,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 2,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 235,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 3,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 236,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 4,
+			"time": 5
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 237,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 0,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 238,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 1,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 239,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 2,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 240,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 3,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 241,
+		"fields": {
+			"active": true,
+			"level": 0.5,
+			"day": 4,
+			"time": 6
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 242,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 0,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 243,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 1,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 244,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 3,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 245,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 4,
+			"time": 7
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 246,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 0,
+			"time": 8
+		}
+	},
+	{
+		"model": "rhea.availability",
+		"pk": 247,
+		"fields": {
+			"active": true,
+			"level": 0.25,
+			"day": 3,
+			"time": 8
+		}
+	}
+]
