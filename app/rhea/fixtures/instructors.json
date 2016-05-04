@@ -3014,5 +3014,246 @@
 			"day": 3,
 			"time": 8
 		}
+	},
+
+	{
+		"model": "rhea.specialty",
+		"pk": 1,
+		"fields": {
+			"active": true,
+			"subject": 13,
+			"instructor": 1,
+			"confidence": 0.5
+		}
+	},
+	{
+		"model": "rhea.specialty",
+		"pk": 2,
+		"fields": {
+			"active": true,
+			"subject": 19,
+			"instructor": 1,
+			"confidence": 0.5
+		}
+	},
+	{
+		"model": "rhea.specialty",
+		"pk": 3,
+		"fields": {
+			"active": true,
+			"subject": 8,
+			"instructor": 1,
+			"confidence": 0.5
+		}
+	},
+	{
+		"model": "rhea.specialty",
+		"pk": 4,
+		"fields": {
+			"active": true,
+			"subject": 26,
+			"instructor": 1,
+			"confidence": 0.5
+		}
+	},
+	{
+		"model": "rhea.specialty",
+		"pk": 5,
+		"fields": {
+			"active": true,
+			"subject": 23,
+			"instructor": 2,
+			"confidence": 0.5
+		}
+	},
+	{
+		"model": "rhea.specialty",
+		"pk": 6,
+		"fields": {
+			"active": true,
+			"subject": 13,
+			"instructor": 2,
+			"confidence": 0.5
+		}
+	},
+	{
+		"model": "rhea.specialty",
+		"pk": 7,
+		"fields": {
+			"active": true,
+			"subject": 8,
+			"instructor": 2,
+			"confidence": 0.5
+		}
+	},
+	{
+		"model": "rhea.specialty",
+		"pk": 8,
+		"fields": {
+			"active": true,
+			"subject": 19,
+			"instructor": 3,
+			"confidence": 0.5
+		}
+	},
+	{
+		"model": "rhea.specialty",
+		"pk": 9,
+		"fields": {
+			"active": true,
+			"subject": 25,
+			"instructor": 3,
+			"confidence": 0.5
+		}
+	},
+	{
+		"model": "rhea.specialty",
+		"pk": 10,
+		"fields": {
+			"active": true,
+			"subject": 13,
+			"instructor": 3,
+			"confidence": 0.5
+		}
+	},
+	{
+		"model": "rhea.specialty",
+		"pk": 11,
+		"fields": {
+			"active": true,
+			"subject": 7,
+			"instructor": 4,
+			"confidence": 0.5
+		}
+	},
+	{
+		"model": "rhea.specialty",
+		"pk": 12,
+		"fields": {
+			"active": true,
+			"subject": 18,
+			"instructor": 4,
+			"confidence": 0.5
+		}
+	},
+	{
+		"model": "rhea.specialty",
+		"pk": 13,
+		"fields": {
+			"active": true,
+			"subject": 29,
+			"instructor": 4,
+			"confidence": 0.5
+		}
+	},
+	{
+		"model": "rhea.specialty",
+		"pk": 14,
+		"fields": {
+			"active": true,
+			"subject": 1,
+			"instructor": 5,
+			"confidence": 0.5
+		}
+	},
+	{
+		"model": "rhea.specialty",
+		"pk": 15,
+		"fields": {
+			"active": true,
+			"subject": 8,
+			"instructor": 5,
+			"confidence": 0.5
+		}
+	},
+	{
+		"model": "rhea.specialty",
+		"pk": 16,
+		"fields": {
+			"active": true,
+			"subject": 9,
+			"instructor": 5,
+			"confidence": 0.5
+		}
+	},
+	{
+		"model": "rhea.specialty",
+		"pk": 17,
+		"fields": {
+			"active": true,
+			"subject": 19,
+			"instructor": 6,
+			"confidence": 0.5
+		}
+	},
+	{
+		"model": "rhea.specialty",
+		"pk": 18,
+		"fields": {
+			"active": true,
+			"subject": 26,
+			"instructor": 6,
+			"confidence": 0.5
+		}
+	},
+	{
+		"model": "rhea.specialty",
+		"pk": 19,
+		"fields": {
+			"active": true,
+			"subject": 36,
+			"instructor": 6,
+			"confidence": 0.5
+		}
+	},
+	{
+		"model": "rhea.specialty",
+		"pk": 20,
+		"fields": {
+			"active": true,
+			"subject": 25,
+			"instructor": 7,
+			"confidence": 0.5
+		}
+	},
+	{
+		"model": "rhea.specialty",
+		"pk": 21,
+		"fields": {
+			"active": true,
+			"subject": 36,
+			"instructor": 7,
+			"confidence": 0.5
+		}
+	},
+	{
+		"model": "rhea.specialty",
+		"pk": 22,
+		"fields": {
+			"active": true,
+			"subject": 24,
+			"instructor": 8,
+			"confidence": 0.5
+		}
+	},
+	{
+		"model": "rhea.specialty",
+		"pk": 23,
+		"fields": {
+			"active": true,
+			"subject": 47,
+			"instructor": 8,
+			"confidence": 0.5
+		}
+	},
+	{
+		"model": "rhea.specialty",
+		"pk": 24,
+		"fields": {
+			"active": true,
+			"subject": 41,
+			"instructor": 8,
+			"confidence": 0.5
+		}
 	}
 ]
