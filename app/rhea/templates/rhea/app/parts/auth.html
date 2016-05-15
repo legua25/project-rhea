@@ -5,6 +5,7 @@
 					<div class="panel panel-default">
 						<header class="panel-heading"><h3>Welcome!</h3></header>
 						<form>
+							{% csrf_token %}
 							<section class="panel-body">
 								<div class="col-xs-12 form-group input-group" ng-class="{ 'has-error': rhea.$forms.auth.error('id') }">
 									<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
