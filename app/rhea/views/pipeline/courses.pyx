@@ -50,7 +50,7 @@ class ScheduleCourseView(View):
 
 			# First, validate the input data through a JSON schema
 			ScheduleCourseView.schema.validate(data)
-			subjects = set(data['subjects'])
+			subjects = set(data['subjects'][:40])
 
 			# For each instructor, get the available courses and calculate a schedule
 			start = now()
@@ -72,7 +72,7 @@ class ScheduleCourseView(View):
 					# Roll the information out into the final form
 					for (id, slot) in slots.iteritems():
 
-						subject = Subject.objects.get_active(id = subject)
+						subject = Subject.objects.get_active(id = id)
 						courses.append({
 							'instructor': { 'id': instructor.user_id, 'name': instructor.full_name },
 							'subject': { 'code': subject.code, 'name': subject.name },
@@ -84,7 +84,7 @@ class ScheduleCourseView(View):
 				'version': '0.1.0',
 				'status': 200,
 				'stats': {
-					'elapsed': (end - start).microseconds,
+					'elapsed': (end - start).total_seconds() * 1000000,
 					'start': mktime(start.utctimetuple())
 				},
 				'courses': courses

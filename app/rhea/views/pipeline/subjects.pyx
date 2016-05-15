@@ -43,7 +43,7 @@ class ScheduleSubjectsView(View):
 			'version': '0.1.0',
 			'status': 200,
 			'stats': {
-				'elapsed': (end - start).microseconds,
+				'elapsed': (end - start).total_seconds() * 1000000,
 				'start': mktime(start.utctimetuple()),
 				'coverage': coverage
 			},

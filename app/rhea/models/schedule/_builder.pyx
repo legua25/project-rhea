@@ -150,7 +150,9 @@ cdef class ScheduleBuilder:
 	cdef tuple _permute_solution(self, entries, subject, conflict, slots, tabu_list, count):
 
 		# Remove previous entries of the subject form the entries list
-		time_slots = random.shuffle(entries.keys())
+		time_slots = entries.keys()
+		random.shuffle(time_slots)
+
 		for (day, time) in time_slots:
 			if entries[day, time] == subject:
 

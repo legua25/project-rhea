@@ -94,7 +94,7 @@ class ScheduleSelectView(View):
 							'stats': {
 								'coverage': (remaining.count() / total),
 								'start': mktime(start.utctimetuple()),
-								'elapsed': (end - start).microseconds
+								'elapsed': (end - start).total_seconds() * 1000000
 							},
 							'pending': [
 								{

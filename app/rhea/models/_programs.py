@@ -75,11 +75,11 @@ class SubjectManager(ActiveManager):
 		return self.active(id__in = Specialty.objects.by_confidence(instructor.id))
 	def ancestors(self, subjects, program):
 
-		query = reduce(__add__, [ list(subject.ancestors(program).values_list('id', flat = True)) for subject in subjects ])
+		query = reduce(__add__, [ list(subject.ancestors(program).values_list('id', flat = True)) for subject in subjects ], [])
 		return self.active(id__in = query)
 	def descendants(self, subjects, program):
 
-		query = reduce(__add__, [ list(subject.descendants(program).values_list('id', flat = True)) for subject in subjects ])
+		query = reduce(__add__, [ list(subject.descendants(program).values_list('id', flat = True)) for subject in subjects ], [])
 		return self.active(id__in = query)
 	def candidates_for(self, program, semester, subjects):
 
@@ -216,7 +216,7 @@ class RequirementManager(ActiveManager):
 			for _dep in _dependents:
 				traverse_descentants(query, output, _dep, group)
 
-		# The ancestors set is initially empty - it must skip the current element, as we're only querying for the ancestors, not the current elemnt
+		# The ancestors set is initially empty - it must skip the current element, as we're only querying for the ancestors, not the current element
 		descendants = set()
 		dependencies = self.dependents_for(program, subject)
 

@@ -152,7 +152,7 @@ class ScheduleGatheringView(View):
 				'stats': {
 					'total': count,
 					'coverage': remaining / total,
-					'elapsed': (end - start).microseconds,
+					'elapsed': (end - start).total_seconds() * 1000000,
 					'start': mktime(start.utctimetuple())
 				},
 				'courses': courses
